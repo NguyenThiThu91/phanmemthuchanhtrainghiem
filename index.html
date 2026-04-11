@@ -3,636 +3,750 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bé Trải Nghiệm Pro - Phần Mềm Mầm Non</title>
+    <title>🌟 Bé Trải Nghiệm Pro</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
-        
         :root {
-            --primary: #ff6b6b;
-            --secondary: #4ecdc4;
-            --accent: #feca57;
-            --purple: #a29bfe;
-            --bg: #f0f9ff;
-            --dark: #2d3436;
+            --primary:#ff6b6b; --secondary:#4ecdc4; --accent:#feca57;
+            --purple:#a29bfe; --green:#55efc4; --bg:#f0f9ff; --dark:#2d3436;
         }
+        *{ box-sizing:border-box; font-family:'Nunito',sans-serif; }
+        body{ background:var(--bg); margin:0; display:flex; justify-content:center; overflow-x:hidden; }
+        #app{ width:100%; max-width:480px; background:#fff; min-height:100vh;
+              box-shadow:0 0 40px rgba(0,0,0,.12); position:relative; padding-bottom:90px; }
 
-        * { box-sizing: border-box; font-family: 'Nunito', sans-serif; }
-        body { background: var(--bg); margin: 0; display: flex; justify-content: center; overflow-x: hidden; }
+        /* HEADER */
+        .header{ background:linear-gradient(135deg,#ff6b6b,#ff9a3c);
+                 color:#fff; padding:28px 20px 40px; text-align:center;
+                 border-radius:0 0 50px 50px; }
+        .header h1{ margin:0; font-size:26px; letter-spacing:1px; }
+        .header p { margin:6px 0 0; font-size:14px; opacity:.85; }
 
-        #app-container {
-            width: 100%; max-width: 500px; background: white; min-height: 100vh;
-            box-shadow: 0 0 30px rgba(0,0,0,0.1); position: relative; padding-bottom: 80px;
-        }
+        /* STATS */
+        .stats{ display:flex; justify-content:space-around; padding:14px 16px;
+                background:#fff; margin:-22px 18px 0; border-radius:20px;
+                box-shadow:0 8px 24px rgba(0,0,0,.08); }
+        .stat{ text-align:center; font-weight:900; }
+        .stat span{ display:block; font-size:22px; color:var(--primary); }
+        .stat small{ font-size:11px; color:#888; }
 
-        /* Header & Stats */
-        .header {
-            background: linear-gradient(135deg, var(--primary), #ff8787);
-            color: white; padding: 30px 20px; text-align: center;
-            border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
-        }
+        /* TABS */
+        .tabs{ display:flex; overflow-x:auto; padding:18px 16px 6px; gap:8px; scrollbar-width:none; }
+        .tabs::-webkit-scrollbar{ display:none; }
+        .tab{ padding:7px 16px; border-radius:50px; border:2px solid #e0e0e0;
+              background:#fff; white-space:nowrap; cursor:pointer; font-weight:700;
+              font-size:13px; transition:.2s; }
+        .tab.on{ background:var(--secondary); color:#fff; border-color:var(--secondary); }
 
-        .stats-bar {
-            display: flex; justify-content: space-around; padding: 15px;
-            background: #fff; margin: -20px 20px 0; border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
+        /* GRID */
+        .grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:14px 16px; }
+        .card{ background:#fff; border:3px solid #f0f0f0; border-radius:24px;
+               padding:16px 12px; text-align:center; cursor:pointer; transition:.25s; position:relative; }
+        .card:hover{ transform:translateY(-4px); border-color:var(--secondary); box-shadow:0 8px 20px rgba(78,205,196,.2); }
+        .card .ico { font-size:44px; margin-bottom:8px; }
+        .card h3   { margin:0; font-size:13px; color:#444; line-height:1.35; }
+        .card .mtag{ font-size:10px; color:#bbb; margin-top:3px; }
+        .card .stars{ color:var(--accent); font-size:13px; margin-top:4px; min-height:18px; }
+        .done-badge{ position:absolute; top:6px; right:8px; font-size:16px; }
 
-        .stat-item { text-align: center; font-weight: bold; color: var(--dark); }
-        .stat-item span { display: block; font-size: 20px; color: var(--primary); }
+        /* QUIZ */
+        #quiz{ display:none; padding:16px; animation:fadeIn .4s; }
+        .qheader{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+        .btn-back{ background:none; border:none; font-size:28px; cursor:pointer; padding:0; }
+        .prog-wrap{ flex:1; background:#eee; border-radius:20px; height:10px; }
+        .prog-fill{ background:linear-gradient(90deg,var(--secondary),var(--primary));
+                    height:10px; border-radius:20px; transition:width .4s; }
+        .prog-label{ font-size:12px; color:#999; font-weight:700; white-space:nowrap; }
 
-        /* Menu lọc */
-        .category-scroll {
-            display: flex; overflow-x: auto; padding: 20px; gap: 10px;
-            scrollbar-width: none;
-        }
-        .category-scroll::-webkit-scrollbar { display: none; }
-        .cat-btn {
-            padding: 8px 18px; border-radius: 20px; border: 2px solid #eee;
-            background: white; white-space: nowrap; cursor: pointer; font-weight: bold;
-            font-size: 14px;
-        }
-        .cat-btn.active { background: var(--secondary); color: white; border-color: var(--secondary); }
+        .q-card{ background:linear-gradient(135deg,#fff9e6,#fff3f3); padding:20px;
+                 border-radius:28px; border:3px dashed var(--accent); margin-bottom:14px;
+                 text-align:center; }
+        .q-img { font-size:60px; display:block; margin-bottom:8px; }
+        .q-text{ margin:0; color:var(--dark); font-size:17px; line-height:1.45; font-weight:900; }
 
-        /* Danh sách bài học */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .lesson-card {
-            background: white; border: 3px solid #f0f0f0; border-radius: 25px;
-            padding: 15px; text-align: center; cursor: pointer; transition: 0.3s;
-            position: relative;
-        }
-        .lesson-card:hover { transform: translateY(-5px); border-color: var(--secondary); }
-        .lesson-card .icon { font-size: 45px; margin-bottom: 8px; }
-        .lesson-card h3 { margin: 0; font-size: 14px; color: #444; line-height: 1.3; }
-        .lesson-card .month-tag { font-size: 11px; color: #aaa; margin-top: 4px; }
-        .stars-display { color: var(--accent); font-size: 14px; margin-top: 5px; }
-        .badge-done { position: absolute; top: 5px; right: 5px; font-size: 18px; }
+        /* OPTIONS */
+        .opts{ display:flex; flex-direction:column; gap:10px; }
+        .opt { background:#fff; border:3px solid #ececec; border-radius:18px;
+               padding:12px 14px; font-size:15px; font-weight:700; cursor:pointer;
+               transition:.2s; display:flex; align-items:center; gap:12px; text-align:left; }
+        .opt:hover:not(:disabled){ border-color:var(--primary); background:#fff8f8; }
+        .opt .opt-emoji{ font-size:28px; flex-shrink:0; }
+        .opt .opt-txt  { flex:1; line-height:1.3; }
+        .opt .opt-num  { width:28px; height:28px; border-radius:50%; background:#f0f0f0;
+                         display:flex; align-items:center; justify-content:center;
+                         font-size:13px; flex-shrink:0; }
+        .opt.correct{ border-color:#00b894; background:#e8faf4; }
+        .opt.wrong  { border-color:#d63031; background:#ffeaea; }
 
-        /* Quiz Screen */
-        #quiz-screen { display: none; padding: 20px; text-align: center; animation: fadeIn 0.5s; }
-        .q-card {
-            background: #fff9e6; padding: 20px; border-radius: 30px;
-            border: 4px dashed var(--accent); margin-bottom: 15px; position: relative;
-        }
-        .q-image { font-size: 65px; margin-bottom: 10px; display: block; }
-        
-        .opt-btn {
-            background: white; border: 3px solid #eee; border-radius: 20px;
-            padding: 12px 16px; font-size: 16px; font-weight: bold; margin-bottom: 10px;
-            cursor: pointer; transition: 0.2s; width: 100%; display: flex; align-items: center;
-            gap: 12px; text-align: left;
-        }
-        .opt-btn:hover { border-color: var(--primary); background: #fffafa; }
-        .opt-btn .num { min-width: 30px; height: 30px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .opt-btn.correct-ans { border-color: #2ecc71; background: #eafaf1; }
-        .opt-btn.wrong-ans { border-color: #e74c3c; background: #fdf0ef; }
+        /* FEEDBACK */
+        #feedback{ text-align:center; font-size:20px; font-weight:900;
+                   min-height:36px; margin-top:10px; transition:.3s; }
 
-        /* Kết quả bài học */
-        #result-screen { display: none; text-align: center; padding: 40px 20px; animation: popIn 0.5s; }
-        .trophy { font-size: 100px; }
-        .result-stars { font-size: 40px; color: var(--accent); margin: 20px 0; }
+        /* RESULT */
+        #result{ display:none; text-align:center; padding:36px 20px; animation:popIn .5s; }
+        .trophy { font-size:90px; }
+        .r-stars{ font-size:38px; color:var(--accent); margin:14px 0; }
+        .r-msg  { font-size:16px; color:#777; margin-bottom:24px; }
+        .btn-main{ background:var(--primary); color:#fff; border:none; padding:14px 32px;
+                   border-radius:50px; font-size:18px; font-weight:900; cursor:pointer;
+                   box-shadow:0 6px 18px rgba(255,107,107,.4); }
 
-        /* Buttons */
-        .btn-main {
-            background: var(--primary); color: white; border: none; padding: 15px 30px;
-            border-radius: 50px; font-size: 18px; font-weight: 900; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-        .btn-back { position: absolute; top: 20px; left: 20px; background: none; border: none; font-size: 30px; cursor: pointer; z-index: 10; }
+        /* CONFETTI */
+        .cf{ position:fixed; width:10px; height:10px; top:-10px; z-index:999; pointer-events:none; }
 
-        /* Progress bar */
-        .progress-bar-wrap { background: #eee; border-radius: 20px; height: 10px; margin-bottom: 15px; }
-        .progress-bar-fill { background: linear-gradient(90deg, var(--secondary), var(--primary)); height: 10px; border-radius: 20px; transition: width 0.4s; }
-
-        /* Anim */
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes popIn { 0% { transform: scale(0.5); } 100% { transform: scale(1); } }
-        .correct { animation: bounce 0.5s; color: #2ecc71; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
-        /* Pháo hoa */
-        .confetti { position: fixed; width: 10px; height: 10px; background: red; top: -10px; z-index: 999; }
-
-        /* Open question */
-        .open-q-box {
-            background: #f0fff4; border: 2px solid #2ecc71; border-radius: 20px;
-            padding: 15px; margin-bottom: 10px; text-align: left;
-        }
-        .open-q-box p { margin: 0 0 8px; color: #27ae60; font-weight: bold; font-size: 14px; }
-        .btn-open-next {
-            background: var(--secondary); color: white; border: none; padding: 12px 25px;
-            border-radius: 50px; font-size: 16px; font-weight: 900; cursor: pointer; margin-top: 10px;
-        }
+        @keyframes fadeIn{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+        @keyframes popIn { 0%{transform:scale(.5);opacity:0} 100%{transform:scale(1);opacity:1} }
     </style>
 </head>
 <body>
+<div id="app">
 
-<div id="app-container">
-    <!-- MÀN HÌNH CHÍNH -->
-    <div id="home-screen">
-        <div class="header">
-            <h1 style="margin:0; font-size: 26px;">🌟 BÉ TRẢI NGHIỆM 🌟</h1>
-            <p style="margin:8px 0 0; font-size: 14px;">Bé muốn khám phá gì hôm nay?</p>
-        </div>
-        
-        <div class="stats-bar">
-            <div class="stat-item"><span id="total-stars">0</span>⭐ Tổng Sao</div>
-            <div class="stat-item"><span id="completed-count">0</span>✅ Bài Xong</div>
-        </div>
-
-        <div class="category-scroll">
-            <button class="cat-btn active" onclick="filterCat('all', this)">🏠 Tất cả</button>
-            <button class="cat-btn" onclick="filterCat('t9', this)">📅 Tháng 9</button>
-            <button class="cat-btn" onclick="filterCat('t10', this)">📅 Tháng 10</button>
-            <button class="cat-btn" onclick="filterCat('t11', this)">📅 Tháng 11</button>
-            <button class="cat-btn" onclick="filterCat('t12', this)">📅 Tháng 12</button>
-            <button class="cat-btn" onclick="filterCat('t1', this)">📅 Tháng 1</button>
-            <button class="cat-btn" onclick="filterCat('t2', this)">📅 Tháng 2</button>
-            <button class="cat-btn" onclick="filterCat('t3', this)">📅 Tháng 3</button>
-            <button class="cat-btn" onclick="filterCat('t4', this)">📅 Tháng 4</button>
-            <button class="cat-btn" onclick="filterCat('t5', this)">📅 Tháng 5</button>
-        </div>
-
-        <div class="menu-grid" id="menu-list"></div>
+  <!-- HOME -->
+  <div id="home">
+    <div class="header">
+      <h1>🌟 BÉ TRẢI NGHIỆM 🌟</h1>
+      <p>Hôm nay bé muốn khám phá gì?</p>
     </div>
-
-    <!-- MÀN HÌNH CÂU HỎI -->
-    <div id="quiz-screen">
-        <button class="btn-back" onclick="goHome()">⬅️</button>
-        <div id="progress-text" style="font-weight: bold; margin-bottom: 8px; color: #888; margin-top: 10px;">Câu 1/5</div>
-        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar" style="width:0%"></div></div>
-        <div class="q-card">
-            <span class="q-image" id="q-img"></span>
-            <h2 id="question-text" style="margin:0; color: var(--dark); font-size: 18px; line-height: 1.4;"></h2>
-        </div>
-        <div id="options-container"></div>
-        <div id="feedback" style="height: 40px; font-weight: bold; font-size: 20px; margin-top: 10px;"></div>
+    <div class="stats">
+      <div class="stat"><span id="st-stars">0</span><small>⭐ Tổng sao</small></div>
+      <div class="stat"><span id="st-done">0</span><small>✅ Bài xong</small></div>
+      <div class="stat"><span id="st-total">0</span><small>📚 Tổng bài</small></div>
     </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="grid" id="grid"></div>
+  </div>
 
-    <!-- MÀN HÌNH KẾT QUẢ -->
-    <div id="result-screen">
-        <div class="trophy" id="trophy-icon">🏆</div>
-        <h2 id="result-title">XUẤT SẮC!</h2>
-        <div class="result-stars" id="result-stars"></div>
-        <p id="result-msg" style="font-size: 18px; color: #666;"></p>
-        <button class="btn-main" onclick="goHome()">TIẾP TỤC HỌC</button>
+  <!-- QUIZ -->
+  <div id="quiz">
+    <div class="qheader">
+      <button class="btn-back" onclick="goHome()">⬅️</button>
+      <div class="prog-wrap"><div class="prog-fill" id="pbar" style="width:0%"></div></div>
+      <div class="prog-label" id="plabel">1/1</div>
     </div>
+    <div class="q-card">
+      <span class="q-img" id="qimg"></span>
+      <p class="q-text" id="qtxt"></p>
+    </div>
+    <div class="opts" id="opts"></div>
+    <div id="feedback"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result">
+    <div class="trophy" id="r-trophy">🏆</div>
+    <h2 id="r-title">XUẤT SẮC!</h2>
+    <div class="r-stars" id="r-stars"></div>
+    <p class="r-msg" id="r-msg"></p>
+    <button class="btn-main" onclick="goHome()">🏠 TIẾP TỤC HỌC</button>
+  </div>
+
 </div>
-
 <script>
-    // ============================
-    // DỮ LIỆU BÀI HỌC TỪ FILE WORD
-    // ============================
-    const lessons = [
-        // ===== THÁNG 9 =====
-        {
-            id: 1, cat: 't9', title: "Lời Văn Minh", icon: "🙏", q_img: "😊",
-            month: "Tháng 9",
-            questions: [
-                { q: "Bạn nhỏ gặp cô giáo, bạn sẽ nói gì?", opts: ["Chào cô ạ!", "Im lặng bỏ đi", "Lắc đầu", "Khóc"], c: 0 },
-                { q: "Khi ai đó giúp con, con sẽ làm gì?", opts: ["Nói cảm ơn 😊", "Bỏ đi không nói gì", "Cúi đầu không nhìn", "Khóc"], c: 0 },
-                { q: "Con vô tình làm bạn đau – con làm gì?", opts: ["Xin lỗi bạn ngay", "Giả vờ không biết", "Bỏ chạy đi chỗ khác", "Cười to"], c: 0 },
-                { q: "Chào hỏi buổi sáng nói câu nào đúng?", opts: ["Chào buổi sáng ạ!", "Ê, mày!", "Tao đây!", "Không cần chào"], c: 0 },
-                { q: "Con gặp người lớn không quen, con làm gì?", opts: ["Chào lễ phép rồi báo bố mẹ", "Chạy theo ngay", "Bắt tay mạnh", "Im lặng nhìn"], c: 0 },
-            ]
-        },
-        {
-            id: 2, cat: 't9', title: "Đèn Lồng Trung Thu", icon: "🏮", q_img: "🌕",
-            month: "Tháng 9",
-            questions: [
-                { q: "Đây là lễ hội gì?", opts: ["Tết Trung Thu 🏮", "Tết Nguyên Đán", "Tết Hàn Thực", "Lễ Giáng Sinh"], c: 0 },
-                { q: "Đèn lồng thường được làm từ vật liệu gì?", opts: ["Giấy và tre 🎋", "Kim loại nặng", "Thủy tinh", "Đá cứng"], c: 0 },
-                { q: "Tết Trung Thu diễn ra vào mùa nào?", opts: ["Mùa Thu 🍂", "Mùa Xuân", "Mùa Hè", "Mùa Đông"], c: 0 },
-                { q: "Bé thường làm gì trong đêm Trung Thu?", opts: ["Rước đèn và phá cỗ 🎉", "Ngủ sớm", "Đi học", "Xem phim một mình"], c: 0 },
-                { q: "Màu nào phù hợp với đèn lồng Trung Thu?", opts: ["Đỏ và vàng rực rỡ 🌟", "Màu xám tối", "Màu trắng nhạt", "Màu đen"], c: 0 },
-            ]
-        },
+// ═══════════════════════════════════════════
+//  DỮ LIỆU BÀI HỌC – file biện_pháp_4.docx
+// ═══════════════════════════════════════════
+const lessons = [
 
-        // ===== THÁNG 10 =====
-        {
-            id: 3, cat: 't10', title: "Rửa Tay 6 Bước", icon: "🧼", q_img: "🖐️",
-            month: "Tháng 10",
-            questions: [
-                { q: "Rửa tay đúng chuẩn WHO gồm bao nhiêu bước?", opts: ["6 bước ✅", "2 bước", "4 bước", "8 bước"], c: 0 },
-                { q: "Rửa tay mất bao lâu mới đủ sạch?", opts: ["Ít nhất 20 giây ⏱️", "5 giây là đủ", "10 giây", "1 phút"], c: 0 },
-                { q: "Rửa tay trước và sau khi làm gì?", opts: ["Trước khi ăn & sau khi đi vệ sinh", "Trước khi ngủ", "Sau khi xem tivi", "Khi đi chơi về"], c: 0 },
-                { q: "Tại sao cần rửa tay bằng xà phòng?", opts: ["Diệt vi khuẩn gây bệnh 🦠", "Cho tay thơm hơn", "Vì thích xà phòng", "Để tay ướt"], c: 0 },
-                { q: "Dùng gì để rửa tay đúng chuẩn?", opts: ["Xà phòng + nước sạch 💧", "Chỉ nước lã", "Khăn khô", "Dầu ăn"], c: 0 },
-            ]
-        },
-        {
-            id: 4, cat: 't10', title: "Dùng Kéo An Toàn", icon: "✂️", q_img: "🛡️",
-            month: "Tháng 10",
-            questions: [
-                { q: "Khi cầm kéo đi lại, con làm gì?", opts: ["Cầm mũi xuống, đi chậm 🚶", "Chạy thật nhanh", "Vẫy kéo lên cao", "Ném cho bạn"], c: 0 },
-                { q: "Truyền kéo cho bạn đúng cách là thế nào?", opts: ["Trao tay cầm cho bạn 🤝", "Trao lưỡi kéo", "Ném qua", "Để trên sàn"], c: 0 },
-                { q: "Không nên cầm kéo khi đang làm gì?", opts: ["Khi đang chạy hoặc nhảy 🚫", "Khi ngồi cắt giấy", "Khi tập thủ công", "Khi ngồi học"], c: 0 },
-                { q: "Sau khi dùng kéo xong, con để kéo ở đâu?", opts: ["Vào hộp đựng hoặc ngăn kéo 📦", "Trên mặt bàn mũi hướng ra", "Dưới sàn nhà", "Trong túi áo"], c: 0 },
-            ]
-        },
-        {
-            id: 5, cat: 't10', title: "Thiệp Tặng Mẹ 20/10", icon: "💌", q_img: "💕",
-            month: "Tháng 10",
-            questions: [
-                { q: "Con chọn màu sắc gì cho thiệp của mẹ?", opts: ["Màu hồng hoặc đỏ yêu thương ❤️", "Màu đen tối", "Màu xám", "Không cần màu"], c: 0 },
-                { q: "Hình ảnh nào con muốn vẽ lên thiệp cho mẹ?", opts: ["Hoa và trái tim 🌸💛", "Máy móc", "Đám mây tối", "Không vẽ gì"], c: 0 },
-                { q: "Con cảm thấy thế nào khi tặng thiệp cho mẹ?", opts: ["Rất vui và hạnh phúc 😄", "Buồn", "Bình thường, không vui", "Sợ hãi"], c: 0 },
-                { q: "Khi tặng thiệp, con nên nói gì với mẹ?", opts: ["Con yêu mẹ! Chúc mẹ vui! 🥰", "Không nói gì cả", "Ném qua cho mẹ", "Chờ mẹ tự lấy"], c: 0 },
-            ]
-        },
+// ── THÁNG 9 ──
+{ id:1, cat:'t9', month:'Tháng 9', title:'Lời Văn Minh', icon:'🙏', qimg:'😊',
+  questions:[
+    { q:'Bạn nhỏ gặp cô giáo, bạn sẽ nói gì?', c:0,
+      opts:[{e:'🙇',t:'Chào cô ạ!'},{e:'😶',t:'Im lặng bỏ đi'},{e:'🤷',t:'Lắc đầu không nhìn'},{e:'😢',t:'Oà khóc to'}] },
+    { q:'Khi ai đó giúp con, con sẽ làm gì?', c:2,
+      opts:[{e:'🙇',t:'Cúi đầu cảm ơn'},{e:'🏃',t:'Bỏ đi không nói'},{e:'😊',t:'Nói cảm ơn vui vẻ'},{e:'😭',t:'Khóc to'}] },
+    { q:'Con vô tình làm bạn đau – con làm gì?', c:0,
+      opts:[{e:'🙏',t:'Xin lỗi bạn ngay'},{e:'😶',t:'Giả vờ không biết'},{e:'🏃',t:'Bỏ chạy đi chỗ khác'},{e:'😂',t:'Cười to lên'}] },
+    { q:'Chào hỏi buổi sáng, nói câu nào đúng?', c:0,
+      opts:[{e:'☀️',t:'Chào buổi sáng ạ!'},{e:'😠',t:'Ê, mày!'},{e:'🫵',t:'Tao đây!'},{e:'🙈',t:'Không cần chào'}] },
+    { q:'Con gặp người lớn không quen, con làm gì?', c:0,
+      opts:[{e:'🙋',t:'Chào lễ phép rồi báo người thân'},{e:'🏃',t:'Chạy theo ngay'},{e:'✊',t:'Bắt tay thật mạnh'},{e:'😶',t:'Im lặng chằm chằm nhìn'}] },
+  ]},
 
-        // ===== THÁNG 11 =====
-        {
-            id: 6, cat: 't11', title: "Bê Ghế & Ăn Đúng Cách", icon: "🪑", q_img: "🍚",
-            month: "Tháng 11",
-            questions: [
-                { q: "Khi bê ghế cần nhớ điều gì?", opts: ["Nhìn trước đường đi 👀", "Chạy thật nhanh", "Gọi bạn bê hộ", "Kéo lê dưới sàn"], c: 0 },
-                { q: "Tư thế ngồi ăn đúng là thế nào?", opts: ["Ngồi thẳng lưng, chân thả tự nhiên ✅", "Nằm xuống ăn", "Vừa ăn vừa chạy", "Đứng ăn"], c: 0 },
-                { q: "Ăn cơm đúng cách KHÔNG bao gồm điều gì?", opts: ["Nói chuyện to trong bữa ăn 🚫", "Nhai kỹ trước khi nuốt", "Ăn hết xuất của mình", "Cầm đũa đúng cách"], c: 0 },
-                { q: "Sau khi ăn xong con cần làm gì?", opts: ["Cất bát và lau miệng sạch 🧽", "Bỏ bát tại chỗ", "Chạy đi chơi ngay", "La hét vì no"], c: 0 },
-            ]
-        },
-        {
-            id: 7, cat: 't11', title: "Chải Răng Đúng Cách", icon: "🦷", q_img: "🪥",
-            month: "Tháng 11",
-            questions: [
-                { q: "Chải răng mỗi ngày mấy lần?", opts: ["2 lần: sáng và tối 🌅🌙", "1 lần buổi sáng", "3 lần mỗi bữa ăn", "1 tuần 1 lần"], c: 0 },
-                { q: "Chải răng đúng cần mất bao lâu?", opts: ["Ít nhất 2 phút ⏱️", "10 giây là đủ", "30 giây", "5 phút"], c: 0 },
-                { q: "Kem đánh răng lấy bao nhiêu là đủ?", opts: ["Bằng hạt đậu nhỏ 🫘", "Đầy cả bàn chải", "Không cần kem", "Nửa tuýp"], c: 0 },
-                { q: "Tại sao phải chải răng sau khi ăn?", opts: ["Loại bỏ thức ăn, ngừa sâu răng 🦠", "Cho miệng thơm mát", "Vì bố mẹ bắt", "Để ngủ ngon hơn"], c: 0 },
-            ]
-        },
-        {
-            id: 8, cat: 't11', title: "Quà Tặng Thầy Cô 20/11", icon: "🎁", q_img: "👩‍🏫",
-            month: "Tháng 11",
-            questions: [
-                { q: "Cô giáo làm những việc gì mỗi ngày?", opts: ["Dạy học và chăm sóc bé 📚", "Chỉ ngủ và ăn", "Xem tivi cả ngày", "Đi chơi mỗi ngày"], c: 0 },
-                { q: "Khi tặng quà, con sẽ nói gì với cô?", opts: ["Cảm ơn cô đã dạy con! 💖", "Không nói gì cả", "Ném quà và chạy đi", "Để quà rồi bỏ đi"], c: 0 },
-                { q: "Con cảm thấy thế nào sau khi tặng quà cho cô?", opts: ["Rất vui và tự hào 😄", "Buồn và tiếc", "Sợ hãi", "Tức giận"], c: 0 },
-            ]
-        },
+{ id:2, cat:'t9', month:'Tháng 9', title:'Đèn Lồng Trung Thu', icon:'🏮', qimg:'🌕',
+  questions:[
+    { q:'Đây là lễ hội gì?', c:0,
+      opts:[{e:'🏮',t:'Tết Trung Thu'},{e:'🎊',t:'Tết Nguyên Đán'},{e:'🌸',t:'Tết Hàn Thực'},{e:'⛪',t:'Lễ Giáng Sinh'}] },
+    { q:'Đèn lồng thường được làm từ vật liệu gì?', c:0,
+      opts:[{e:'🎋',t:'Giấy và tre'},{e:'⚙️',t:'Kim loại nặng'},{e:'🪟',t:'Thủy tinh'},{e:'🪨',t:'Đá cứng'}] },
+    { q:'Tết Trung Thu diễn ra vào mùa nào?', c:0,
+      opts:[{e:'🍂',t:'Mùa Thu'},{e:'🌸',t:'Mùa Xuân'},{e:'☀️',t:'Mùa Hè'},{e:'❄️',t:'Mùa Đông'}] },
+    { q:'Bé thường làm gì trong đêm Trung Thu?', c:0,
+      opts:[{e:'🏮',t:'Rước đèn và phá cỗ'},{e:'😴',t:'Ngủ sớm'},{e:'📚',t:'Đi học'},{e:'📺',t:'Xem phim một mình'}] },
+    { q:'Màu nào phù hợp với đèn lồng Trung Thu?', c:0,
+      opts:[{e:'🔴',t:'Đỏ và vàng rực rỡ'},{e:'⬛',t:'Màu xám tối'},{e:'🤍',t:'Màu trắng nhạt'},{e:'🖤',t:'Màu đen'}] },
+  ]},
 
-        // ===== THÁNG 12 =====
-        {
-            id: 9, cat: 't12', title: "Trang Phục Theo Thời Tiết", icon: "👗", q_img: "🌦️",
-            month: "Tháng 12",
-            questions: [
-                { q: "Trời lạnh, con mặc áo nào?", opts: ["Áo ấm, áo len 🧥", "Áo hai dây mỏng", "Áo tắm", "Áo không tay"], c: 0 },
-                { q: "Đi học, con mặc gì?", opts: ["Đồng phục trường 👕", "Áo ngủ", "Đồ đi tắm biển", "Áo mưa"], c: 0 },
-                { q: "Hôm nay trời mưa – con cần thêm gì khi ra ngoài?", opts: ["Áo mưa hoặc ô dù ☂️", "Dép tông bình thường", "Không cần gì thêm", "Áo len dày"], c: 0 },
-                { q: "Mùa hè mặc áo màu nào mát hơn?", opts: ["Màu trắng hoặc sáng 🤍", "Màu đen", "Màu đỏ đậm", "Màu nào cũng như nhau"], c: 0 },
-                { q: "Áo bị ướt mưa, con làm gì?", opts: ["Thay áo khô ngay và phơi áo ướt 🌬️", "Mặc nguyên đến khi khô", "Vắt áo rồi mặc lại", "Bỏ áo đi luôn"], c: 0 },
-            ]
-        },
-        {
-            id: 10, cat: 't12', title: "Chú Bộ Đội Tí Hon 22/12", icon: "⭐", q_img: "🪖",
-            month: "Tháng 12",
-            questions: [
-                { q: "Ngày 22/12 là ngày gì?", opts: ["Ngày thành lập Quân đội nhân dân VN 🇻🇳", "Ngày Quốc Khánh", "Ngày Nhà giáo", "Ngày Quốc tế Thiếu nhi"], c: 0 },
-                { q: "Chú bộ đội làm công việc gì?", opts: ["Bảo vệ Tổ quốc và giúp dân 🛡️", "Chỉ đứng gác", "Làm ruộng mỗi ngày", "Đi chợ mua đồ"], c: 0 },
-                { q: "Chú bộ đội cần phẩm chất gì?", opts: ["Dũng cảm và kỷ luật 💪", "Lười biếng", "Hay sợ hãi", "Không kỷ luật"], c: 0 },
-                { q: "Ngoài bộ đội, còn nghề nào bảo vệ bình yên cho chúng ta?", opts: ["Cảnh sát và cứu hỏa 🚒👮", "Đầu bếp", "Họa sĩ", "Ca sĩ"], c: 0 },
-            ]
-        },
+// ── THÁNG 10 ──
+{ id:3, cat:'t10', month:'Tháng 10', title:'Rửa Tay 6 Bước WHO', icon:'🧼', qimg:'🖐️',
+  questions:[
+    { q:'Rửa tay đúng chuẩn WHO gồm bao nhiêu bước?', c:2,
+      opts:[{e:'2️⃣',t:'2 bước'},{e:'4️⃣',t:'4 bước'},{e:'6️⃣',t:'6 bước'},{e:'8️⃣',t:'8 bước'}] },
+    { q:'Rửa tay mất bao lâu mới đủ sạch?', c:2,
+      opts:[{e:'⚡',t:'5 giây là đủ'},{e:'🕐',t:'10 giây'},{e:'⏱️',t:'Ít nhất 20 giây'},{e:'⏰',t:'1 phút'}] },
+    { q:'Rửa tay trước và sau khi làm gì?', c:0,
+      opts:[{e:'🍽️',t:'Trước khi ăn và sau khi vệ sinh'},{e:'😴',t:'Trước khi ngủ'},{e:'📺',t:'Sau khi xem tivi'},{e:'🛝',t:'Khi đi chơi về'}] },
+    { q:'Tại sao cần rửa tay bằng xà phòng?', c:0,
+      opts:[{e:'🦠',t:'Diệt vi khuẩn gây bệnh'},{e:'🌸',t:'Cho tay thơm hơn'},{e:'🧴',t:'Vì thích xà phòng'},{e:'💧',t:'Để tay ướt thôi'}] },
+    { q:'Bước nào trong 6 bước hay bị bỏ quên nhất?', c:1,
+      opts:[{e:'💦',t:'Làm ướt tay'},{e:'👍',t:'Chà kẽ ngón tay và ngón cái'},{e:'🧼',t:'Bôi xà phòng'},{e:'🚿',t:'Rửa sạch tay'}] },
+  ]},
 
-        // ===== THÁNG 1 =====
-        {
-            id: 11, cat: 't1', title: "Kỹ Năng Đan Tết", icon: "🧶", q_img: "🎨",
-            month: "Tháng 1",
-            questions: [
-                { q: "Đan nong mốt khác đan nong đôi như thế nào?", opts: ["Khác nhau ở cách đan sợi 1 hoặc 2 ô 🧺", "Giống hệt nhau", "Chỉ khác màu sắc", "Chỉ khác kích thước"], c: 0 },
-                { q: "Sản phẩm thủ công dùng để làm gì?", opts: ["Trang trí và sử dụng hàng ngày 🎀", "Chỉ để ngắm", "Vứt đi sau khi làm", "Bán đắt tiền"], c: 0 },
-                { q: "Nguyên liệu nào không thể đan được?", opts: ["Đá cứng 🪨", "Sợi rơm", "Tre mỏng", "Giấy"], c: 0 },
-            ]
-        },
-        {
-            id: 12, cat: 't1', title: "Chăm Sóc Con Vật Nuôi", icon: "🐾", q_img: "🐰",
-            month: "Tháng 1",
-            questions: [
-                { q: "Con vật nuôi cần được chăm sóc những gì mỗi ngày?", opts: ["Cho ăn, uống nước và vệ sinh 🥕💧", "Chỉ cho ăn là đủ", "Không cần chăm sóc", "Chỉ tắm rửa"], c: 0 },
-                { q: "Dấu hiệu nào cho thấy con vật đang khỏe mạnh?", opts: ["Hoạt bát, ăn uống bình thường 🐇", "Nằm im không nhúc nhích", "Bỏ ăn nhiều ngày", "Lông xơ xác"], c: 0 },
-                { q: "Sau khi chạm vào con vật, con cần làm gì?", opts: ["Rửa tay bằng xà phòng ngay 🧼", "Không cần làm gì", "Lau tay vào quần", "Tiếp tục ăn uống"], c: 0 },
-                { q: "Con vật có cảm xúc không?", opts: ["Có! Chúng biết vui và buồn 💕", "Không, chúng không có cảm xúc", "Chỉ chó mèo mới có", "Không ai biết được"], c: 0 },
-            ]
-        },
+{ id:4, cat:'t10', month:'Tháng 10', title:'Dùng Kéo An Toàn', icon:'✂️', qimg:'🛡️',
+  questions:[
+    { q:'Khi cầm kéo đi lại, con làm gì?', c:0,
+      opts:[{e:'🚶',t:'Cầm mũi xuống, đi thật chậm'},{e:'🏃',t:'Chạy thật nhanh'},{e:'🙌',t:'Vẫy kéo lên cao'},{e:'🎯',t:'Ném cho bạn'}] },
+    { q:'Truyền kéo cho bạn đúng cách là thế nào?', c:1,
+      opts:[{e:'⚔️',t:'Trao lưỡi kéo cho bạn'},{e:'🤝',t:'Trao tay cầm cho bạn'},{e:'🎳',t:'Ném qua'},{e:'🪑',t:'Để trên sàn'}] },
+    { q:'Bạn đang dùng kéo, lưỡi hướng ra ngoài – đúng hay sai?', c:1,
+      opts:[{e:'✅',t:'Đúng, không sao'},{e:'❌',t:'Sai, rất nguy hiểm'}] },
+    { q:'Không nên cầm kéo khi đang làm gì?', c:0,
+      opts:[{e:'🏃',t:'Khi đang chạy hoặc nhảy'},{e:'✂️',t:'Khi ngồi cắt giấy'},{e:'🎨',t:'Khi tập thủ công'},{e:'📚',t:'Khi ngồi học'}] },
+    { q:'Sau khi dùng kéo xong, con để kéo ở đâu?', c:0,
+      opts:[{e:'📦',t:'Vào hộp đựng hoặc ngăn kéo'},{e:'🗂️',t:'Trên bàn, mũi hướng ra'},{e:'🪟',t:'Dưới sàn nhà'},{e:'👘',t:'Trong túi áo'}] },
+  ]},
 
-        // ===== THÁNG 2 =====
-        {
-            id: 13, cat: 't2', title: "Trồng Cây & Chăm Cây", icon: "🌱", q_img: "☀️",
-            month: "Tháng 2",
-            questions: [
-                { q: "Cây cần gì để lớn?", opts: ["Nước, ánh sáng, đất và không khí 🌿", "Chỉ cần nước", "Kẹo và bánh", "Nhạc và phim"], c: 0 },
-                { q: "Lá cây màu xanh vì sao?", opts: ["Vì có chất diệp lục (chlorophyll) 🍃", "Vì được sơn màu xanh", "Vì trời xanh chiếu vào", "Không ai biết"], c: 0 },
-                { q: "Tại sao phải tưới nước cây mỗi ngày?", opts: ["Để cây không bị héo và khỏe mạnh 💧", "Vì thích tưới", "Để đất bị ướt", "Không cần tưới mỗi ngày"], c: 0 },
-                { q: "Rễ cây có nhiệm vụ gì?", opts: ["Hút nước và chất dinh dưỡng từ đất 🌍", "Làm đẹp cho cây", "Tạo ra oxy", "Chống gió bão"], c: 0 },
-            ]
-        },
-        {
-            id: 14, cat: 't2', title: "Vui Đón Tết Nguyên Đán", icon: "🧧", q_img: "🎊",
-            month: "Tháng 2",
-            questions: [
-                { q: "Tết Nguyên Đán là gì?", opts: ["Tết cổ truyền lớn nhất của người Việt 🎉", "Ngày sinh nhật Bác Hồ", "Tết của người Hoa", "Lễ hội mùa hè"], c: 0 },
-                { q: "Bánh chưng có hình dạng gì?", opts: ["Hình vuông 🟩", "Hình tròn", "Hình tam giác", "Hình dài"], c: 0 },
-                { q: "Tết Nguyên Đán thường diễn ra vào tháng mấy?", opts: ["Tháng 1 hoặc tháng 2 âm lịch 🌙", "Tháng 6", "Tháng 9", "Tháng 12"], c: 0 },
-                { q: "Cây gì là biểu tượng ngày Tết?", opts: ["Cây đào và cây mai 🌸", "Cây xương rồng", "Cây thông", "Cây dừa"], c: 0 },
-                { q: "Mọi người thường mặc áo mới ngày Tết để làm gì?", opts: ["Đón năm mới may mắn, tươi vui 🎋", "Vì áo cũ bị rách", "Vì thích mặc đẹp thôi", "Không có lý do"], c: 0 },
-            ]
-        },
+{ id:5, cat:'t10', month:'Tháng 10', title:'Quét & Hót Rác', icon:'🧹', qimg:'🏠',
+  questions:[
+    { q:'Để quét nhà thật sạch, bé cần chuẩn bị bộ dụng cụ nào?', c:0,
+      opts:[{e:'🧹',t:'Chổi và hót rác'},{e:'🪣',t:'Chậu và giẻ lau'},{e:'🧴',t:'Nước rửa chén và bọt biển'},{e:'📦',t:'Hộp đựng đồ'}] },
+    { q:'Để rác vào hót rác dễ dàng, bé đặt hót rác như thế nào?', c:1,
+      opts:[{e:'⬆️',t:'Dựng đứng lên'},{e:'➡️',t:'Áp sát sàn nằm ngang'},{e:'🔄',t:'Lật ngược lên'},{e:'↗️',t:'Nghiêng 45 độ'}] },
+    { q:'Dùng chổi, bé quét thế nào để bụi không bay lên?', c:0,
+      opts:[{e:'🐢',t:'Quét nhẹ nhàng, chậm rãi'},{e:'🌪️',t:'Quét thật nhanh và mạnh'},{e:'🔄',t:'Quét vòng tròn liên tục'},{e:'⬆️',t:'Hất chổi lên cao'}] },
+    { q:'Sau khi thu gom rác vào hót rác, bước tiếp theo là gì?', c:0,
+      opts:[{e:'🗑️',t:'Đổ rác vào thùng đúng nơi'},{e:'🪴',t:'Đổ rác ra sân'},{e:'🛝',t:'Đi chơi ngay'},{e:'💧',t:'Đổ rác xuống cống'}] },
+  ]},
 
-        // ===== THÁNG 3 =====
-        {
-            id: 15, cat: 't3', title: "Làm Sữa Chua Dầm Hoa Quả", icon: "🍓", q_img: "🥣",
-            month: "Tháng 3",
-            questions: [
-                { q: "Sữa chua được làm từ gì?", opts: ["Sữa tươi lên men 🐄", "Nước lọc và đường", "Bột mì", "Nước ép hoa quả"], c: 0 },
-                { q: "Ăn sữa chua có lợi gì cho sức khỏe?", opts: ["Tốt cho tiêu hóa và xương chắc khỏe 💪", "Không có lợi ích gì", "Chỉ làm béo", "Gây đau bụng"], c: 0 },
-                { q: "Vì sao cần rửa tay sạch trước khi làm thức ăn?", opts: ["Để không có vi khuẩn lây vào thức ăn 🧼", "Vì tay bẩn nhìn xấu", "Vì được dạy như vậy", "Không cần rửa"], c: 0 },
-                { q: "Sữa chua cần để ở đâu để bảo quản?", opts: ["Trong tủ lạnh ❄️", "Trên bàn phòng ấm", "Dưới nắng mặt trời", "Trong túi kín"], c: 0 },
-            ]
-        },
-        {
-            id: 16, cat: 't3', title: "Đội Mũ Bảo Hiểm Đúng Cách", icon: "⛑️", q_img: "🏍️",
-            month: "Tháng 3",
-            questions: [
-                { q: "Mũ bảo hiểm dùng để làm gì?", opts: ["Bảo vệ đầu khi có tai nạn 🛡️", "Để trông đẹp hơn", "Che nắng che mưa", "Để đội cho vui"], c: 0 },
-                { q: "Ai cần đội mũ bảo hiểm khi đi xe?", opts: ["Tất cả mọi người 👨‍👩‍👧", "Chỉ người lớn", "Chỉ trẻ em", "Không ai cần"], c: 0 },
-                { q: "Quai mũ cài đúng cách là thế nào?", opts: ["Cài dưới cằm, vừa khít 😊", "Để lỏng lẻo", "Không cần cài quai", "Cài sang bên má"], c: 0 },
-                { q: "Mũ bảo hiểm quá to hoặc quá nhỏ có an toàn không?", opts: ["Không an toàn – cần chọn mũ vừa đầu ❌", "Vẫn an toàn bình thường", "Quá to thì tốt hơn", "Quá nhỏ vẫn dùng được"], c: 0 },
-            ]
-        },
+{ id:6, cat:'t10', month:'Tháng 10', title:'Thiệp Tặng Mẹ 20/10', icon:'💌', qimg:'💕',
+  questions:[
+    { q:'Con chọn màu sắc gì cho thiệp của mẹ?', c:0,
+      opts:[{e:'❤️',t:'Hồng hoặc đỏ yêu thương'},{e:'🖤',t:'Màu đen tối'},{e:'🩶',t:'Màu xám nhạt'},{e:'📄',t:'Không cần màu'}] },
+    { q:'Hình ảnh nào con muốn vẽ lên thiệp cho mẹ?', c:0,
+      opts:[{e:'🌸',t:'Hoa và trái tim'},{e:'⚙️',t:'Máy móc'},{e:'🌧️',t:'Đám mây tối'},{e:'⬜',t:'Không vẽ gì'}] },
+    { q:'Con cảm thấy thế nào khi tặng thiệp cho mẹ?', c:0,
+      opts:[{e:'😄',t:'Rất vui và hạnh phúc'},{e:'😢',t:'Buồn lòng'},{e:'😐',t:'Bình thường, không vui'},{e:'😨',t:'Sợ hãi'}] },
+    { q:'Khi tặng thiệp, con nên nói gì với mẹ?', c:0,
+      opts:[{e:'🥰',t:'Con yêu mẹ! Chúc mẹ vui!'},{e:'😶',t:'Không nói gì cả'},{e:'🎯',t:'Ném qua cho mẹ'},{e:'⏳',t:'Chờ mẹ tự lấy'}] },
+  ]},
 
-        // ===== THÁNG 4 =====
-        {
-            id: 17, cat: 't4', title: "Bánh Trôi Tết Hàn Thực", icon: "🍡", q_img: "🥣",
-            month: "Tháng 4",
-            questions: [
-                { q: "Tết Hàn Thực diễn ra vào ngày mấy tháng mấy âm lịch?", opts: ["Ngày 3 tháng 3 âm lịch 🌸", "Ngày 1 tháng 1", "Ngày 15 tháng 8", "Ngày 5 tháng 5"], c: 0 },
-                { q: "Bánh trôi được làm từ nguyên liệu chính gì?", opts: ["Bột nếp và đường 🤍", "Bột mì và trứng", "Gạo tẻ và muối", "Khoai và sắn"], c: 0 },
-                { q: "Nhân bánh trôi thường làm từ gì?", opts: ["Đường phên (đường đen) 🍬", "Thịt heo", "Đậu xanh", "Mứt hoa quả"], c: 0 },
-                { q: "Bánh trôi nổi lên khi chín vì sao?", opts: ["Vì bên trong có không khí, nhẹ hơn nước 🫧", "Vì bánh rất nhỏ", "Vì nước sôi đẩy lên", "Vì thêm dầu ăn"], c: 0 },
-                { q: "Bánh trôi ăn cùng với gì?", opts: ["Nước gừng ấm hoặc mè đen 🫚", "Nước cam", "Nước lạnh", "Sữa tươi"], c: 0 },
-            ]
-        },
-        {
-            id: 18, cat: 't4', title: "Thí Nghiệm Tan - Không Tan", icon: "🧪", q_img: "🌊",
-            month: "Tháng 4",
-            questions: [
-                { q: "Chất nào tan được trong nước?", opts: ["Đường và muối 🍬🧂", "Dầu ăn", "Cát và sỏi", "Đá cuội"], c: 0 },
-                { q: "Vì sao đường tan trong nước nóng nhanh hơn nước lạnh?", opts: ["Nhiệt độ cao làm phân tử chuyển động nhanh hơn 🔥", "Vì đường thích nước nóng", "Vì nước nóng ngọt hơn", "Không có lý do"], c: 0 },
-                { q: "Dầu ăn bỏ vào nước sẽ thế nào?", opts: ["Nổi lên trên, không tan 🫙", "Tan hoàn toàn", "Chìm xuống đáy", "Biến mất"], c: 0 },
-                { q: "Khi pha nước chanh đường, con cần làm gì để đường tan?", opts: ["Khuấy đều 🥄", "Đậy nắp lại", "Thêm muối vào", "Bỏ vào tủ lạnh"], c: 0 },
-            ]
-        },
-        {
-            id: 19, cat: 't4', title: "Thí Nghiệm Chìm - Nổi", icon: "🚢", q_img: "💧",
-            month: "Tháng 4",
-            questions: [
-                { q: "Vật nào sẽ CHÌM trong nước?", opts: ["Đinh sắt và đá cuội 🪨", "Chai nhựa rỗng", "Gỗ nhẹ", "Lá cây"], c: 0 },
-                { q: "Tàu to nặng sao vẫn nổi trên mặt nước?", opts: ["Vì có lỗ rỗng bên trong, nhẹ hơn nước 🚢", "Vì làm bằng kim loại đặc biệt", "Vì có mái chèo", "Vì nước biển mặn"], c: 0 },
-                { q: "Quả cam để vào nước sẽ thế nào?", opts: ["Nổi vì có vỏ dày chứa khí 🍊", "Chìm ngay", "Nổi một nửa", "Tan ra"], c: 0 },
-                { q: "Ứng dụng của vật nổi trong cuộc sống là gì?", opts: ["Áo phao cứu sinh, tàu thuyền 🛟", "Không có ứng dụng nào", "Chỉ để thí nghiệm", "Chỉ dùng trong bếp"], c: 0 },
-            ]
-        },
-        {
-            id: 20, cat: 't4', title: "Ngắt Rau & Chuẩn Bị Rau Ăn", icon: "🥬", q_img: "🫱",
-            month: "Tháng 4",
-            questions: [
-                { q: "Vì sao cần rửa rau trước khi ăn?", opts: ["Loại bỏ bụi bẩn và thuốc trừ sâu 🌿", "Vì thích nước", "Để rau mềm hơn", "Không cần lý do"], c: 0 },
-                { q: "Ăn rau có lợi gì cho sức khỏe?", opts: ["Cung cấp vitamin và chất xơ 💚", "Không có lợi ích gì", "Chỉ làm ngon miệng", "Gây béo phì"], c: 0 },
-                { q: "Rau nên ăn sống hay nấu chín?", opts: ["Tùy loại rau, nhiều loại cần nấu chín 🥗", "Luôn phải ăn sống", "Luôn phải nấu chín", "Không ăn rau được"], c: 0 },
-            ]
-        },
+// ── THÁNG 11 ──
+{ id:7, cat:'t11', month:'Tháng 11', title:'Bê Ghế & Ăn Đúng Cách', icon:'🪑', qimg:'🍚',
+  questions:[
+    { q:'Khi bê ghế cần nhớ điều gì?', c:0,
+      opts:[{e:'👀',t:'Nhìn trước đường đi'},{e:'🏃',t:'Chạy thật nhanh'},{e:'📢',t:'Gọi bạn bê hộ'},{e:'🔊',t:'Kéo lê dưới sàn'}] },
+    { q:'Tư thế ngồi ăn đúng là thế nào?', c:0,
+      opts:[{e:'🪑',t:'Ngồi thẳng lưng, chân thả tự nhiên'},{e:'🛌',t:'Nằm xuống ăn'},{e:'🏃',t:'Vừa ăn vừa chạy'},{e:'🧍',t:'Đứng thẳng ăn'}] },
+    { q:'Ăn cơm đúng cách KHÔNG bao gồm điều gì?', c:1,
+      opts:[{e:'🥢',t:'Cầm đũa đúng cách'},{e:'📣',t:'Nói chuyện to trong bữa ăn'},{e:'😋',t:'Nhai kỹ trước khi nuốt'},{e:'🍱',t:'Ăn hết xuất của mình'}] },
+    { q:'Sau khi ăn xong con cần làm gì?', c:0,
+      opts:[{e:'🧽',t:'Cất bát và lau miệng sạch'},{e:'🪑',t:'Bỏ bát tại chỗ'},{e:'🏃',t:'Chạy đi chơi ngay'},{e:'😂',t:'La hét vì no'}] },
+  ]},
 
-        // ===== THÁNG 5 =====
-        {
-            id: 21, cat: 't5', title: "Làm Phở Cuốn Hà Nội", icon: "🍜", q_img: "🥢",
-            month: "Tháng 5",
-            questions: [
-                { q: "Phở cuốn là đặc sản nổi tiếng của thành phố nào?", opts: ["Hà Nội 🏙️", "TP Hồ Chí Minh", "Đà Nẵng", "Huế"], c: 0 },
-                { q: "Nguyên liệu chính không thể thiếu trong phở cuốn là gì?", opts: ["Bánh phở và thịt bò tươi 🥩", "Mì tôm và trứng", "Bún và cá", "Cơm và rau"], c: 0 },
-                { q: "Khi làm phở cuốn, bé cần chú ý điều gì về vệ sinh?", opts: ["Rửa tay sạch và rửa rau kỹ 🧼", "Không cần chú ý gì", "Chỉ rửa tay", "Chỉ rửa rau"], c: 0 },
-                { q: "Nước chấm phở cuốn thường được làm từ nguyên liệu gì?", opts: ["Tương hoisin và lạc rang 🥜", "Nước mắm và ớt", "Tương cà chua", "Dầu mè và muối"], c: 0 },
-            ]
-        },
-        {
-            id: 22, cat: 't5', title: "An Toàn Phòng Cháy", icon: "🔥", q_img: "🧯",
-            month: "Tháng 5",
-            questions: [
-                { q: "Khi phát hiện có khói hoặc lửa, việc đầu tiên bé cần làm là gì?", opts: ["Hô to và gọi người lớn ngay 📢", "Chạy tìm nước", "Đứng xem", "Tiếp tục chơi"], c: 0 },
-                { q: "Khi có hỏa hoạn và phòng có nhiều khói, bé nên di chuyển thế nào?", opts: ["Cúi thấp và bò dưới khói 🦺", "Đứng thẳng chạy nhanh", "Nhảy qua lửa", "Trốn vào tủ"], c: 0 },
-                { q: "Số điện thoại Cảnh sát Phòng cháy Chữa cháy Việt Nam là số nào?", opts: ["114 📞", "113", "115", "111"], c: 0 },
-                { q: "Vật dụng nào có thể gây hỏa hoạn nếu bé dùng không cẩn thận?", opts: ["Bật lửa và diêm 🚫", "Sách vở", "Đồ chơi nhựa", "Cốc nước"], c: 0 },
-            ]
-        },
-        {
-            id: 23, cat: 't5', title: "Nhận Biết Cảm Xúc", icon: "😊", q_img: "💭",
-            month: "Tháng 5",
-            questions: [
-                { q: "Khi cảm thấy tức giận, cách nào giúp bé bình tĩnh lại tốt nhất?", opts: ["Hít thở sâu và đếm 1-10 🌬️", "La hét thật to", "Đánh bạn", "Khóc mãi không thôi"], c: 0 },
-                { q: "Bé đang buồn vì bị mất đồ chơi. Bé nên làm gì?", opts: ["Nói với bố mẹ hoặc cô giáo 🗣️", "Khóc một mình", "Lấy đồ chơi của bạn khác", "Không làm gì cả"], c: 0 },
-                { q: "Khi thấy bạn cùng lớp đang buồn, bé nên làm gì?", opts: ["Hỏi thăm và an ủi bạn 🤗", "Giả vờ không thấy", "Cười nhạo bạn", "Chạy đi chỗ khác"], c: 0 },
-            ]
-        },
-    ];
+{ id:8, cat:'t11', month:'Tháng 11', title:'Chải Răng Đúng Cách', icon:'🦷', qimg:'🪥',
+  questions:[
+    { q:'Chải răng mỗi ngày mấy lần?', c:1,
+      opts:[{e:'1️⃣',t:'1 lần buổi sáng'},{e:'2️⃣',t:'2 lần: sáng và tối'},{e:'3️⃣',t:'3 lần mỗi bữa ăn'},{e:'7️⃣',t:'1 tuần 1 lần'}] },
+    { q:'Chải răng đúng cần mất bao lâu?', c:1,
+      opts:[{e:'⚡',t:'10 giây là đủ'},{e:'⏱️',t:'Ít nhất 2 phút'},{e:'🕐',t:'30 giây'},{e:'⏰',t:'5 phút'}] },
+    { q:'Kem đánh răng lấy bao nhiêu là đủ?', c:1,
+      opts:[{e:'🧴',t:'Đầy cả bàn chải'},{e:'🫘',t:'Bằng hạt đậu nhỏ'},{e:'❌',t:'Không cần kem'},{e:'💊',t:'Nửa tuýp'}] },
+    { q:'Tại sao phải chải răng sau khi ăn?', c:0,
+      opts:[{e:'🦠',t:'Loại bỏ thức ăn, ngừa sâu răng'},{e:'🌬️',t:'Cho miệng thơm mát'},{e:'👨‍👩‍👧',t:'Vì bố mẹ bắt'},{e:'😴',t:'Để ngủ ngon hơn'}] },
+  ]},
 
-    // ============================
-    // LOGIC ỨNG DỤNG
-    // ============================
-    let userProgress = {};
-    try { userProgress = JSON.parse(localStorage.getItem('mamnon_v2')) || {}; } catch(e) {}
-    
-    let currentL = null;
-    let currentQIdx = 0;
-    let score = 0;
-    let answered = false;
+{ id:9, cat:'t11', month:'Tháng 11', title:'Quà Tặng Thầy Cô 20/11', icon:'🎁', qimg:'👩‍🏫',
+  questions:[
+    { q:'Cô giáo làm những việc gì mỗi ngày?', c:0,
+      opts:[{e:'📚',t:'Dạy học và chăm sóc bé'},{e:'😴',t:'Chỉ ngủ và ăn'},{e:'📺',t:'Xem tivi cả ngày'},{e:'🏖️',t:'Đi chơi mỗi ngày'}] },
+    { q:'Khi tặng quà, con sẽ nói gì với cô?', c:0,
+      opts:[{e:'💖',t:'Cảm ơn cô đã dạy con!'},{e:'😶',t:'Không nói gì cả'},{e:'🎯',t:'Ném quà và chạy đi'},{e:'🚪',t:'Để quà rồi bỏ đi'}] },
+    { q:'Con cảm thấy thế nào sau khi tặng quà cho cô?', c:0,
+      opts:[{e:'😄',t:'Rất vui và tự hào'},{e:'😢',t:'Buồn và tiếc nuối'},{e:'😨',t:'Sợ hãi'},{e:'😠',t:'Tức giận'}] },
+  ]},
 
-    // Âm thanh
-    let audioCtx = null;
-    function getAudio() {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        return audioCtx;
-    }
-    function playSound(freq, type, duration) {
-        try {
-            const ctx = getAudio();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = type;
-            osc.frequency.value = freq;
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start();
-            gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
-            osc.stop(ctx.currentTime + duration);
-        } catch(e) {}
-    }
+// ── THÁNG 12 ──
+{ id:10, cat:'t12', month:'Tháng 12', title:'Trang Phục Theo Thời Tiết', icon:'👗', qimg:'🌦️',
+  questions:[
+    { q:'Trời lạnh, con mặc áo nào?', c:0,
+      opts:[{e:'🧥',t:'Áo ấm, áo len dày'},{e:'👙',t:'Áo hai dây mỏng'},{e:'🩱',t:'Áo tắm'},{e:'🫡',t:'Áo không tay'}] },
+    { q:'Đi học, con mặc gì?', c:0,
+      opts:[{e:'👕',t:'Đồng phục trường'},{e:'😴',t:'Áo ngủ'},{e:'🏊',t:'Đồ đi tắm biển'},{e:'🌧️',t:'Áo mưa'}] },
+    { q:'Hôm nay trời mưa – con cần thêm gì khi ra ngoài?', c:0,
+      opts:[{e:'☂️',t:'Áo mưa hoặc ô dù'},{e:'🩴',t:'Dép tông bình thường'},{e:'😎',t:'Không cần gì thêm'},{e:'🧣',t:'Áo len dày'}] },
+    { q:'Mùa hè mặc áo màu nào mát hơn?', c:0,
+      opts:[{e:'🤍',t:'Màu trắng hoặc sáng'},{e:'🖤',t:'Màu đen'},{e:'🔴',t:'Màu đỏ đậm'},{e:'🤔',t:'Màu nào cũng như nhau'}] },
+    { q:'Áo bị ướt mưa, con làm gì?', c:0,
+      opts:[{e:'👕',t:'Thay áo khô và phơi áo ướt'},{e:'😓',t:'Mặc nguyên đến khi khô'},{e:'💦',t:'Vắt áo rồi mặc lại'},{e:'🗑️',t:'Bỏ áo đi luôn'}] },
+  ]},
 
-    function initMenu() { renderMenu('all'); updateStats(); }
+{ id:11, cat:'t12', month:'Tháng 12', title:'Kéo Khóa & Cài Cúc', icon:'🔗', qimg:'👚',
+  questions:[
+    { q:'Để kéo khóa áo đúng cách, đầu tiên bé làm gì?', c:0,
+      opts:[{e:'🔗',t:'Cài đầu khóa vào chốt cho khớp'},{e:'💪',t:'Kéo mạnh một phát'},{e:'✂️',t:'Dùng kéo cắt khóa'},{e:'🆘',t:'Nhờ người khác làm hộ'}] },
+    { q:'Cúc bấm được cài đúng cách như thế nào?', c:1,
+      opts:[{e:'🔨',t:'Đập mạnh cho vào'},{e:'👆',t:'Ấn đều hai nửa cúc vào nhau'},{e:'🪡',t:'Dùng kim may lại'},{e:'🤷',t:'Không cần cài'}] },
+  ]},
 
-    function updateStats() {
-        let totalStars = 0, completed = 0;
-        Object.values(userProgress).forEach(l => { totalStars += (l.stars || 0); if (l.stars > 0) completed++; });
-        document.getElementById('total-stars').innerText = totalStars;
-        document.getElementById('completed-count').innerText = completed;
-    }
+{ id:12, cat:'t12', month:'Tháng 12', title:'Gấp Quần Áo', icon:'👔', qimg:'🧺',
+  questions:[
+    { q:'Trước khi gấp, cần làm gì để quần áo phẳng phiu?', c:0,
+      opts:[{e:'🔥',t:'Phơi khô và kéo thẳng trước'},{e:'💦',t:'Làm ướt lại'},{e:'✂️',t:'Cắt bớt'},{e:'🤷',t:'Không cần làm gì'}] },
+    { q:'Để gấp áo có khuy, bước đầu tiên là gì?', c:0,
+      opts:[{e:'🔗',t:'Cài hết các khuy trước'},{e:'✂️',t:'Cắt bỏ khuy'},{e:'🙈',t:'Bỏ qua khuy'},{e:'🏃',t:'Gấp thật nhanh không cần cài'}] },
+    { q:'Quần áo đã gấp xong, bé nên để ở đâu?', c:0,
+      opts:[{e:'🗄️',t:'Tủ quần áo đúng chỗ'},{e:'🛏️',t:'Trên giường'},{e:'🪑',t:'Trên sàn nhà'},{e:'🚪',t:'Sau cánh cửa'}] },
+  ]},
 
-    function renderMenu(cat) {
-        const list = document.getElementById('menu-list');
-        list.innerHTML = '';
-        const filtered = cat === 'all' ? lessons : lessons.filter(l => l.cat === cat);
-        filtered.forEach(l => {
-            const progress = userProgress[l.id] || { stars: 0 };
-            const card = document.createElement('div');
-            card.className = 'lesson-card';
-            card.innerHTML = `
-                ${progress.stars > 0 ? '<span class="badge-done">✅</span>' : ''}
-                <div class="icon">${l.icon}</div>
-                <h3>${l.title}</h3>
-                <div class="month-tag">${l.month}</div>
-                <div class="stars-display">${'⭐'.repeat(progress.stars)}</div>
-            `;
-            card.onclick = () => startLesson(l);
-            list.appendChild(card);
-        });
-    }
+{ id:13, cat:'t12', month:'Tháng 12', title:'Chú Bộ Đội Tí Hon 22/12', icon:'⭐', qimg:'🪖',
+  questions:[
+    { q:'Ngày 22/12 là ngày gì?', c:0,
+      opts:[{e:'🇻🇳',t:'Ngày thành lập Quân đội nhân dân VN'},{e:'🎉',t:'Ngày Quốc Khánh 2/9'},{e:'👩‍🏫',t:'Ngày Nhà giáo 20/11'},{e:'🧒',t:'Ngày Quốc tế Thiếu nhi'}] },
+    { q:'Chú bộ đội làm công việc gì?', c:0,
+      opts:[{e:'🛡️',t:'Bảo vệ Tổ quốc và giúp dân'},{e:'🪖',t:'Chỉ đứng gác thôi'},{e:'🌾',t:'Làm ruộng mỗi ngày'},{e:'🛒',t:'Đi chợ mua đồ'}] },
+    { q:'Chú bộ đội cần phẩm chất gì?', c:0,
+      opts:[{e:'💪',t:'Dũng cảm và kỷ luật'},{e:'😴',t:'Lười biếng'},{e:'😨',t:'Hay sợ hãi'},{e:'🤪',t:'Không kỷ luật'}] },
+    { q:'Ngoài bộ đội, còn nghề nào bảo vệ bình yên cho chúng ta?', c:0,
+      opts:[{e:'👮',t:'Cảnh sát và cứu hỏa'},{e:'👨‍🍳',t:'Đầu bếp'},{e:'🎨',t:'Họa sĩ'},{e:'🎤',t:'Ca sĩ'}] },
+  ]},
 
-    function filterCat(cat, btn) {
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderMenu(cat);
-        playSound(440, 'sine', 0.1);
-    }
+// ── THÁNG 1 ──
+{ id:14, cat:'t1', month:'Tháng 1', title:'Kỹ Năng Đan Tết', icon:'🧶', qimg:'🪡',
+  questions:[
+    { q:'Đan nong mốt khác đan nong đôi như thế nào?', c:0,
+      opts:[{e:'🧺',t:'Khác nhau ở cách đan 1 hoặc 2 ô'},{e:'🎨',t:'Chỉ khác màu sắc'},{e:'📏',t:'Chỉ khác kích thước'},{e:'🤷',t:'Giống hệt nhau'}] },
+    { q:'Nguyên liệu nào KHÔNG thể đan được?', c:0,
+      opts:[{e:'🪨',t:'Đá cứng'},{e:'🌾',t:'Sợi rơm'},{e:'🎋',t:'Tre mỏng'},{e:'📄',t:'Giấy cứng'}] },
+    { q:'Sản phẩm thủ công dùng để làm gì?', c:0,
+      opts:[{e:'🎀',t:'Trang trí và sử dụng hàng ngày'},{e:'👀',t:'Chỉ để ngắm'},{e:'🗑️',t:'Vứt đi sau khi làm'},{e:'💰',t:'Bán đắt tiền'}] },
+  ]},
 
-    function startLesson(l) {
-        currentL = l;
-        currentQIdx = 0;
-        score = 0;
-        answered = false;
-        document.getElementById('home-screen').style.display = 'none';
-        document.getElementById('result-screen').style.display = 'none';
-        document.getElementById('quiz-screen').style.display = 'block';
-        showQ();
-    }
+{ id:15, cat:'t1', month:'Tháng 1', title:'Vắt Nước Cam', icon:'🍊', qimg:'🥤',
+  questions:[
+    { q:'Quả cam có vị gì?', c:0,
+      opts:[{e:'😋',t:'Ngọt chua mát'},{e:'🌶️',t:'Cay sè'},{e:'😖',t:'Đắng ngắt'},{e:'🧂',t:'Mặn chát'}] },
+    { q:'Dùng gì để vắt cam?', c:1,
+      opts:[{e:'🥄',t:'Thìa kim loại'},{e:'🍊',t:'Máy vắt cam'},{e:'🔨',t:'Búa gõ'},{e:'✂️',t:'Kéo cắt'}] },
+    { q:'Trước khi vắt cam, cần làm gì?', c:0,
+      opts:[{e:'🧼',t:'Rửa sạch cam và tay'},{e:'🔪',t:'Cắt cam ngay'},{e:'🎉',t:'Lắc cam thật mạnh'},{e:'❄️',t:'Để vào tủ lạnh'}] },
+  ]},
 
-    function showQ() {
-        answered = false;
-        const q = currentL.questions[currentQIdx];
-        const total = currentL.questions.length;
-        document.getElementById('progress-text').innerText = `Câu ${currentQIdx + 1} / ${total}`;
-        document.getElementById('progress-bar').style.width = ((currentQIdx / total) * 100) + '%';
-        document.getElementById('question-text').innerText = q.q;
-        document.getElementById('q-img').innerText = currentL.q_img;
-        document.getElementById('feedback').innerText = '';
+{ id:16, cat:'t1', month:'Tháng 1', title:'Chăm Sóc Con Vật Nuôi', icon:'🐾', qimg:'🐰',
+  questions:[
+    { q:'Con vật nuôi cần được chăm sóc những gì mỗi ngày?', c:0,
+      opts:[{e:'🥕',t:'Cho ăn, uống nước và vệ sinh'},{e:'🍬',t:'Chỉ cho kẹo'},{e:'🙈',t:'Không cần chăm sóc'},{e:'🛁',t:'Chỉ tắm rửa'}] },
+    { q:'Dấu hiệu nào cho thấy con vật đang khỏe mạnh?', c:0,
+      opts:[{e:'🐇',t:'Hoạt bát, ăn uống bình thường'},{e:'😴',t:'Nằm im không nhúc nhích'},{e:'🚫',t:'Bỏ ăn nhiều ngày'},{e:'💔',t:'Lông xơ xác rụng nhiều'}] },
+    { q:'Sau khi chạm vào con vật, con cần làm gì?', c:0,
+      opts:[{e:'🧼',t:'Rửa tay bằng xà phòng ngay'},{e:'🤷',t:'Không cần làm gì'},{e:'👖',t:'Lau tay vào quần'},{e:'🍕',t:'Tiếp tục ăn uống ngay'}] },
+  ]},
 
-        const container = document.getElementById('options-container');
-        container.innerHTML = '';
-        q.opts.forEach((o, i) => {
-            const btn = document.createElement('button');
-            btn.className = 'opt-btn';
-            btn.id = `opt-${i}`;
-            btn.innerHTML = `<span class="num">${i + 1}</span> ${o}`;
-            btn.onclick = () => checkAns(i);
-            container.appendChild(btn);
-        });
-        speak(q.q);
-    }
+{ id:17, cat:'t1', month:'Tháng 1', title:'Đánh Chiêng Mường', icon:'🥁', qimg:'🎶',
+  questions:[
+    { q:'Chiêng của người Mường thường làm bằng chất liệu gì?', c:0,
+      opts:[{e:'🥉',t:'Đồng hoặc hợp kim'},{e:'🌲',t:'Gỗ cứng'},{e:'🪨',t:'Đá'},{e:'🎋',t:'Tre'}] },
+    { q:'Chiếc chiêng có hình dáng giống vật dụng nào?', c:0,
+      opts:[{e:'🍳',t:'Mặt tròn như cái chảo'},{e:'📦',t:'Hình hộp vuông'},{e:'🏺',t:'Cái bình cao'},{e:'🎀',t:'Hình nơ'}] },
+    { q:'Dùng gì để đánh chiêng?', c:0,
+      opts:[{e:'🪵',t:'Dùi gỗ bọc vải mềm'},{e:'🔨',t:'Búa sắt nặng'},{e:'✋',t:'Tay không'},{e:'✏️',t:'Bút chì'}] },
+    { q:'Tiếng chiêng thường vang lên vào những dịp nào?', c:0,
+      opts:[{e:'🎊',t:'Lễ hội, Tết và ngày vui'},{e:'😴',t:'Khi mọi người ngủ'},{e:'😢',t:'Khi bé khóc'},{e:'🌧️',t:'Khi trời mưa'}] },
+  ]},
 
-    function checkAns(i) {
-        if (answered) return;
-        answered = true;
-        const q = currentL.questions[currentQIdx];
-        const fb = document.getElementById('feedback');
+// ── THÁNG 2 ──
+{ id:18, cat:'t2', month:'Tháng 2', title:'Trồng Cây & Chăm Cây', icon:'🌱', qimg:'☀️',
+  questions:[
+    { q:'Cây cần gì để lớn?', c:0,
+      opts:[{e:'🌿',t:'Nước, ánh sáng, đất và không khí'},{e:'💧',t:'Chỉ cần nước'},{e:'🍬',t:'Kẹo và bánh'},{e:'🎵',t:'Nhạc và phim'}] },
+    { q:'Lá cây màu xanh vì sao?', c:0,
+      opts:[{e:'🍃',t:'Vì có chất diệp lục chlorophyll'},{e:'🖌️',t:'Vì được sơn màu xanh'},{e:'🌤️',t:'Vì trời xanh chiếu vào'},{e:'🤷',t:'Không ai biết'}] },
+    { q:'Rễ cây có nhiệm vụ gì?', c:0,
+      opts:[{e:'🌍',t:'Hút nước và chất dinh dưỡng từ đất'},{e:'💄',t:'Làm đẹp cho cây'},{e:'🌬️',t:'Tạo ra oxy'},{e:'🌪️',t:'Chống gió bão'}] },
+    { q:'Tại sao phải tưới nước cây mỗi ngày?', c:0,
+      opts:[{e:'💧',t:'Để cây không bị héo và khỏe mạnh'},{e:'🎭',t:'Vì thích tưới'},{e:'🌊',t:'Để đất bị ướt sũng'},{e:'🤷',t:'Không cần tưới mỗi ngày'}] },
+  ]},
 
-        // Đổi màu các nút
-        document.querySelectorAll('.opt-btn').forEach((btn, idx) => {
-            btn.onclick = null;
-            if (idx === q.c) btn.classList.add('correct-ans');
-            else if (idx === i && i !== q.c) btn.classList.add('wrong-ans');
-        });
+{ id:19, cat:'t2', month:'Tháng 2', title:'Gói Bánh Chưng, Cơm Lam', icon:'🟩', qimg:'🎋',
+  questions:[
+    { q:'Để gói bánh chưng xanh mướt, cần dùng loại lá gì?', c:0,
+      opts:[{e:'🍃',t:'Lá dong hoặc lá chuối'},{e:'🍀',t:'Lá cỏ'},{e:'🌹',t:'Lá hoa hồng'},{e:'🎋',t:'Lá tre'}] },
+    { q:'Bên trong bánh chưng có những nguyên liệu nào?', c:0,
+      opts:[{e:'🌾',t:'Gạo nếp, đậu xanh và thịt heo'},{e:'🍬',t:'Đường và sữa'},{e:'🥕',t:'Cà rốt và khoai'},{e:'🍅',t:'Cà chua và hành'}] },
+    { q:'Chiếc bánh chưng có hình dạng giống hình gì?', c:0,
+      opts:[{e:'🟩',t:'Hình vuông'},{e:'⭕',t:'Hình tròn'},{e:'🔺',t:'Hình tam giác'},{e:'🟦',t:'Hình chữ nhật dài'}] },
+  ]},
 
-        if (i === q.c) {
-            score++;
-            fb.innerText = '✅ ĐÚNG RỒI! GIỎI QUÁ! ⭐';
-            fb.style.color = '#2ecc71';
-            playSound(880, 'sine', 0.3);
-            speak('Đúng rồi, bé giỏi quá');
-        } else {
-            fb.innerText = '💡 Đáp án đúng đã được tô xanh nhé!';
-            fb.style.color = '#e67e22';
-            playSound(200, 'sawtooth', 0.3);
-            speak('Bé xem lại đáp án đúng nhé');
-        }
+{ id:20, cat:'t2', month:'Tháng 2', title:'Vui Đón Tết Nguyên Đán', icon:'🧧', qimg:'🎊',
+  questions:[
+    { q:'Tết Nguyên Đán thường diễn ra vào tháng mấy?', c:0,
+      opts:[{e:'🌙',t:'Tháng 1 hoặc 2 âm lịch'},{e:'☀️',t:'Tháng 6'},{e:'🍂',t:'Tháng 9'},{e:'❄️',t:'Tháng 12'}] },
+    { q:'Cây gì là biểu tượng ngày Tết?', c:0,
+      opts:[{e:'🌸',t:'Cây đào và cây mai'},{e:'🌵',t:'Cây xương rồng'},{e:'🌲',t:'Cây thông'},{e:'🥥',t:'Cây dừa'}] },
+    { q:'Mọi người mặc áo mới ngày Tết để làm gì?', c:0,
+      opts:[{e:'🎋',t:'Đón năm mới may mắn, tươi vui'},{e:'😔',t:'Vì áo cũ bị rách'},{e:'👗',t:'Vì thích mặc đẹp thôi'},{e:'🤷',t:'Không có lý do'}] },
+    { q:'Bánh chưng được làm từ nguyên liệu gì?', c:0,
+      opts:[{e:'🌾',t:'Gạo nếp, đậu xanh, thịt và lá dong'},{e:'🍞',t:'Bột mì và trứng'},{e:'🍚',t:'Gạo tẻ và muối'},{e:'🥔',t:'Khoai và sắn'}] },
+  ]},
 
-        setTimeout(() => {
-            currentQIdx++;
-            if (currentQIdx < currentL.questions.length) showQ();
-            else showResult();
-        }, 1800);
-    }
+// ── THÁNG 3 ──
+{ id:21, cat:'t3', month:'Tháng 3', title:'Sữa Chua Dầm Hoa Quả', icon:'🍓', qimg:'🥣',
+  questions:[
+    { q:'Sữa chua được làm từ gì?', c:0,
+      opts:[{e:'🐄',t:'Sữa tươi lên men'},{e:'💧',t:'Nước lọc và đường'},{e:'🌾',t:'Bột mì'},{e:'🍊',t:'Nước ép hoa quả'}] },
+    { q:'Ăn sữa chua có lợi gì cho sức khỏe?', c:0,
+      opts:[{e:'💪',t:'Tốt cho tiêu hóa và xương chắc khỏe'},{e:'🤷',t:'Không có lợi ích gì'},{e:'🍩',t:'Chỉ làm béo'},{e:'😣',t:'Gây đau bụng'}] },
+    { q:'Vì sao cần rửa tay sạch trước khi làm thức ăn?', c:0,
+      opts:[{e:'🧼',t:'Để không có vi khuẩn lây vào thức ăn'},{e:'💅',t:'Vì tay bẩn nhìn xấu'},{e:'📖',t:'Vì được dạy như vậy'},{e:'🤷',t:'Không cần rửa'}] },
+    { q:'Sữa chua cần để ở đâu để bảo quản?', c:0,
+      opts:[{e:'❄️',t:'Trong tủ lạnh'},{e:'🌡️',t:'Trên bàn phòng ấm'},{e:'☀️',t:'Dưới nắng mặt trời'},{e:'🎒',t:'Trong túi kín'}] },
+  ]},
 
-    function showResult() {
-        document.getElementById('quiz-screen').style.display = 'none';
-        document.getElementById('result-screen').style.display = 'block';
+{ id:22, cat:'t3', month:'Tháng 3', title:'Ngày 8/3 Yêu Thương', icon:'🌹', qimg:'💐',
+  questions:[
+    { q:'Ngày 8/3 là ngày hội của ai?', c:0,
+      opts:[{e:'👩',t:'Phụ nữ và các bé gái'},{e:'👦',t:'Các bé trai'},{e:'👴',t:'Người cao tuổi'},{e:'👨‍🏫',t:'Thầy giáo'}] },
+    { q:'Trong ngày 8/3, bé thường làm gì để tặng mẹ?', c:0,
+      opts:[{e:'🌸',t:'Làm thiệp hoặc tặng hoa'},{e:'🏃',t:'Đi chơi một mình'},{e:'📺',t:'Xem tivi cả ngày'},{e:'😴',t:'Ngủ cả ngày'}] },
+    { q:'Con muốn nói gì với mẹ trong ngày 8/3?', c:0,
+      opts:[{e:'❤️',t:'Con yêu mẹ rất nhiều!'},{e:'😐',t:'Bình thường thôi'},{e:'🎯',t:'Không nói gì'},{e:'😢',t:'Con buồn lắm'}] },
+  ]},
 
-        const totalQ = currentL.questions.length;
-        const pct = score / totalQ;
-        const starCount = pct === 1 ? 3 : pct >= 0.6 ? 2 : 1;
+{ id:23, cat:'t3', month:'Tháng 3', title:'Đội Mũ Bảo Hiểm Đúng Cách', icon:'⛑️', qimg:'🏍️',
+  questions:[
+    { q:'Mũ bảo hiểm dùng để làm gì?', c:0,
+      opts:[{e:'🛡️',t:'Bảo vệ đầu khi có tai nạn'},{e:'💄',t:'Để trông đẹp hơn'},{e:'☂️',t:'Che nắng che mưa'},{e:'🎭',t:'Để đội cho vui'}] },
+    { q:'Ai cần đội mũ bảo hiểm khi đi xe?', c:2,
+      opts:[{e:'👨',t:'Chỉ người lớn'},{e:'🧒',t:'Chỉ trẻ em'},{e:'👨‍👩‍👧',t:'Tất cả mọi người'},{e:'🤷',t:'Không ai cần'}] },
+    { q:'Quai mũ cài đúng cách là thế nào?', c:0,
+      opts:[{e:'😊',t:'Cài dưới cằm, vừa khít'},{e:'😅',t:'Để lỏng lẻo'},{e:'🙈',t:'Không cần cài quai'},{e:'😬',t:'Cài sang bên má'}] },
+    { q:'Mũ bảo hiểm quá to hoặc quá nhỏ có an toàn không?', c:1,
+      opts:[{e:'✅',t:'Vẫn an toàn bình thường'},{e:'❌',t:'Không an toàn, cần chọn mũ vừa đầu'},{e:'🤷',t:'Không quan trọng'},{e:'😴',t:'Chỉ cần đội là được'}] },
+  ]},
 
-        if (!userProgress[currentL.id] || (userProgress[currentL.id].stars || 0) < starCount) {
-            userProgress[currentL.id] = { stars: starCount };
-            try { localStorage.setItem('mamnon_v2', JSON.stringify(userProgress)); } catch(e) {}
-        }
+// ── THÁNG 4 ──
+{ id:24, cat:'t4', month:'Tháng 4', title:'Bánh Trôi Tết Hàn Thực', icon:'🍡', qimg:'🥣',
+  questions:[
+    { q:'Tết Hàn Thực diễn ra vào ngày mấy tháng mấy âm lịch?', c:0,
+      opts:[{e:'🌸',t:'Ngày 3 tháng 3'},{e:'🎊',t:'Ngày 1 tháng 1'},{e:'🏮',t:'Ngày 15 tháng 8'},{e:'🎋',t:'Ngày 5 tháng 5'}] },
+    { q:'Bánh trôi được làm từ nguyên liệu chính gì?', c:0,
+      opts:[{e:'🤍',t:'Bột nếp và đường'},{e:'🌾',t:'Bột mì và trứng'},{e:'🍚',t:'Gạo tẻ và muối'},{e:'🥔',t:'Khoai và sắn'}] },
+    { q:'Nhân bánh trôi thường làm từ gì?', c:0,
+      opts:[{e:'🍬',t:'Đường phên đường đen'},{e:'🥩',t:'Thịt heo'},{e:'🫛',t:'Đậu xanh'},{e:'🍓',t:'Mứt hoa quả'}] },
+    { q:'Bánh trôi nổi lên khi chín vì sao?', c:0,
+      opts:[{e:'🫧',t:'Bên trong có khí, nhẹ hơn nước'},{e:'🧲',t:'Vì bánh rất nhỏ'},{e:'🌊',t:'Vì nước sôi đẩy lên'},{e:'🛢️',t:'Vì thêm dầu ăn'}] },
+    { q:'Bánh trôi ăn cùng với gì?', c:0,
+      opts:[{e:'♨️',t:'Nước gừng ấm hoặc mè đen'},{e:'🍊',t:'Nước cam'},{e:'🧊',t:'Nước đá lạnh'},{e:'🥛',t:'Sữa tươi'}] },
+  ]},
 
-        const titles = ['', 'Cố lên bé nhé! 💪', 'BÉ GIỎI LẮM! 🌟', 'XUẤT SẮC! 🏆'];
-        const trophies = ['', '🌱', '🥈', '🏆'];
-        document.getElementById('trophy-icon').innerText = trophies[starCount];
-        document.getElementById('result-title').innerText = titles[starCount];
-        document.getElementById('result-stars').innerText = '⭐'.repeat(starCount);
-        document.getElementById('result-msg').innerText = `Bé đã trả lời đúng ${score}/${totalQ} câu hỏi!`;
+{ id:25, cat:'t4', month:'Tháng 4', title:'Thí Nghiệm Tan – Không Tan', icon:'🧪', qimg:'🌊',
+  questions:[
+    { q:'Chất nào tan được trong nước?', c:0,
+      opts:[{e:'🍬',t:'Đường và muối'},{e:'🫙',t:'Dầu ăn'},{e:'🏖️',t:'Cát và sỏi'},{e:'🪨',t:'Đá cuội'}] },
+    { q:'Vì sao đường tan trong nước nóng nhanh hơn?', c:0,
+      opts:[{e:'🔥',t:'Nhiệt độ cao làm phân tử chuyển động nhanh hơn'},{e:'😋',t:'Vì đường thích nước nóng'},{e:'🍭',t:'Vì nước nóng ngọt hơn'},{e:'🤷',t:'Không có lý do'}] },
+    { q:'Dầu ăn bỏ vào nước sẽ thế nào?', c:0,
+      opts:[{e:'⬆️',t:'Nổi lên trên, không tan'},{e:'💧',t:'Tan hoàn toàn'},{e:'⬇️',t:'Chìm xuống đáy'},{e:'✨',t:'Biến mất'}] },
+    { q:'Khi pha nước chanh đường, con làm gì để đường tan?', c:0,
+      opts:[{e:'🥄',t:'Khuấy đều'},{e:'🪴',t:'Đậy nắp lại'},{e:'🧂',t:'Thêm muối vào'},{e:'❄️',t:'Bỏ vào tủ lạnh'}] },
+  ]},
 
-        if (starCount === 3) {
-            spawnConfetti();
-            playSound(523.25, 'sine', 0.2);
-            setTimeout(() => playSound(659.25, 'sine', 0.2), 150);
-            setTimeout(() => playSound(783.99, 'sine', 0.4), 300);
-            speak('Chúc mừng bé đã hoàn thành xuất sắc');
-        }
-    }
+{ id:26, cat:'t4', month:'Tháng 4', title:'Thí Nghiệm Chìm – Nổi', icon:'🚢', qimg:'💧',
+  questions:[
+    { q:'Vật nào sẽ CHÌM trong nước?', c:0,
+      opts:[{e:'🪨',t:'Đinh sắt và đá cuội'},{e:'🧴',t:'Chai nhựa rỗng'},{e:'🌲',t:'Gỗ nhẹ'},{e:'🍃',t:'Lá cây'}] },
+    { q:'Tàu to nặng sao vẫn nổi trên mặt nước?', c:0,
+      opts:[{e:'🚢',t:'Vì có khoang rỗng bên trong, nhẹ hơn nước'},{e:'⚙️',t:'Vì làm bằng kim loại đặc biệt'},{e:'🚣',t:'Vì có mái chèo'},{e:'🌊',t:'Vì nước biển mặn'}] },
+    { q:'Quả cam để vào nước sẽ thế nào?', c:0,
+      opts:[{e:'🍊',t:'Nổi vì vỏ dày chứa khí'},{e:'⬇️',t:'Chìm ngay'},{e:'🔄',t:'Nổi một nửa'},{e:'🌊',t:'Tan ra'}] },
+    { q:'Ứng dụng của vật nổi trong cuộc sống là gì?', c:0,
+      opts:[{e:'🛟',t:'Áo phao cứu sinh và tàu thuyền'},{e:'❌',t:'Không có ứng dụng nào'},{e:'🧪',t:'Chỉ để thí nghiệm'},{e:'🍳',t:'Chỉ dùng trong bếp'}] },
+  ]},
 
-    function goHome() {
-        document.getElementById('result-screen').style.display = 'none';
-        document.getElementById('quiz-screen').style.display = 'none';
-        document.getElementById('home-screen').style.display = 'block';
-        initMenu();
-    }
+{ id:27, cat:'t4', month:'Tháng 4', title:'Ngắt Rau & Chuẩn Bị Rau Ăn', icon:'🥬', qimg:'🫱',
+  questions:[
+    { q:'Vì sao cần rửa rau trước khi ăn?', c:0,
+      opts:[{e:'🌿',t:'Loại bỏ bụi bẩn và thuốc trừ sâu'},{e:'💧',t:'Vì thích nước'},{e:'🍽️',t:'Để rau mềm hơn'},{e:'🤷',t:'Không cần lý do'}] },
+    { q:'Ăn rau có lợi gì cho sức khỏe?', c:0,
+      opts:[{e:'💚',t:'Cung cấp vitamin và chất xơ'},{e:'❌',t:'Không có lợi ích gì'},{e:'😋',t:'Chỉ làm ngon miệng'},{e:'😣',t:'Gây béo phì'}] },
+    { q:'Loại rau nào KHÔNG cần ngắt?', c:0,
+      opts:[{e:'🥗',t:'Rau nguyên lá như xà lách'},{e:'🌿',t:'Rau muống'},{e:'🧅',t:'Hành lá'},{e:'🤷',t:'Tất cả đều cần ngắt'}] },
+  ]},
 
-    function speak(txt) {
-        try {
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(txt);
-            u.lang = 'vi-VN';
-            u.rate = 0.85;
-            window.speechSynthesis.speak(u);
-        } catch(e) {}
-    }
+// ── THÁNG 5 ──
+{ id:28, cat:'t5', month:'Tháng 5', title:'Làm Phở Cuốn Hà Nội', icon:'🍜', qimg:'🥢',
+  questions:[
+    { q:'Phở cuốn là đặc sản nổi tiếng của thành phố nào?', c:0,
+      opts:[{e:'🏙️',t:'Hà Nội'},{e:'🌆',t:'TP Hồ Chí Minh'},{e:'🏖️',t:'Đà Nẵng'},{e:'🏯',t:'Huế'}] },
+    { q:'Nguyên liệu chính không thể thiếu trong phở cuốn là gì?', c:0,
+      opts:[{e:'🥩',t:'Bánh phở và thịt bò tươi'},{e:'🍜',t:'Mì tôm và trứng'},{e:'🐟',t:'Bún và cá'},{e:'🍚',t:'Cơm và rau'}] },
+    { q:'Khi làm phở cuốn, bé cần chú ý điều gì về vệ sinh?', c:0,
+      opts:[{e:'🧼',t:'Rửa tay sạch và rửa rau kỹ'},{e:'🤷',t:'Không cần chú ý gì'},{e:'🖐️',t:'Chỉ rửa tay'},{e:'🥗',t:'Chỉ rửa rau'}] },
+    { q:'Nước chấm phở cuốn thường được làm từ gì?', c:0,
+      opts:[{e:'🥜',t:'Tương hoisin và lạc rang'},{e:'🐟',t:'Nước mắm và ớt'},{e:'🍅',t:'Tương cà chua'},{e:'🫙',t:'Dầu mè và muối'}] },
+  ]},
 
-    function spawnConfetti() {
-        for (let i = 0; i < 50; i++) {
-            const c = document.createElement('div');
-            c.className = 'confetti';
-            c.style.left = Math.random() * 100 + 'vw';
-            c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-            c.style.backgroundColor = ['#ff6b6b', '#4ecdc4', '#feca57', '#a29bfe', '#2ecc71'][Math.floor(Math.random() * 5)];
-            c.style.transform = `rotate(${Math.random() * 360}deg)`;
-            document.body.appendChild(c);
-            const animation = c.animate([
-                { top: '-10px', opacity: 1 },
-                { top: '100vh', opacity: 0, transform: `rotate(${Math.random() * 720}deg)` }
-            ], { duration: 2000 + Math.random() * 3000, easing: 'cubic-bezier(0,1,1,1)' });
-            animation.onfinish = () => c.remove();
-        }
-    }
+{ id:29, cat:'t5', month:'Tháng 5', title:'Kỹ Năng Tránh Hỏa Hoạn', icon:'🔥', qimg:'🧯',
+  questions:[
+    { q:'Khi phát hiện có khói hoặc lửa, việc đầu tiên bé cần làm là gì?', c:0,
+      opts:[{e:'📢',t:'Hô to và gọi người lớn ngay'},{e:'💧',t:'Chạy tìm nước'},{e:'👀',t:'Đứng xem'},{e:'🎮',t:'Tiếp tục chơi'}] },
+    { q:'Khi có hỏa hoạn và phòng có nhiều khói, bé di chuyển thế nào?', c:0,
+      opts:[{e:'🦺',t:'Cúi thấp và bò dưới khói'},{e:'🏃',t:'Đứng thẳng chạy nhanh'},{e:'🔥',t:'Nhảy qua lửa'},{e:'🗄️',t:'Trốn vào tủ'}] },
+    { q:'Số điện thoại Cảnh sát Phòng cháy Chữa cháy VN là số nào?', c:1,
+      opts:[{e:'📞',t:'Số 113'},{e:'📞',t:'Số 114'},{e:'📞',t:'Số 115'},{e:'📞',t:'Số 111'}] },
+    { q:'Vật dụng nào có thể gây hỏa hoạn nếu bé dùng không cẩn thận?', c:0,
+      opts:[{e:'🔥',t:'Bật lửa và diêm'},{e:'📚',t:'Sách vở'},{e:'🧸',t:'Đồ chơi nhựa'},{e:'🥤',t:'Cốc nước'}] },
+  ]},
 
-    initMenu();
+{ id:30, cat:'t5', month:'Tháng 5', title:'Quản Lý Cảm Xúc', icon:'😊', qimg:'💭',
+  questions:[
+    { q:'Khi cảm thấy tức giận, cách nào giúp bé bình tĩnh lại tốt nhất?', c:0,
+      opts:[{e:'🌬️',t:'Hít thở sâu và đếm 1 đến 10'},{e:'😡',t:'La hét thật to'},{e:'👊',t:'Đánh bạn'},{e:'😭',t:'Khóc mãi không thôi'}] },
+    { q:'Bé đang buồn vì bị mất đồ chơi yêu thích. Bé nên làm gì?', c:0,
+      opts:[{e:'🗣️',t:'Nói với bố mẹ hoặc cô giáo'},{e:'😔',t:'Khóc một mình'},{e:'😈',t:'Lấy đồ chơi của bạn khác'},{e:'🙈',t:'Không làm gì cả'}] },
+    { q:'Nhận diện cảm xúc có nghĩa là gì?', c:0,
+      opts:[{e:'🧠',t:'Biết mình đang vui, buồn, sợ hay tức'},{e:'😐',t:'Không cảm thấy gì cả'},{e:'🎭',t:'Giả vờ vui khi buồn'},{e:'😴',t:'Không cần quan tâm'}] },
+    { q:'Khi thấy bạn cùng lớp đang buồn, bé nên làm gì?', c:0,
+      opts:[{e:'🤗',t:'Hỏi thăm và an ủi bạn'},{e:'🙈',t:'Giả vờ không thấy'},{e:'😂',t:'Cười nhạo bạn'},{e:'🏃',t:'Chạy đi chỗ khác'}] },
+  ]},
+
+{ id:31, cat:'t5', month:'Tháng 5', title:'Tham Quan Trường Tiểu Học', icon:'🏫', qimg:'🎒',
+  questions:[
+    { q:'Sau khi rời trường mầm non, bé sẽ tiếp tục học ở đâu?', c:0,
+      opts:[{e:'🏫',t:'Trường Tiểu học'},{e:'🏡',t:'Ở nhà'},{e:'🏕️',t:'Trại hè'},{e:'🛒',t:'Siêu thị'}] },
+    { q:'Ở trường tiểu học, đầu mỗi tuần thường bắt đầu bằng hoạt động gì?', c:0,
+      opts:[{e:'🇻🇳',t:'Chào cờ và sinh hoạt đầu tuần'},{e:'🎮',t:'Chơi game'},{e:'😴',t:'Ngủ thêm'},{e:'🍱',t:'Ăn sáng'}] },
+    { q:'Ở lớp 1, bé sẽ được học những môn nào?', c:0,
+      opts:[{e:'📚',t:'Tiếng Việt, Toán, Tự nhiên xã hội'},{e:'🎸',t:'Chỉ học nhạc'},{e:'🏃',t:'Chỉ học thể dục'},{e:'🎨',t:'Chỉ học vẽ'}] },
+  ]},
+];
+
+// ════════════════════
+//  APP LOGIC
+// ════════════════════
+let prog={}, curL=null, qIdx=0, score=0, answered=false;
+try{ prog=JSON.parse(localStorage.getItem('mamnon_v4'))||{}; }catch(e){}
+
+const CATS=[
+  {id:'all',label:'🏠 Tất cả'},
+  {id:'t9', label:'📅 Tháng 9'},
+  {id:'t10',label:'📅 Tháng 10'},
+  {id:'t11',label:'📅 Tháng 11'},
+  {id:'t12',label:'📅 Tháng 12'},
+  {id:'t1', label:'📅 Tháng 1'},
+  {id:'t2', label:'📅 Tháng 2'},
+  {id:'t3', label:'📅 Tháng 3'},
+  {id:'t4', label:'📅 Tháng 4'},
+  {id:'t5', label:'📅 Tháng 5'},
+];
+
+// ── TTS ──
+let ttsQueue=[], ttsBusy=false;
+function speak(txt, cb){
+  ttsQueue.push({txt,cb});
+  if(!ttsBusy) nextSpeak();
+}
+function nextSpeak(){
+  if(!ttsQueue.length){ ttsBusy=false; return; }
+  ttsBusy=true;
+  const {txt,cb}=ttsQueue.shift();
+  try{ window.speechSynthesis.cancel(); }catch(e){}
+  const u=new SpeechSynthesisUtterance(txt);
+  u.lang='vi-VN'; u.rate=0.88;
+  u.onend=()=>{ if(cb)cb(); nextSpeak(); };
+  u.onerror=()=>{ if(cb)cb(); nextSpeak(); };
+  try{ window.speechSynthesis.speak(u); }catch(e){ if(cb)cb(); nextSpeak(); }
+}
+function speakNow(txt,cb){
+  ttsQueue=[];
+  try{ window.speechSynthesis.cancel(); }catch(e){}
+  ttsBusy=false;
+  speak(txt,cb);
+}
+
+// ── AUDIO ──
+let actx=null;
+function beep(freq,type,dur){
+  try{
+    if(!actx) actx=new(window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(),g=actx.createGain();
+    o.type=type; o.frequency.value=freq;
+    o.connect(g); g.connect(actx.destination);
+    o.start(); g.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+dur);
+    o.stop(actx.currentTime+dur);
+  }catch(e){}
+}
+
+// ── HOME ──
+function initHome(){
+  const tabs=document.getElementById('tabs');
+  tabs.innerHTML='';
+  CATS.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='tab'+(c.id==='all'?' on':'');
+    b.textContent=c.label;
+    b.onclick=()=>{
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      renderGrid(c.id);
+      beep(440,'sine',0.08);
+    };
+    tabs.appendChild(b);
+  });
+  renderGrid('all');
+  updateStats();
+}
+
+function updateStats(){
+  let stars=0,done=0;
+  Object.values(prog).forEach(p=>{ stars+=(p.stars||0); if(p.stars>0)done++; });
+  document.getElementById('st-stars').textContent=stars;
+  document.getElementById('st-done').textContent=done;
+  document.getElementById('st-total').textContent=lessons.length;
+}
+
+function renderGrid(cat){
+  const grid=document.getElementById('grid');
+  grid.innerHTML='';
+  const list=cat==='all'?lessons:lessons.filter(l=>l.cat===cat);
+  list.forEach(l=>{
+    const p=prog[l.id]||{stars:0};
+    const d=document.createElement('div');
+    d.className='card';
+    d.innerHTML=`
+      ${p.stars>0?'<span class="done-badge">✅</span>':''}
+      <div class="ico">${l.icon}</div>
+      <h3>${l.title}</h3>
+      <div class="mtag">${l.month}</div>
+      <div class="stars">${'⭐'.repeat(p.stars)}</div>`;
+    d.onclick=()=>startLesson(l);
+    grid.appendChild(d);
+  });
+}
+
+// ── QUIZ ──
+function startLesson(l){
+  curL=l; qIdx=0; score=0; answered=false;
+  document.getElementById('home').style.display='none';
+  document.getElementById('result').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  showQ();
+}
+
+function showQ(){
+  answered=false;
+  const q=curL.questions[qIdx];
+  const tot=curL.questions.length;
+  document.getElementById('plabel').textContent=`${qIdx+1}/${tot}`;
+  document.getElementById('pbar').style.width=((qIdx/tot)*100)+'%';
+  document.getElementById('qimg').textContent=curL.qimg;
+  document.getElementById('qtxt').textContent=q.q;
+  document.getElementById('feedback').textContent='';
+  document.getElementById('feedback').style.color='';
+
+  const container=document.getElementById('opts');
+  container.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt';
+    btn.dataset.idx=i;
+    btn.innerHTML=`<span class="opt-num">${i+1}</span><span class="opt-emoji">${o.e}</span><span class="opt-txt">${o.t}</span>`;
+    btn.onclick=()=>checkAns(i);
+    container.appendChild(btn);
+  });
+
+  // Đọc câu hỏi rồi lần lượt đọc các đáp án
+  let readTxt = q.q + '. ';
+  q.opts.forEach((o,i)=>{ readTxt += `Đáp án ${i+1}: ${o.t}. `; });
+  speakNow(readTxt);
+}
+
+function checkAns(i){
+  if(answered) return;
+  answered=true;
+  const q=curL.questions[qIdx];
+  const allBtns=[...document.querySelectorAll('.opt')];
+  allBtns.forEach(b=>{ b.onclick=null; b.style.pointerEvents='none'; });
+
+  if(i===q.c){
+    score++;
+    allBtns[i].classList.add('correct');
+    document.getElementById('feedback').textContent='✅ ĐÚNG RỒI! GIỎI QUÁ! ⭐';
+    document.getElementById('feedback').style.color='#00b894';
+    beep(880,'sine',0.25);
+    speakNow('Đúng rồi! Bé giỏi quá!', ()=>{
+      setTimeout(nextQ, 600);
+    });
+  } else {
+    allBtns[i].classList.add('wrong');
+    allBtns[q.c].classList.add('correct');
+    document.getElementById('feedback').textContent='💡 Đáp án đúng đã tô xanh nhé!';
+    document.getElementById('feedback').style.color='#e17055';
+    beep(200,'sawtooth',0.3);
+    speakNow('Chưa đúng rồi! Đáp án đúng là: '+q.opts[q.c].t, ()=>{
+      setTimeout(nextQ, 600);
+    });
+  }
+}
+
+function nextQ(){
+  qIdx++;
+  if(qIdx<curL.questions.length) showQ();
+  else showResult();
+}
+
+// ── RESULT ──
+function showResult(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('result').style.display='block';
+  const tot=curL.questions.length;
+  const pct=score/tot;
+  const s=pct===1?3:pct>=0.6?2:1;
+  if(!(prog[curL.id])||(prog[curL.id].stars||0)<s){
+    prog[curL.id]={stars:s};
+    try{ localStorage.setItem('mamnon_v4',JSON.stringify(prog)); }catch(e){}
+  }
+  const trophies=['','🌱','🥈','🏆'];
+  const titles =['','Cố lên bé nhé! 💪','Bé giỏi lắm! 🌟','Xuất sắc! 🏆'];
+  document.getElementById('r-trophy').textContent=trophies[s];
+  document.getElementById('r-title').textContent=titles[s];
+  document.getElementById('r-stars').textContent='⭐'.repeat(s);
+  document.getElementById('r-msg').textContent=`Bé trả lời đúng ${score}/${tot} câu hỏi!`;
+  if(s===3){
+    confetti();
+    beep(523,'sine',.2);
+    setTimeout(()=>beep(659,'sine',.2),150);
+    setTimeout(()=>beep(784,'sine',.4),300);
+    speakNow('Chúc mừng bé đã hoàn thành xuất sắc!');
+  } else {
+    speakNow(titles[s]);
+  }
+  updateStats();
+}
+
+function goHome(){
+  ttsQueue=[];
+  try{ window.speechSynthesis.cancel(); }catch(e){}
+  ttsBusy=false;
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('result').style.display='none';
+  document.getElementById('home').style.display='block';
+  initHome();
+}
+
+// ── CONFETTI ──
+function confetti(){
+  const colors=['#ff6b6b','#4ecdc4','#feca57','#a29bfe','#55efc4'];
+  for(let i=0;i<55;i++){
+    const c=document.createElement('div');
+    c.className='cf';
+    c.style.cssText=`left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'3px'};transform:rotate(${Math.random()*360}deg);`;
+    document.body.appendChild(c);
+    const a=c.animate([{top:'-10px',opacity:1},{top:'100vh',opacity:0,transform:`rotate(${Math.random()*720}deg)`}],
+      {duration:2200+Math.random()*3000,easing:'cubic-bezier(0,1,1,1)'});
+    a.onfinish=()=>c.remove();
+  }
+}
+
+initHome();
 </script>
 </body>
 </html>
