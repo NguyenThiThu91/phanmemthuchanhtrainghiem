@@ -1,752 +1,1890 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 Bé Trải Nghiệm Pro</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
-        :root {
-            --primary:#ff6b6b; --secondary:#4ecdc4; --accent:#feca57;
-            --purple:#a29bfe; --green:#55efc4; --bg:#f0f9ff; --dark:#2d3436;
-        }
-        *{ box-sizing:border-box; font-family:'Nunito',sans-serif; }
-        body{ background:var(--bg); margin:0; display:flex; justify-content:center; overflow-x:hidden; }
-        #app{ width:100%; max-width:480px; background:#fff; min-height:100vh;
-              box-shadow:0 0 40px rgba(0,0,0,.12); position:relative; padding-bottom:90px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🌈 Bé Học Vui – Mầm Non</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════ RESET & VARS ═══════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --c1:#FF6B6B;--c2:#4ECDC4;--c3:#FFD93D;--c4:#6BCB77;--c5:#FF922B;
+  --purple:#845EF7;--pink:#F783AC;--sky:#74C0FC;
+  --bg:#FFF9F0;--card:#FFFFFF;
+  --dark:#2C2C54;--mid:#636E72;--light:#B2BEC3;
+  --correct:#2ECC71;--wrong:#E74C3C;
+  --shadow:0 8px 32px rgba(0,0,0,.12);
+  --r:24px;--r2:16px;
+  font-size:16px;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Nunito',sans-serif;}
+body{display:flex;align-items:center;justify-content:center;}
 
-        /* HEADER */
-        .header{ background:linear-gradient(135deg,#ff6b6b,#ff9a3c);
-                 color:#fff; padding:28px 20px 40px; text-align:center;
-                 border-radius:0 0 50px 50px; }
-        .header h1{ margin:0; font-size:26px; letter-spacing:1px; }
-        .header p { margin:6px 0 0; font-size:14px; opacity:.85; }
+/* ═══════════════════ SCREENS ═══════════════════ */
+.screen{
+  position:fixed;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:0;overflow:hidden;z-index:1;
+  transition:opacity .35s,transform .35s;
+}
+.screen.hidden{opacity:0;pointer-events:none;transform:scale(.97);}
 
-        /* STATS */
-        .stats{ display:flex; justify-content:space-around; padding:14px 16px;
-                background:#fff; margin:-22px 18px 0; border-radius:20px;
-                box-shadow:0 8px 24px rgba(0,0,0,.08); }
-        .stat{ text-align:center; font-weight:900; }
-        .stat span{ display:block; font-size:22px; color:var(--primary); }
-        .stat small{ font-size:11px; color:#888; }
+/* ═══════════════════ BUBBLES BG ═══════════════════ */
+.bubbles{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+.bubble{position:absolute;border-radius:50%;opacity:.13;animation:rise linear infinite;}
+@keyframes rise{from{transform:translateY(110vh) scale(1)}to{transform:translateY(-10vh) scale(1.1)}}
 
-        /* TABS */
-        .tabs{ display:flex; overflow-x:auto; padding:18px 16px 6px; gap:8px; scrollbar-width:none; }
-        .tabs::-webkit-scrollbar{ display:none; }
-        .tab{ padding:7px 16px; border-radius:50px; border:2px solid #e0e0e0;
-              background:#fff; white-space:nowrap; cursor:pointer; font-weight:700;
-              font-size:13px; transition:.2s; }
-        .tab.on{ background:var(--secondary); color:#fff; border-color:var(--secondary); }
+/* ═══════════════════ WRAPPER ═══════════════════ */
+.app-wrap{
+  position:relative;z-index:1;
+  width:100vw;height:100vh;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
 
-        /* GRID */
-        .grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:14px 16px; }
-        .card{ background:#fff; border:3px solid #f0f0f0; border-radius:24px;
-               padding:16px 12px; text-align:center; cursor:pointer; transition:.25s; position:relative; }
-        .card:hover{ transform:translateY(-4px); border-color:var(--secondary); box-shadow:0 8px 20px rgba(78,205,196,.2); }
-        .card .ico { font-size:44px; margin-bottom:8px; }
-        .card h3   { margin:0; font-size:13px; color:#444; line-height:1.35; }
-        .card .mtag{ font-size:10px; color:#bbb; margin-top:3px; }
-        .card .stars{ color:var(--accent); font-size:13px; margin-top:4px; min-height:18px; }
-        .done-badge{ position:absolute; top:6px; right:8px; font-size:16px; }
+/* ═══════════════════ LANDING ═══════════════════ */
+#s-landing{
+  background:linear-gradient(160deg,#667eea 0%,#764ba2 40%,#FF6B6B 80%,#FFD93D 100%);
+  flex-direction:column;gap:0;
+}
+.land-cloud{
+  position:absolute;width:200px;height:80px;background:#fff;border-radius:60px;opacity:.15;
+}
+.land-cloud::before,.land-cloud::after{content:'';position:absolute;background:#fff;border-radius:50%;}
+.land-cloud::before{width:100px;height:100px;top:-40px;left:30px;}
+.land-cloud::after{width:70px;height:70px;top:-25px;left:90px;}
+.land-cloud.c2{width:150px;height:60px;right:5%;top:15%;opacity:.1;}
+.land-cloud.c3{width:120px;height:50px;left:8%;bottom:25%;opacity:.08;}
 
-        /* QUIZ */
-        #quiz{ display:none; padding:16px; animation:fadeIn .4s; }
-        .qheader{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
-        .btn-back{ background:none; border:none; font-size:28px; cursor:pointer; padding:0; }
-        .prog-wrap{ flex:1; background:#eee; border-radius:20px; height:10px; }
-        .prog-fill{ background:linear-gradient(90deg,var(--secondary),var(--primary));
-                    height:10px; border-radius:20px; transition:width .4s; }
-        .prog-label{ font-size:12px; color:#999; font-weight:700; white-space:nowrap; }
+.land-mascot{font-size:clamp(100px,20vw,160px);animation:bounce 2s ease-in-out infinite;user-select:none;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
 
-        .q-card{ background:linear-gradient(135deg,#fff9e6,#fff3f3); padding:20px;
-                 border-radius:28px; border:3px dashed var(--accent); margin-bottom:14px;
-                 text-align:center; }
-        .q-img { font-size:60px; display:block; margin-bottom:8px; }
-        .q-text{ margin:0; color:var(--dark); font-size:17px; line-height:1.45; font-weight:900; }
+.land-title{
+  font-family:'Baloo 2',sans-serif;
+  font-size:clamp(32px,8vw,64px);
+  font-weight:800;color:#fff;
+  text-shadow:0 4px 20px rgba(0,0,0,.25);
+  text-align:center;line-height:1.1;
+  padding:0 20px;
+}
+.land-sub{color:rgba(255,255,255,.85);font-size:clamp(14px,3vw,20px);font-weight:600;margin-top:8px;}
+.land-btns{display:flex;gap:16px;margin-top:32px;flex-wrap:wrap;justify-content:center;padding:0 20px;}
 
-        /* OPTIONS */
-        .opts{ display:flex; flex-direction:column; gap:10px; }
-        .opt { background:#fff; border:3px solid #ececec; border-radius:18px;
-               padding:12px 14px; font-size:15px; font-weight:700; cursor:pointer;
-               transition:.2s; display:flex; align-items:center; gap:12px; text-align:left; }
-        .opt:hover:not(:disabled){ border-color:var(--primary); background:#fff8f8; }
-        .opt .opt-emoji{ font-size:28px; flex-shrink:0; }
-        .opt .opt-txt  { flex:1; line-height:1.3; }
-        .opt .opt-num  { width:28px; height:28px; border-radius:50%; background:#f0f0f0;
-                         display:flex; align-items:center; justify-content:center;
-                         font-size:13px; flex-shrink:0; }
-        .opt.correct{ border-color:#00b894; background:#e8faf4; }
-        .opt.wrong  { border-color:#d63031; background:#ffeaea; }
+.btn-land{
+  padding:18px 36px;border:none;border-radius:60px;
+  font-family:'Baloo 2',sans-serif;font-size:clamp(16px,3.5vw,22px);font-weight:700;
+  cursor:pointer;transition:.2s;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);
+  display:flex;align-items:center;gap:10px;
+}
+.btn-land:hover{transform:translateY(-3px);}
+.btn-land:active{transform:scale(.96);}
+.btn-land.primary{background:#FFD93D;color:#2C2C54;}
+.btn-land.secondary{background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.5);}
 
-        /* FEEDBACK */
-        #feedback{ text-align:center; font-size:20px; font-weight:900;
-                   min-height:36px; margin-top:10px; transition:.3s; }
+/* ═══════════════════ NAME INPUT SCREEN ═══════════════════ */
+#s-name{background:linear-gradient(160deg,#43e97b 0%,#38f9d7 100%);}
+.name-card{
+  background:#fff;border-radius:36px;padding:clamp(28px,5vw,56px) clamp(24px,4vw,48px);
+  text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.15);
+  max-width:min(520px,90vw);width:100%;
+}
+.name-icon{font-size:clamp(60px,12vw,100px);margin-bottom:16px;}
+.name-card h2{font-family:'Baloo 2',sans-serif;font-size:clamp(22px,4vw,32px);color:var(--dark);font-weight:800;margin-bottom:8px;}
+.name-card p{color:var(--mid);font-size:clamp(14px,2.5vw,18px);margin-bottom:24px;}
+.name-input{
+  width:100%;padding:16px 24px;border:3px solid #e0e0e0;border-radius:60px;
+  font-size:clamp(16px,3vw,22px);font-family:'Nunito',sans-serif;font-weight:700;
+  color:var(--dark);text-align:center;outline:none;transition:.2s;
+  background:#f8f8f8;
+}
+.name-input:focus{border-color:var(--c2);background:#fff;box-shadow:0 0 0 4px rgba(78,205,196,.15);}
+.name-input::placeholder{color:#ccc;}
+.btn-start-quiz{
+  margin-top:20px;width:100%;padding:18px;
+  background:linear-gradient(135deg,#43e97b,#38f9d7);
+  border:none;border-radius:60px;color:#fff;
+  font-family:'Baloo 2',sans-serif;font-size:clamp(18px,3.5vw,24px);font-weight:700;
+  cursor:pointer;box-shadow:0 8px 24px rgba(56,249,215,.4);transition:.2s;
+}
+.btn-start-quiz:hover{transform:translateY(-2px);}
 
-        /* RESULT */
-        #result{ display:none; text-align:center; padding:36px 20px; animation:popIn .5s; }
-        .trophy { font-size:90px; }
-        .r-stars{ font-size:38px; color:var(--accent); margin:14px 0; }
-        .r-msg  { font-size:16px; color:#777; margin-bottom:24px; }
-        .btn-main{ background:var(--primary); color:#fff; border:none; padding:14px 32px;
-                   border-radius:50px; font-size:18px; font-weight:900; cursor:pointer;
-                   box-shadow:0 6px 18px rgba(255,107,107,.4); }
+/* ═══════════════════ HOME / LESSON SELECT ═══════════════════ */
+#s-home{background:var(--bg);flex-direction:column;align-items:stretch;justify-content:flex-start;overflow-y:auto;}
+.home-header{
+  background:linear-gradient(135deg,#FF6B6B,#FF922B);
+  padding:clamp(20px,4vw,32px) clamp(16px,3vw,28px) clamp(32px,6vw,56px);
+  border-radius:0 0 40px 40px;flex-shrink:0;
+}
+.home-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.home-student-name{
+  background:rgba(255,255,255,.25);border-radius:60px;
+  padding:8px 20px;color:#fff;font-weight:700;font-size:clamp(13px,2.5vw,17px);
+  display:flex;align-items:center;gap:8px;
+}
+.btn-admin-top{
+  background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.5);
+  color:#fff;border-radius:60px;padding:8px 16px;cursor:pointer;
+  font-size:clamp(12px,2vw,15px);font-weight:700;font-family:'Nunito',sans-serif;transition:.2s;
+}
+.btn-admin-top:hover{background:rgba(255,255,255,.35);}
+.home-title{color:#fff;font-family:'Baloo 2',sans-serif;font-size:clamp(22px,5vw,40px);font-weight:800;}
+.home-sub{color:rgba(255,255,255,.85);font-size:clamp(13px,2.5vw,18px);margin-top:4px;}
+.home-stats{
+  display:flex;gap:12px;background:#fff;margin:clamp(-28px,-4vw,-40px) clamp(12px,2vw,24px) 0;
+  border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,.1);padding:16px;position:relative;z-index:2;
+  flex-shrink:0;
+}
+.stat-box{flex:1;text-align:center;}
+.stat-val{font-family:'Baloo 2',sans-serif;font-size:clamp(22px,5vw,36px);font-weight:800;color:var(--c1);}
+.stat-lbl{font-size:clamp(10px,1.8vw,13px);color:var(--light);font-weight:700;margin-top:2px;}
+.stat-sep{width:1px;background:#f0f0f0;}
 
-        /* CONFETTI */
-        .cf{ position:fixed; width:10px; height:10px; top:-10px; z-index:999; pointer-events:none; }
+.tabs-wrap{display:flex;gap:8px;padding:clamp(16px,3vw,24px) clamp(12px,2vw,20px) 8px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
+.tabs-wrap::-webkit-scrollbar{display:none;}
+.tab-btn{
+  padding:8px 18px;border:2px solid #e8e8e8;border-radius:60px;
+  background:#fff;white-space:nowrap;cursor:pointer;font-weight:700;
+  font-size:clamp(12px,2vw,15px);transition:.2s;font-family:'Nunito',sans-serif;
+  flex-shrink:0;color:var(--mid);
+}
+.tab-btn.on{background:var(--c2);color:#fff;border-color:var(--c2);box-shadow:0 4px 12px rgba(78,205,196,.3);}
 
-        @keyframes fadeIn{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
-        @keyframes popIn { 0%{transform:scale(.5);opacity:0} 100%{transform:scale(1);opacity:1} }
-    </style>
+.lessons-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(160px,42vw),1fr));
+  gap:clamp(10px,2vw,16px);padding:clamp(8px,2vw,16px) clamp(12px,2vw,20px) clamp(16px,3vw,24px);
+  overflow-y:auto;flex:1;
+}
+.lesson-card{
+  background:#fff;border:3px solid #f0f0f0;border-radius:28px;
+  padding:clamp(14px,3vw,22px) clamp(10px,2vw,16px);
+  text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden;
+}
+.lesson-card::before{
+  content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0),rgba(78,205,196,.05));
+  opacity:0;transition:.25s;
+}
+.lesson-card:hover{transform:translateY(-4px);border-color:var(--c2);box-shadow:0 12px 32px rgba(78,205,196,.2);}
+.lesson-card:hover::before{opacity:1;}
+.lesson-card:active{transform:scale(.97);}
+.lc-icon{font-size:clamp(36px,8vw,56px);margin-bottom:8px;display:block;}
+.lc-title{font-weight:800;font-size:clamp(12px,2.5vw,15px);color:var(--dark);line-height:1.3;}
+.lc-month{font-size:clamp(10px,1.8vw,12px);color:var(--light);margin-top:4px;font-weight:600;}
+.lc-stars{color:var(--c3);font-size:clamp(12px,2vw,15px);margin-top:6px;min-height:18px;letter-spacing:2px;}
+.lc-done{position:absolute;top:8px;right:10px;font-size:18px;}
+
+/* ═══════════════════ QUIZ SCREEN ═══════════════════ */
+#s-quiz{background:linear-gradient(160deg,#f8f9ff 0%,#fff5f5 100%);justify-content:flex-start;overflow-y:auto;}
+.quiz-wrap{width:100%;max-width:680px;margin:0 auto;padding:clamp(12px,3vw,24px) clamp(12px,2vw,20px) clamp(16px,3vw,24px);display:flex;flex-direction:column;gap:clamp(10px,2vw,16px);}
+
+.quiz-header{display:flex;align-items:center;gap:12px;}
+.btn-back{
+  background:#fff;border:none;border-radius:50%;width:44px;height:44px;flex-shrink:0;
+  font-size:22px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.1);transition:.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.btn-back:hover{transform:scale(1.1);}
+.prog-outer{flex:1;background:#e8e8e8;border-radius:20px;height:12px;overflow:hidden;}
+.prog-inner{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--c2),var(--c1));transition:width .5s;}
+.prog-txt{font-weight:800;font-size:clamp(13px,2.5vw,16px);color:var(--mid);white-space:nowrap;}
+.student-badge{background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;border-radius:60px;padding:6px 14px;font-size:clamp(11px,2vw,14px);font-weight:700;white-space:nowrap;flex-shrink:0;}
+
+.q-card{
+  background:#fff;border-radius:28px;padding:clamp(18px,4vw,32px);
+  box-shadow:0 8px 32px rgba(0,0,0,.08);border:3px solid transparent;
+  background-clip:padding-box;position:relative;
+}
+.q-card::before{
+  content:'';position:absolute;inset:-3px;border-radius:31px;z-index:-1;
+  background:linear-gradient(135deg,var(--c3),var(--c1));
+}
+.q-top{display:flex;align-items:center;gap:12px;margin-bottom:clamp(10px,2vw,16px);}
+.q-img-wrap{font-size:clamp(48px,10vw,80px);line-height:1;flex-shrink:0;}
+.q-type-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:60px;font-size:clamp(11px,2vw,13px);font-weight:700;
+  margin-bottom:8px;
+}
+.q-type-badge.tf{background:#FFF3BF;color:#E67700;}
+.q-type-badge.mc{background:#D3F9D8;color:#2B8A3E;}
+.q-txt{font-family:'Baloo 2',sans-serif;font-size:clamp(16px,3.5vw,24px);font-weight:700;color:var(--dark);line-height:1.45;}
+.btn-speak{
+  background:none;border:none;cursor:pointer;font-size:clamp(20px,4vw,28px);
+  transition:.2s;flex-shrink:0;margin-left:auto;
+  display:flex;align-items:center;gap:4px;
+}
+.btn-speak:hover{transform:scale(1.2);}
+.btn-speak.speaking{animation:pulse-speak .6s ease-in-out infinite alternate;}
+@keyframes pulse-speak{from{transform:scale(1)}to{transform:scale(1.3)}}
+
+.opts-wrap{display:flex;flex-direction:column;gap:clamp(8px,2vw,12px);}
+
+.opt-btn{
+  background:#fff;border:3px solid #ececec;border-radius:20px;
+  padding:clamp(12px,2.5vw,18px) clamp(14px,2.5vw,20px);
+  font-size:clamp(14px,3vw,18px);font-weight:700;cursor:pointer;
+  transition:.2s;display:flex;align-items:center;gap:clamp(10px,2vw,16px);
+  text-align:left;font-family:'Nunito',sans-serif;
+  box-shadow:0 4px 12px rgba(0,0,0,.04);position:relative;overflow:hidden;
+}
+.opt-btn::before{content:'';position:absolute;inset:0;opacity:0;transition:.2s;background:linear-gradient(135deg,rgba(78,205,196,.08),rgba(255,107,107,.08));}
+.opt-btn:hover:not([disabled])::before{opacity:1;}
+.opt-btn:hover:not([disabled]){border-color:var(--c2);transform:translateX(4px);}
+.opt-btn:active:not([disabled]){transform:scale(.98);}
+.opt-emoji{font-size:clamp(26px,5vw,36px);flex-shrink:0;line-height:1;}
+.opt-txt{flex:1;line-height:1.35;color:var(--dark);}
+.opt-num{
+  width:30px;height:30px;border-radius:50%;background:#f5f5f5;
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(12px,2.5vw,15px);font-weight:800;color:var(--mid);flex-shrink:0;
+}
+.opt-btn.correct{border-color:var(--correct);background:linear-gradient(135deg,#E8FDF0,#D3F9D8);}
+.opt-btn.correct .opt-num{background:var(--correct);color:#fff;}
+.opt-btn.wrong{border-color:var(--wrong);background:linear-gradient(135deg,#FFF0F0,#FFE3E3);}
+.opt-btn.wrong .opt-num{background:var(--wrong);color:#fff;}
+
+/* Nút loa nhỏ trên mỗi đáp án */
+.btn-speak-opt{
+  background:none;border:none;cursor:pointer;
+  font-size:clamp(17px,3.5vw,22px);flex-shrink:0;
+  opacity:.55;transition:.2s;padding:2px 0;
+  display:flex;align-items:center;
+  line-height:1;
+}
+.btn-speak-opt:hover{opacity:1;transform:scale(1.2);}
+.btn-speak-opt.speaking{opacity:1;animation:pulse-speak .55s ease-in-out infinite alternate;}
+.opt-btn[disabled] .btn-speak-opt{cursor:default;}
+
+/* TRUE/FALSE opts */
+.tf-opts{display:flex;gap:clamp(10px,3vw,20px);}
+.tf-btn{
+  flex:1;padding:clamp(18px,4vw,28px);border:3px solid #ececec;border-radius:24px;
+  font-size:clamp(24px,6vw,44px);font-weight:800;cursor:pointer;text-align:center;
+  transition:.2s;font-family:'Baloo 2',sans-serif;color:var(--dark);background:#fff;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+.tf-btn small{font-size:clamp(14px,3vw,20px);font-weight:800;}
+.tf-btn:hover:not([disabled]){transform:translateY(-4px);}
+.tf-btn.tf-true:hover:not([disabled]){border-color:var(--correct);background:#F0FFF4;}
+.tf-btn.tf-false:hover:not([disabled]){border-color:var(--wrong);background:#FFF0F0;}
+.tf-btn.correct{border-color:var(--correct);background:linear-gradient(135deg,#E8FDF0,#D3F9D8);}
+.tf-btn.wrong{border-color:var(--wrong);background:linear-gradient(135deg,#FFF0F0,#FFE3E3);}
+
+.feedback-box{
+  text-align:center;padding:clamp(12px,2.5vw,18px);border-radius:20px;
+  font-size:clamp(16px,3.5vw,22px);font-weight:800;min-height:60px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:.3s;
+}
+.feedback-box.show-correct{background:#E8FDF0;color:#2ECC71;}
+.feedback-box.show-wrong{background:#FFF0F0;color:#E74C3C;}
+
+/* ═══════════════════ RESULT ═══════════════════ */
+#s-result{background:linear-gradient(160deg,#43e97b 0%,#38f9d7 100%);}
+.result-card{
+  background:#fff;border-radius:36px;padding:clamp(32px,6vw,56px) clamp(24px,5vw,48px);
+  text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.15);
+  max-width:min(480px,92vw);width:100%;
+}
+.r-trophy{font-size:clamp(72px,16vw,120px);animation:pop .5s cubic-bezier(.36,1.6,.3,1);}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.r-stars{font-size:clamp(28px,7vw,48px);margin:12px 0;letter-spacing:4px;}
+.r-title{font-family:'Baloo 2',sans-serif;font-size:clamp(24px,5vw,38px);font-weight:800;color:var(--dark);}
+.r-score{font-size:clamp(15px,3vw,20px);color:var(--mid);margin:12px 0 24px;}
+.r-name{font-size:clamp(14px,2.5vw,18px);color:var(--purple);font-weight:700;margin-bottom:6px;}
+.r-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.btn-r{
+  padding:14px 28px;border:none;border-radius:60px;
+  font-family:'Baloo 2',sans-serif;font-size:clamp(15px,3vw,20px);font-weight:700;
+  cursor:pointer;transition:.2s;box-shadow:0 6px 20px rgba(0,0,0,.12);
+}
+.btn-r:hover{transform:translateY(-2px);}
+.btn-r.primary{background:linear-gradient(135deg,#FF6B6B,#FF922B);color:#fff;}
+.btn-r.secondary{background:#f0f0f0;color:var(--dark);}
+
+/* ═══════════════════ ADMIN LOGIN ═══════════════════ */
+#s-admin-login{background:linear-gradient(160deg,#2C2C54 0%,#845EF7 100%);}
+.login-card{
+  background:#fff;border-radius:36px;padding:clamp(32px,5vw,52px) clamp(24px,4vw,44px);
+  max-width:min(440px,92vw);width:100%;box-shadow:0 24px 60px rgba(0,0,0,.25);text-align:center;
+}
+.login-icon{font-size:clamp(56px,10vw,80px);margin-bottom:16px;}
+.login-card h2{font-family:'Baloo 2',sans-serif;font-size:clamp(22px,4vw,30px);color:var(--dark);font-weight:800;}
+.login-card p{color:var(--mid);font-size:clamp(13px,2vw,16px);margin:8px 0 24px;}
+.login-field{
+  width:100%;padding:14px 20px;border:2px solid #e0e0e0;border-radius:14px;
+  font-size:clamp(15px,2.5vw,18px);font-family:'Nunito',sans-serif;
+  color:var(--dark);outline:none;margin-bottom:12px;transition:.2s;background:#f8f8f8;
+}
+.login-field:focus{border-color:var(--purple);background:#fff;}
+.btn-login{
+  width:100%;padding:16px;background:linear-gradient(135deg,#845EF7,#2C2C54);
+  border:none;border-radius:14px;color:#fff;
+  font-family:'Baloo 2',sans-serif;font-size:clamp(17px,3vw,22px);font-weight:700;
+  cursor:pointer;transition:.2s;box-shadow:0 8px 24px rgba(132,94,247,.3);margin-top:4px;
+}
+.btn-login:hover{transform:translateY(-2px);}
+.login-err{color:var(--wrong);font-size:clamp(13px,2vw,15px);font-weight:700;min-height:20px;margin-top:4px;}
+.btn-back-login{
+  background:none;border:none;color:rgba(255,255,255,.7);
+  font-size:clamp(13px,2vw,16px);font-weight:700;cursor:pointer;
+  margin-top:20px;display:flex;align-items:center;gap:6px;font-family:'Nunito',sans-serif;
+}
+.btn-back-login:hover{color:#fff;}
+
+/* ═══════════════════ ADMIN PANEL ═══════════════════ */
+#s-admin{background:#f4f6f9;flex-direction:column;align-items:stretch;justify-content:flex-start;overflow-y:auto;}
+.admin-header{
+  background:linear-gradient(135deg,#2C2C54,#845EF7);
+  padding:clamp(16px,3vw,28px) clamp(16px,3vw,28px);
+  flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+}
+.admin-header h1{font-family:'Baloo 2',sans-serif;color:#fff;font-size:clamp(18px,4vw,28px);font-weight:800;}
+.admin-nav{display:flex;gap:8px;flex-wrap:wrap;}
+.a-tab{
+  padding:8px 18px;border-radius:60px;border:2px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);cursor:pointer;
+  font-size:clamp(12px,2vw,15px);font-weight:700;font-family:'Nunito',sans-serif;transition:.2s;
+}
+.a-tab.on,.a-tab:hover{background:rgba(255,255,255,.25);color:#fff;border-color:rgba(255,255,255,.6);}
+.btn-logout-a{
+  padding:8px 18px;border-radius:60px;border:2px solid rgba(255,255,255,.4);
+  background:rgba(255,0,0,.15);color:#FFB3B3;cursor:pointer;
+  font-size:clamp(12px,2vw,15px);font-weight:700;font-family:'Nunito',sans-serif;transition:.2s;
+}
+.btn-logout-a:hover{background:rgba(255,0,0,.3);color:#fff;}
+
+.admin-content{flex:1;padding:clamp(16px,3vw,28px);overflow-y:auto;max-width:960px;margin:0 auto;width:100%;}
+.admin-section{display:none;}
+.admin-section.on{display:block;}
+
+/* ── RESULTS TABLE ── */
+.section-title{font-family:'Baloo 2',sans-serif;font-size:clamp(18px,3.5vw,26px);font-weight:800;color:var(--dark);margin-bottom:16px;}
+.results-summary{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;
+}
+.sum-card{background:#fff;border-radius:20px;padding:20px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.06);}
+.sum-val{font-family:'Baloo 2',sans-serif;font-size:clamp(28px,5vw,40px);font-weight:800;color:var(--purple);}
+.sum-lbl{font-size:clamp(11px,2vw,14px);color:var(--light);font-weight:700;margin-top:4px;}
+
+.tbl-wrap{background:#fff;border-radius:20px;overflow:auto;box-shadow:0 4px 16px rgba(0,0,0,.06);}
+table{width:100%;border-collapse:collapse;min-width:540px;}
+th{background:#f8f8f8;padding:14px 16px;font-size:clamp(12px,2vw,14px);font-weight:800;color:var(--mid);text-align:left;border-bottom:2px solid #f0f0f0;}
+td{padding:12px 16px;font-size:clamp(12px,2vw,15px);font-weight:600;color:var(--dark);border-bottom:1px solid #f5f5f5;}
+tr:hover td{background:#f9f9f9;}
+.tag-pass{display:inline-block;padding:3px 10px;border-radius:60px;font-size:11px;font-weight:800;}
+.tag-pass.g3{background:#D3F9D8;color:#2B8A3E;}
+.tag-pass.g2{background:#FFF3BF;color:#E67700;}
+.tag-pass.g1{background:#FFE3E3;color:#C92A2A;}
+
+.btn-clear{
+  padding:10px 20px;border-radius:60px;border:2px solid var(--wrong);
+  background:transparent;color:var(--wrong);cursor:pointer;font-size:clamp(12px,2vw,14px);
+  font-weight:700;font-family:'Nunito',sans-serif;transition:.2s;margin-top:12px;
+}
+.btn-clear:hover{background:var(--wrong);color:#fff;}
+.btn-export{
+  padding:10px 20px;border-radius:60px;border:none;
+  background:linear-gradient(135deg,var(--c2),var(--c4));color:#fff;cursor:pointer;
+  font-size:clamp(12px,2vw,14px);font-weight:700;font-family:'Nunito',sans-serif;
+  transition:.2s;margin-top:12px;margin-right:8px;
+}
+.btn-export:hover{transform:translateY(-1px);}
+
+/* ── LESSON EDITOR ── */
+.lesson-list{display:flex;flex-direction:column;gap:10px;}
+.lesson-row{
+  background:#fff;border-radius:16px;padding:16px 20px;
+  box-shadow:0 4px 16px rgba(0,0,0,.05);display:flex;align-items:center;gap:12px;cursor:pointer;transition:.2s;
+}
+.lesson-row:hover{box-shadow:0 8px 24px rgba(0,0,0,.1);}
+.lesson-row-icon{font-size:32px;}
+.lesson-row-info{flex:1;}
+.lesson-row-title{font-weight:800;color:var(--dark);font-size:clamp(14px,2.5vw,17px);}
+.lesson-row-meta{font-size:clamp(11px,2vw,13px);color:var(--light);margin-top:3px;}
+.lesson-row-edit{padding:8px 18px;border-radius:60px;background:var(--purple);color:#fff;border:none;cursor:pointer;font-weight:700;font-size:13px;font-family:'Nunito',sans-serif;}
+
+/* ── MEDIA UPLOAD ── */
+.media-upload-row{
+  display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 6px;
+}
+.btn-media-upload{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:12px;border:2px dashed #d0d0d0;
+  background:#fafafa;color:var(--mid);font-weight:700;font-size:13px;
+  cursor:pointer;transition:.2s;font-family:'Nunito',sans-serif;
+}
+.btn-media-upload:hover{border-color:var(--purple);color:var(--purple);background:rgba(132,94,247,.06);}
+.btn-media-upload input[type=file]{display:none;}
+.media-preview-wrap{
+  border-radius:14px;overflow:hidden;background:#f0f0f0;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;margin-top:6px;
+  min-height:0;
+}
+.media-preview-wrap.has-media{min-height:120px;}
+.media-preview-wrap img{width:100%;max-height:220px;object-fit:cover;border-radius:12px;display:block;}
+
+.media-preview-wrap audio{width:100%;border-radius:12px;}
+.btn-del-media{
+  position:absolute;top:6px;right:6px;
+  background:rgba(231,76,60,.9);border:none;color:#fff;
+  border-radius:50%;width:26px;height:26px;cursor:pointer;
+  font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+.media-type-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:60px;font-size:11px;font-weight:800;
+  margin-bottom:6px;
+}
+.media-type-badge.img{background:#E8F4FF;color:#1971C2;}
+.media-type-badge.audio{background:#F3F0FF;color:#7950F2;}
+
+/* Quiz media display */
+.q-media-wrap{
+  border-radius:20px;overflow:hidden;margin-bottom:12px;
+  background:#f5f5f5;
+}
+.q-media-wrap img{width:100%;max-height:260px;object-fit:cover;display:block;border-radius:20px;}
+.q-media-wrap audio{width:100%;border-radius:20px;margin:8px 0;}
+.q-media-wrap.empty{display:none;}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);}
+.modal-overlay.hidden{display:none;}
+.modal{background:#fff;border-radius:28px;padding:clamp(20px,4vw,36px);max-width:min(640px,96vw);width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.25);}
+.modal h3{font-family:'Baloo 2',sans-serif;font-size:clamp(18px,3.5vw,26px);font-weight:800;color:var(--dark);margin-bottom:16px;}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-weight:800;font-size:clamp(12px,2vw,14px);color:var(--mid);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+.form-ctrl{width:100%;padding:12px 16px;border:2px solid #e0e0e0;border-radius:12px;font-size:clamp(14px,2.5vw,16px);font-family:'Nunito',sans-serif;color:var(--dark);outline:none;transition:.2s;background:#f8f8f8;}
+.form-ctrl:focus{border-color:var(--purple);background:#fff;}
+.form-ctrl select{background:#f8f8f8;}
+.q-item-edit{background:#f8f8f8;border-radius:16px;padding:16px;margin-bottom:12px;position:relative;}
+.q-item-edit-num{font-weight:800;color:var(--purple);font-size:14px;margin-bottom:8px;}
+.btn-del-q{position:absolute;top:12px;right:12px;background:#FFE3E3;border:none;color:var(--wrong);border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;font-weight:800;}
+.btn-add-q{width:100%;padding:12px;border:2px dashed var(--c2);border-radius:14px;background:transparent;color:var(--c2);font-weight:800;font-size:15px;cursor:pointer;font-family:'Nunito',sans-serif;transition:.2s;margin-top:6px;}
+.btn-add-q:hover{background:rgba(78,205,196,.08);}
+.modal-btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
+.btn-save{padding:12px 28px;background:linear-gradient(135deg,var(--c4),var(--c2));border:none;border-radius:60px;color:#fff;font-weight:800;font-size:16px;cursor:pointer;font-family:'Nunito',sans-serif;flex:1;}
+.btn-cancel{padding:12px 24px;background:#f0f0f0;border:none;border-radius:60px;color:var(--mid);font-weight:800;font-size:16px;cursor:pointer;font-family:'Nunito',sans-serif;}
+.opt-edit-row{display:flex;gap:8px;align-items:center;margin-bottom:6px;}
+.opt-edit-row input[type=radio]{transform:scale(1.3);accent-color:var(--c4);}
+.opt-edit-emoji{width:50px;}
+.opt-edit-txt{flex:1;}
+.type-selector{display:flex;gap:10px;margin-bottom:6px;}
+.type-opt{flex:1;padding:10px;border:2px solid #e0e0e0;border-radius:12px;text-align:center;cursor:pointer;font-weight:800;font-size:13px;transition:.2s;}
+.type-opt.on{border-color:var(--purple);background:rgba(132,94,247,.08);color:var(--purple);}
+
+/* ═══════════════════ CONFETTI ═══════════════════ */
+.cf{position:fixed;pointer-events:none;z-index:999;border-radius:2px;}
+
+/* ═══════════════════ TOAST ═══════════════════ */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:#2C2C54;color:#fff;padding:14px 28px;border-radius:60px;
+  font-weight:700;font-size:15px;z-index:999;transition:.35s;opacity:0;
+  white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+/* ═══════════════════ UTILS ═══════════════════ */
+.flex-center{display:flex;align-items:center;justify-content:center;}
+.gap-8{gap:8px;}
+</style>
 </head>
 <body>
-<div id="app">
 
-  <!-- HOME -->
-  <div id="home">
-    <div class="header">
-      <h1>🌟 BÉ TRẢI NGHIỆM 🌟</h1>
-      <p>Hôm nay bé muốn khám phá gì?</p>
-    </div>
-    <div class="stats">
-      <div class="stat"><span id="st-stars">0</span><small>⭐ Tổng sao</small></div>
-      <div class="stat"><span id="st-done">0</span><small>✅ Bài xong</small></div>
-      <div class="stat"><span id="st-total">0</span><small>📚 Tổng bài</small></div>
-    </div>
-    <div class="tabs" id="tabs"></div>
-    <div class="grid" id="grid"></div>
+<!-- BUBBLES BG -->
+<div class="bubbles" id="bubbles"></div>
+
+<!-- ════════ LANDING ════════ -->
+<div class="screen" id="s-landing">
+  <div class="land-cloud c1" style="left:5%;top:12%;"></div>
+  <div class="land-cloud c2"></div>
+  <div class="land-cloud c3"></div>
+  <div class="land-mascot">🌟</div>
+  <h1 class="land-title">Bé Học Vui</h1>
+  <p class="land-sub">Cùng khám phá thế giới kỳ diệu!</p>
+  <div class="land-btns">
+    <button class="btn-land primary" onclick="goTo('s-name')">🎒 Bắt đầu học nào!</button>
+    <button class="btn-land secondary" onclick="goTo('s-admin-login')">🔑 Giáo viên đăng nhập</button>
   </div>
+</div>
 
-  <!-- QUIZ -->
-  <div id="quiz">
-    <div class="qheader">
-      <button class="btn-back" onclick="goHome()">⬅️</button>
-      <div class="prog-wrap"><div class="prog-fill" id="pbar" style="width:0%"></div></div>
-      <div class="prog-label" id="plabel">1/1</div>
+<!-- ════════ NAME INPUT ════════ -->
+<div class="screen hidden" id="s-name">
+  <div class="name-card">
+    <div class="name-icon">🧒</div>
+    <h2>Bé tên là gì?</h2>
+    <p>Hãy viết tên của bé vào đây nhé!</p>
+    <input class="name-input" id="inp-name" type="text" placeholder="Ví dụ: Bé Nam, Bé An..." maxlength="30"
+      onkeydown="if(event.key==='Enter')startWithName()" autocomplete="off" autocorrect="off">
+    <button class="btn-start-quiz" onclick="startWithName()">✨ Bắt đầu thôi nào! ✨</button>
+    <button style="background:none;border:none;margin-top:14px;color:#aaa;cursor:pointer;font-size:14px;font-weight:700;font-family:'Nunito',sans-serif;" onclick="goTo('s-landing')">⬅️ Quay lại</button>
+  </div>
+</div>
+
+<!-- ════════ HOME ════════ -->
+<div class="screen hidden" id="s-home">
+  <div class="app-wrap">
+    <div class="home-header">
+      <div class="home-header-top">
+        <div class="home-student-name">🧒 <span id="disp-name">Bé yêu</span></div>
+        <button class="btn-admin-top" onclick="goTo('s-admin-login')">🔑 GV</button>
+      </div>
+      <div class="home-title">Hôm nay bé muốn học gì? 📚</div>
+      <div class="home-sub">Chọn một bài học và bắt đầu nào!</div>
+    </div>
+    <div class="home-stats">
+      <div class="stat-box"><div class="stat-val" id="st-stars">0</div><div class="stat-lbl">⭐ Tổng sao</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat-box"><div class="stat-val" id="st-done">0</div><div class="stat-lbl">✅ Bài xong</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat-box"><div class="stat-val" id="st-total">0</div><div class="stat-lbl">📚 Tổng bài</div></div>
+    </div>
+    <div class="tabs-wrap" id="tabs"></div>
+    <div class="lessons-grid" id="grid"></div>
+  </div>
+</div>
+
+<!-- ════════ QUIZ ════════ -->
+<div class="screen hidden" id="s-quiz">
+  <div class="quiz-wrap" id="quiz-wrap">
+    <div class="quiz-header">
+      <button class="btn-back" onclick="backFromQuiz()">⬅️</button>
+      <div class="prog-outer"><div class="prog-inner" id="pbar" style="width:0%"></div></div>
+      <div class="prog-txt" id="plabel">1/5</div>
+      <div class="student-badge" id="badge-name">Bé yêu</div>
     </div>
     <div class="q-card">
-      <span class="q-img" id="qimg"></span>
-      <p class="q-text" id="qtxt"></p>
+      <div class="q-top">
+        <div class="q-img-wrap" id="qimg">🌟</div>
+        <div style="flex:1;">
+          <div class="q-type-badge mc" id="q-type-badge">📝 Chọn đáp án đúng</div>
+          <p class="q-txt" id="qtxt">Câu hỏi sẽ hiện ở đây...</p>
+        </div>
+        <button class="btn-speak" id="btn-speak-q" title="Nghe lại câu hỏi" onclick="speakQuestion()">🔊</button>
+      </div>
+      <!-- Media hiển thị khi có ảnh/nhạc -->
+      <div class="q-media-wrap empty" id="q-media-display"></div>
     </div>
-    <div class="opts" id="opts"></div>
-    <div id="feedback"></div>
+    <div id="opts-container"></div>
+    <div class="feedback-box" id="feedback"></div>
   </div>
-
-  <!-- RESULT -->
-  <div id="result">
-    <div class="trophy" id="r-trophy">🏆</div>
-    <h2 id="r-title">XUẤT SẮC!</h2>
-    <div class="r-stars" id="r-stars"></div>
-    <p class="r-msg" id="r-msg"></p>
-    <button class="btn-main" onclick="goHome()">🏠 TIẾP TỤC HỌC</button>
-  </div>
-
 </div>
+
+<!-- ════════ RESULT ════════ -->
+<div class="screen hidden" id="s-result">
+  <div class="result-card">
+    <div class="r-trophy" id="r-trophy">🏆</div>
+    <div class="r-stars" id="r-stars">⭐⭐⭐</div>
+    <div class="r-title" id="r-title">Xuất sắc!</div>
+    <div class="r-name" id="r-name">👤 Bé yêu</div>
+    <div class="r-score" id="r-score">Đúng 5/5 câu hỏi</div>
+    <div class="r-btns">
+      <button class="btn-r secondary" onclick="goTo('s-home')">🏠 Trang chủ</button>
+      <button class="btn-r primary" id="btn-replay" onclick="replayLesson()">🔄 Làm lại</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ ADMIN LOGIN ════════ -->
+<div class="screen hidden" id="s-admin-login">
+  <div class="login-card">
+    <div class="login-icon">🔑</div>
+    <h2>Đăng nhập Giáo viên</h2>
+    <p>Khu vực dành cho giáo viên quản lý bài học</p>
+    <input class="login-field" id="login-user" type="text" placeholder="Tên đăng nhập" autocomplete="off">
+    <input class="login-field" id="login-pass" type="password" placeholder="Mật khẩu"
+      onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="login-err" id="login-err"></div>
+    <button class="btn-login" onclick="doLogin()">🔓 Đăng nhập</button>
+    <p style="font-size:12px;color:rgba(255,255,255,.5);margin-top:12px;text-align:center;">Mặc định: giaovien / 12345</p>
+  </div>
+  <button class="btn-back-login" onclick="goTo('s-landing')">⬅️ Quay về trang chủ</button>
+</div>
+
+<!-- ════════ ADMIN PANEL ════════ -->
+<div class="screen hidden" id="s-admin">
+  <div class="app-wrap">
+    <div class="admin-header">
+      <h1>🎓 Quản lý Bài học</h1>
+      <div class="admin-nav">
+        <button class="a-tab on" onclick="adminTab('results',this)">📊 Kết quả học sinh</button>
+        <button class="a-tab" onclick="adminTab('lessons',this)">📚 Quản lý bài học</button>
+        <button class="a-tab" onclick="adminTab('settings',this)">⚙️ Cài đặt</button>
+        <button class="btn-logout-a" onclick="adminLogout()">🚪 Đăng xuất</button>
+      </div>
+    </div>
+    <div class="admin-content">
+
+      <!-- RESULTS TAB -->
+      <div class="admin-section on" id="tab-results">
+        <div class="section-title">📊 Kết quả học sinh</div>
+        <div class="results-summary" id="results-summary"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+          <button class="btn-export" onclick="exportCSV()">📥 Xuất CSV</button>
+          <button class="btn-clear" onclick="clearResults()">🗑️ Xóa tất cả kết quả</button>
+        </div>
+        <div class="tbl-wrap"><table id="results-table">
+          <thead><tr><th>STT</th><th>Tên học sinh</th><th>Bài học</th><th>Đúng/Tổng</th><th>Sao</th><th>Thời gian</th></tr></thead>
+          <tbody id="results-tbody"></tbody>
+        </table></div>
+      </div>
+
+      <!-- LESSONS TAB -->
+      <div class="admin-section" id="tab-lessons">
+        <div class="section-title">📚 Danh sách bài học</div>
+        <div class="lesson-list" id="lesson-list"></div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div class="admin-section" id="tab-settings">
+        <div class="section-title">⚙️ Cài đặt hệ thống</div>
+        <div style="background:#fff;border-radius:20px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.06);max-width:480px;">
+          <div class="form-group">
+            <label>Đổi mật khẩu giáo viên</label>
+            <input class="form-ctrl" id="new-pass" type="password" placeholder="Mật khẩu mới">
+            <input class="form-ctrl" id="new-pass2" type="password" placeholder="Xác nhận mật khẩu" style="margin-top:8px;">
+            <button class="btn-save" style="margin-top:12px;padding:12px 24px;font-size:15px;" onclick="changePass()">💾 Lưu mật khẩu</button>
+          </div>
+          <div class="form-group" style="margin-top:20px;padding-top:20px;border-top:1px solid #f0f0f0;">
+            <label>Thông tin hệ thống</label>
+            <p style="font-size:14px;color:var(--mid);font-weight:600;">🌟 Bé Học Vui – Phiên bản 2.0<br>Dành cho trường mầm non</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════ EDIT MODAL ════════ -->
+<div class="modal-overlay hidden" id="modal-edit">
+  <div class="modal">
+    <h3 id="modal-title">✏️ Chỉnh sửa bài học</h3>
+    <div class="form-group">
+      <label>Tên bài học</label>
+      <input class="form-ctrl" id="ed-title" type="text">
+    </div>
+    <div class="form-group">
+      <label>Biểu tượng (emoji)</label>
+      <input class="form-ctrl" id="ed-icon" type="text" maxlength="4">
+    </div>
+    <div class="form-group">
+      <label>Emoji ảnh câu hỏi</label>
+      <input class="form-ctrl" id="ed-qimg" type="text" maxlength="4">
+    </div>
+    <div class="form-group">
+      <label>Tháng</label>
+      <select class="form-ctrl" id="ed-cat">
+        <option value="t9">Tháng 9</option><option value="t10">Tháng 10</option>
+        <option value="t11">Tháng 11</option><option value="t12">Tháng 12</option>
+        <option value="t1">Tháng 1</option><option value="t2">Tháng 2</option>
+        <option value="t3">Tháng 3</option><option value="t4">Tháng 4</option>
+        <option value="t5">Tháng 5</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>🖼️ Media cho bài học (ảnh bìa, nhạc nền)</label>
+      <p style="font-size:12px;color:var(--light);margin-bottom:8px;font-weight:600;">Media sẽ hiển thị trên tất cả câu hỏi của bài học này</p>
+      <div class="media-upload-row">
+        <label class="btn-media-upload">
+          🖼️ Chèn ảnh
+          <input type="file" accept="image/*" onchange="handleMediaUpload(this,'image','lesson')">
+        </label>
+        <label class="btn-media-upload">
+          🎵 Chèn nhạc
+          <input type="file" accept="audio/*" onchange="handleMediaUpload(this,'audio','lesson')">
+        </label>
+      </div>
+      <div class="media-preview-wrap" id="lesson-media-preview"></div>
+    </div>
+    <div class="form-group">
+      <label>Câu hỏi <span style="color:var(--mid);font-weight:600;">(mỗi bài 3–8 câu, có thể thêm media riêng cho từng câu)</span></label>
+      <div id="ed-questions"></div>
+      <button class="btn-add-q" onclick="addQuestion()">+ Thêm câu hỏi</button>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Huỷ</button>
+      <button class="btn-save" onclick="saveLesson()">💾 Lưu bài học</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
 <script>
-// ═══════════════════════════════════════════
-//  DỮ LIỆU BÀI HỌC – file biện_pháp_4.docx
-// ═══════════════════════════════════════════
-const lessons = [
+// ════════════════════════════════════════════════════════
+//  DATA – LESSONS (cleaned: no "ê mày tao", max 3 opts each)
+// ════════════════════════════════════════════════════════
+let lessons = [
 
 // ── THÁNG 9 ──
 { id:1, cat:'t9', month:'Tháng 9', title:'Lời Văn Minh', icon:'🙏', qimg:'😊',
   questions:[
-    { q:'Bạn nhỏ gặp cô giáo, bạn sẽ nói gì?', c:0,
-      opts:[{e:'🙇',t:'Chào cô ạ!'},{e:'😶',t:'Im lặng bỏ đi'},{e:'🤷',t:'Lắc đầu không nhìn'},{e:'😢',t:'Oà khóc to'}] },
-    { q:'Khi ai đó giúp con, con sẽ làm gì?', c:2,
-      opts:[{e:'🙇',t:'Cúi đầu cảm ơn'},{e:'🏃',t:'Bỏ đi không nói'},{e:'😊',t:'Nói cảm ơn vui vẻ'},{e:'😭',t:'Khóc to'}] },
-    { q:'Con vô tình làm bạn đau – con làm gì?', c:0,
-      opts:[{e:'🙏',t:'Xin lỗi bạn ngay'},{e:'😶',t:'Giả vờ không biết'},{e:'🏃',t:'Bỏ chạy đi chỗ khác'},{e:'😂',t:'Cười to lên'}] },
-    { q:'Chào hỏi buổi sáng, nói câu nào đúng?', c:0,
-      opts:[{e:'☀️',t:'Chào buổi sáng ạ!'},{e:'😠',t:'Ê, mày!'},{e:'🫵',t:'Tao đây!'},{e:'🙈',t:'Không cần chào'}] },
-    { q:'Con gặp người lớn không quen, con làm gì?', c:0,
-      opts:[{e:'🙋',t:'Chào lễ phép rồi báo người thân'},{e:'🏃',t:'Chạy theo ngay'},{e:'✊',t:'Bắt tay thật mạnh'},{e:'😶',t:'Im lặng chằm chằm nhìn'}] },
+    { type:'mc', q:'Bé gặp cô giáo mỗi sáng, bé sẽ làm gì?', c:0,
+      opts:[{e:'🙇',t:'Chào cô giáo ạ!'},{e:'😶',t:'Im lặng và nhìn đi chỗ khác'},{e:'🏃',t:'Chạy vào lớp ngay'}] },
+    { type:'mc', q:'Khi có người giúp bé, bé nói câu gì?', c:2,
+      opts:[{e:'🙏',t:'Cảm ơn bạn nhiều nhé!'},{e:'😶',t:'Không nói gì cả'},{e:'😊',t:'Cảm ơn ạ, vui lắm!'}] },
+    { type:'mc', q:'Bé vô tình làm bạn bị đau, bé làm gì?', c:0,
+      opts:[{e:'🙏',t:'Xin lỗi bạn ngay thôi'},{e:'😶',t:'Giả vờ không biết'},{e:'🏃',t:'Chạy đi chỗ khác'}] },
+    { type:'tf', q:'Nói "cảm ơn" khi nhận được sự giúp đỡ là điều tốt đẹp.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
+    { type:'tf', q:'Bé có thể la to trong lớp học bất cứ lúc nào.', c:1,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:2, cat:'t9', month:'Tháng 9', title:'Đèn Lồng Trung Thu', icon:'🏮', qimg:'🌕',
   questions:[
-    { q:'Đây là lễ hội gì?', c:0,
-      opts:[{e:'🏮',t:'Tết Trung Thu'},{e:'🎊',t:'Tết Nguyên Đán'},{e:'🌸',t:'Tết Hàn Thực'},{e:'⛪',t:'Lễ Giáng Sinh'}] },
-    { q:'Đèn lồng thường được làm từ vật liệu gì?', c:0,
-      opts:[{e:'🎋',t:'Giấy và tre'},{e:'⚙️',t:'Kim loại nặng'},{e:'🪟',t:'Thủy tinh'},{e:'🪨',t:'Đá cứng'}] },
-    { q:'Tết Trung Thu diễn ra vào mùa nào?', c:0,
-      opts:[{e:'🍂',t:'Mùa Thu'},{e:'🌸',t:'Mùa Xuân'},{e:'☀️',t:'Mùa Hè'},{e:'❄️',t:'Mùa Đông'}] },
-    { q:'Bé thường làm gì trong đêm Trung Thu?', c:0,
-      opts:[{e:'🏮',t:'Rước đèn và phá cỗ'},{e:'😴',t:'Ngủ sớm'},{e:'📚',t:'Đi học'},{e:'📺',t:'Xem phim một mình'}] },
-    { q:'Màu nào phù hợp với đèn lồng Trung Thu?', c:0,
-      opts:[{e:'🔴',t:'Đỏ và vàng rực rỡ'},{e:'⬛',t:'Màu xám tối'},{e:'🤍',t:'Màu trắng nhạt'},{e:'🖤',t:'Màu đen'}] },
+    { type:'mc', q:'Ngày rằm tháng 8 âm lịch là lễ hội gì?', c:0,
+      opts:[{e:'🏮',t:'Tết Trung Thu'},{e:'🎊',t:'Tết Nguyên Đán'},{e:'🌸',t:'Tết Hàn Thực'}] },
+    { type:'mc', q:'Đèn lồng Trung Thu thường làm từ vật liệu gì?', c:0,
+      opts:[{e:'🎋',t:'Giấy và tre mỏng'},{e:'⚙️',t:'Kim loại nặng'},{e:'🪨',t:'Đá cứng'}] },
+    { type:'mc', q:'Bé thường làm gì trong đêm Trung Thu?', c:0,
+      opts:[{e:'🏮',t:'Rước đèn và phá cỗ vui'},{e:'😴',t:'Ngủ sớm trong phòng'},{e:'📺',t:'Xem phim một mình'}] },
+    { type:'tf', q:'Tết Trung Thu diễn ra vào mùa thu.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 // ── THÁNG 10 ──
 { id:3, cat:'t10', month:'Tháng 10', title:'Rửa Tay 6 Bước WHO', icon:'🧼', qimg:'🖐️',
   questions:[
-    { q:'Rửa tay đúng chuẩn WHO gồm bao nhiêu bước?', c:2,
-      opts:[{e:'2️⃣',t:'2 bước'},{e:'4️⃣',t:'4 bước'},{e:'6️⃣',t:'6 bước'},{e:'8️⃣',t:'8 bước'}] },
-    { q:'Rửa tay mất bao lâu mới đủ sạch?', c:2,
-      opts:[{e:'⚡',t:'5 giây là đủ'},{e:'🕐',t:'10 giây'},{e:'⏱️',t:'Ít nhất 20 giây'},{e:'⏰',t:'1 phút'}] },
-    { q:'Rửa tay trước và sau khi làm gì?', c:0,
-      opts:[{e:'🍽️',t:'Trước khi ăn và sau khi vệ sinh'},{e:'😴',t:'Trước khi ngủ'},{e:'📺',t:'Sau khi xem tivi'},{e:'🛝',t:'Khi đi chơi về'}] },
-    { q:'Tại sao cần rửa tay bằng xà phòng?', c:0,
-      opts:[{e:'🦠',t:'Diệt vi khuẩn gây bệnh'},{e:'🌸',t:'Cho tay thơm hơn'},{e:'🧴',t:'Vì thích xà phòng'},{e:'💧',t:'Để tay ướt thôi'}] },
-    { q:'Bước nào trong 6 bước hay bị bỏ quên nhất?', c:1,
-      opts:[{e:'💦',t:'Làm ướt tay'},{e:'👍',t:'Chà kẽ ngón tay và ngón cái'},{e:'🧼',t:'Bôi xà phòng'},{e:'🚿',t:'Rửa sạch tay'}] },
+    { type:'mc', q:'Rửa tay đúng chuẩn gồm bao nhiêu bước?', c:2,
+      opts:[{e:'2️⃣',t:'2 bước'},{e:'4️⃣',t:'4 bước'},{e:'6️⃣',t:'6 bước'}] },
+    { type:'mc', q:'Cần rửa tay bằng xà phòng ít nhất bao lâu?', c:2,
+      opts:[{e:'⚡',t:'5 giây là đủ rồi'},{e:'🕐',t:'10 giây'},{e:'⏱️',t:'Ít nhất 20 giây'}] },
+    { type:'mc', q:'Rửa tay bằng xà phòng để làm gì?', c:0,
+      opts:[{e:'🦠',t:'Diệt vi khuẩn gây bệnh'},{e:'🌸',t:'Cho tay thơm hơn'},{e:'💧',t:'Để tay ướt thôi'}] },
+    { type:'tf', q:'Có thể không cần rửa tay trước khi ăn cơm.', c:1,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
+    { type:'tf', q:'Rửa tay giúp bé không bị ốm.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:4, cat:'t10', month:'Tháng 10', title:'Dùng Kéo An Toàn', icon:'✂️', qimg:'🛡️',
   questions:[
-    { q:'Khi cầm kéo đi lại, con làm gì?', c:0,
-      opts:[{e:'🚶',t:'Cầm mũi xuống, đi thật chậm'},{e:'🏃',t:'Chạy thật nhanh'},{e:'🙌',t:'Vẫy kéo lên cao'},{e:'🎯',t:'Ném cho bạn'}] },
-    { q:'Truyền kéo cho bạn đúng cách là thế nào?', c:1,
-      opts:[{e:'⚔️',t:'Trao lưỡi kéo cho bạn'},{e:'🤝',t:'Trao tay cầm cho bạn'},{e:'🎳',t:'Ném qua'},{e:'🪑',t:'Để trên sàn'}] },
-    { q:'Bạn đang dùng kéo, lưỡi hướng ra ngoài – đúng hay sai?', c:1,
-      opts:[{e:'✅',t:'Đúng, không sao'},{e:'❌',t:'Sai, rất nguy hiểm'}] },
-    { q:'Không nên cầm kéo khi đang làm gì?', c:0,
-      opts:[{e:'🏃',t:'Khi đang chạy hoặc nhảy'},{e:'✂️',t:'Khi ngồi cắt giấy'},{e:'🎨',t:'Khi tập thủ công'},{e:'📚',t:'Khi ngồi học'}] },
-    { q:'Sau khi dùng kéo xong, con để kéo ở đâu?', c:0,
-      opts:[{e:'📦',t:'Vào hộp đựng hoặc ngăn kéo'},{e:'🗂️',t:'Trên bàn, mũi hướng ra'},{e:'🪟',t:'Dưới sàn nhà'},{e:'👘',t:'Trong túi áo'}] },
+    { type:'mc', q:'Khi cầm kéo đi lại, bé làm gì để an toàn?', c:0,
+      opts:[{e:'🚶',t:'Cầm mũi xuống, đi thật chậm'},{e:'🏃',t:'Chạy thật nhanh'},{e:'🙌',t:'Vẫy kéo lên cao'}] },
+    { type:'mc', q:'Đưa kéo cho bạn đúng cách là thế nào?', c:1,
+      opts:[{e:'⚔️',t:'Trao lưỡi kéo cho bạn cầm'},{e:'🤝',t:'Trao tay cầm cho bạn'},{e:'🎳',t:'Ném qua phía bạn'}] },
+    { type:'mc', q:'Sau khi dùng kéo xong, bé để kéo ở đâu?', c:0,
+      opts:[{e:'📦',t:'Vào hộp đựng hoặc ngăn kéo'},{e:'🗂️',t:'Trên bàn mũi hướng ra'},{e:'👘',t:'Trong túi áo bé'}] },
+    { type:'tf', q:'Có thể chạy nhảy khi tay đang cầm kéo.', c:1,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:5, cat:'t10', month:'Tháng 10', title:'Quét & Hót Rác', icon:'🧹', qimg:'🏠',
   questions:[
-    { q:'Để quét nhà thật sạch, bé cần chuẩn bị bộ dụng cụ nào?', c:0,
-      opts:[{e:'🧹',t:'Chổi và hót rác'},{e:'🪣',t:'Chậu và giẻ lau'},{e:'🧴',t:'Nước rửa chén và bọt biển'},{e:'📦',t:'Hộp đựng đồ'}] },
-    { q:'Để rác vào hót rác dễ dàng, bé đặt hót rác như thế nào?', c:1,
-      opts:[{e:'⬆️',t:'Dựng đứng lên'},{e:'➡️',t:'Áp sát sàn nằm ngang'},{e:'🔄',t:'Lật ngược lên'},{e:'↗️',t:'Nghiêng 45 độ'}] },
-    { q:'Dùng chổi, bé quét thế nào để bụi không bay lên?', c:0,
-      opts:[{e:'🐢',t:'Quét nhẹ nhàng, chậm rãi'},{e:'🌪️',t:'Quét thật nhanh và mạnh'},{e:'🔄',t:'Quét vòng tròn liên tục'},{e:'⬆️',t:'Hất chổi lên cao'}] },
-    { q:'Sau khi thu gom rác vào hót rác, bước tiếp theo là gì?', c:0,
-      opts:[{e:'🗑️',t:'Đổ rác vào thùng đúng nơi'},{e:'🪴',t:'Đổ rác ra sân'},{e:'🛝',t:'Đi chơi ngay'},{e:'💧',t:'Đổ rác xuống cống'}] },
+    { type:'mc', q:'Bộ dụng cụ cần thiết để quét nhà sạch là gì?', c:0,
+      opts:[{e:'🧹',t:'Chổi và hót rác'},{e:'🪣',t:'Chậu và giẻ lau'},{e:'🧴',t:'Nước rửa và bọt biển'}] },
+    { type:'mc', q:'Đặt hót rác thế nào để rác vào dễ dàng?', c:1,
+      opts:[{e:'⬆️',t:'Dựng đứng lên trời'},{e:'➡️',t:'Áp sát sàn nằm ngang'},{e:'🔄',t:'Lật ngược hót rác'}] },
+    { type:'mc', q:'Quét chổi thế nào để bụi không bay lên?', c:0,
+      opts:[{e:'🐢',t:'Quét nhẹ nhàng, chậm rãi'},{e:'🌪️',t:'Quét thật nhanh mạnh'},{e:'⬆️',t:'Hất chổi lên cao'}] },
+    { type:'tf', q:'Sau khi thu gom xong, đổ rác vào thùng đúng nơi.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:6, cat:'t10', month:'Tháng 10', title:'Thiệp Tặng Mẹ 20/10', icon:'💌', qimg:'💕',
   questions:[
-    { q:'Con chọn màu sắc gì cho thiệp của mẹ?', c:0,
-      opts:[{e:'❤️',t:'Hồng hoặc đỏ yêu thương'},{e:'🖤',t:'Màu đen tối'},{e:'🩶',t:'Màu xám nhạt'},{e:'📄',t:'Không cần màu'}] },
-    { q:'Hình ảnh nào con muốn vẽ lên thiệp cho mẹ?', c:0,
-      opts:[{e:'🌸',t:'Hoa và trái tim'},{e:'⚙️',t:'Máy móc'},{e:'🌧️',t:'Đám mây tối'},{e:'⬜',t:'Không vẽ gì'}] },
-    { q:'Con cảm thấy thế nào khi tặng thiệp cho mẹ?', c:0,
-      opts:[{e:'😄',t:'Rất vui và hạnh phúc'},{e:'😢',t:'Buồn lòng'},{e:'😐',t:'Bình thường, không vui'},{e:'😨',t:'Sợ hãi'}] },
-    { q:'Khi tặng thiệp, con nên nói gì với mẹ?', c:0,
-      opts:[{e:'🥰',t:'Con yêu mẹ! Chúc mẹ vui!'},{e:'😶',t:'Không nói gì cả'},{e:'🎯',t:'Ném qua cho mẹ'},{e:'⏳',t:'Chờ mẹ tự lấy'}] },
+    { type:'mc', q:'Bé chọn màu sắc gì cho thiệp tặng mẹ?', c:0,
+      opts:[{e:'❤️',t:'Màu hồng hoặc đỏ yêu thương'},{e:'🖤',t:'Màu đen tối'},{e:'📄',t:'Không cần tô màu'}] },
+    { type:'mc', q:'Bé sẽ vẽ hình gì lên thiệp cho mẹ?', c:0,
+      opts:[{e:'🌸',t:'Hoa và trái tim đẹp'},{e:'⚙️',t:'Máy móc khó hiểu'},{e:'⬜',t:'Không vẽ gì cả'}] },
+    { type:'mc', q:'Khi tặng thiệp, bé nói gì với mẹ?', c:0,
+      opts:[{e:'🥰',t:'Con yêu mẹ! Chúc mẹ vui!'},{e:'😶',t:'Không nói gì cả'},{e:'⏳',t:'Chờ mẹ tự lấy đi'}] },
+    { type:'tf', q:'Tự tay làm thiệp tặng mẹ là cách thể hiện tình yêu thương.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 // ── THÁNG 11 ──
 { id:7, cat:'t11', month:'Tháng 11', title:'Bê Ghế & Ăn Đúng Cách', icon:'🪑', qimg:'🍚',
   questions:[
-    { q:'Khi bê ghế cần nhớ điều gì?', c:0,
-      opts:[{e:'👀',t:'Nhìn trước đường đi'},{e:'🏃',t:'Chạy thật nhanh'},{e:'📢',t:'Gọi bạn bê hộ'},{e:'🔊',t:'Kéo lê dưới sàn'}] },
-    { q:'Tư thế ngồi ăn đúng là thế nào?', c:0,
-      opts:[{e:'🪑',t:'Ngồi thẳng lưng, chân thả tự nhiên'},{e:'🛌',t:'Nằm xuống ăn'},{e:'🏃',t:'Vừa ăn vừa chạy'},{e:'🧍',t:'Đứng thẳng ăn'}] },
-    { q:'Ăn cơm đúng cách KHÔNG bao gồm điều gì?', c:1,
-      opts:[{e:'🥢',t:'Cầm đũa đúng cách'},{e:'📣',t:'Nói chuyện to trong bữa ăn'},{e:'😋',t:'Nhai kỹ trước khi nuốt'},{e:'🍱',t:'Ăn hết xuất của mình'}] },
-    { q:'Sau khi ăn xong con cần làm gì?', c:0,
-      opts:[{e:'🧽',t:'Cất bát và lau miệng sạch'},{e:'🪑',t:'Bỏ bát tại chỗ'},{e:'🏃',t:'Chạy đi chơi ngay'},{e:'😂',t:'La hét vì no'}] },
+    { type:'mc', q:'Khi bê ghế, bé cần nhớ điều quan trọng gì?', c:0,
+      opts:[{e:'👀',t:'Nhìn trước đường đi để an toàn'},{e:'🏃',t:'Chạy thật nhanh qua'},{e:'🔊',t:'Kéo lê dưới sàn'}] },
+    { type:'mc', q:'Tư thế ngồi ăn đúng là thế nào?', c:0,
+      opts:[{e:'🪑',t:'Ngồi thẳng lưng, chân thả tự nhiên'},{e:'🛌',t:'Nằm xuống mà ăn'},{e:'🏃',t:'Vừa ăn vừa chạy'}] },
+    { type:'mc', q:'Sau khi ăn xong bé cần làm gì?', c:0,
+      opts:[{e:'🧽',t:'Cất bát và lau miệng sạch'},{e:'🪑',t:'Bỏ bát tại chỗ ngồi'},{e:'🏃',t:'Chạy đi chơi ngay'}] },
+    { type:'tf', q:'Nói chuyện to trong bữa ăn là không lịch sự.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:8, cat:'t11', month:'Tháng 11', title:'Chải Răng Đúng Cách', icon:'🦷', qimg:'🪥',
   questions:[
-    { q:'Chải răng mỗi ngày mấy lần?', c:1,
-      opts:[{e:'1️⃣',t:'1 lần buổi sáng'},{e:'2️⃣',t:'2 lần: sáng và tối'},{e:'3️⃣',t:'3 lần mỗi bữa ăn'},{e:'7️⃣',t:'1 tuần 1 lần'}] },
-    { q:'Chải răng đúng cần mất bao lâu?', c:1,
-      opts:[{e:'⚡',t:'10 giây là đủ'},{e:'⏱️',t:'Ít nhất 2 phút'},{e:'🕐',t:'30 giây'},{e:'⏰',t:'5 phút'}] },
-    { q:'Kem đánh răng lấy bao nhiêu là đủ?', c:1,
-      opts:[{e:'🧴',t:'Đầy cả bàn chải'},{e:'🫘',t:'Bằng hạt đậu nhỏ'},{e:'❌',t:'Không cần kem'},{e:'💊',t:'Nửa tuýp'}] },
-    { q:'Tại sao phải chải răng sau khi ăn?', c:0,
-      opts:[{e:'🦠',t:'Loại bỏ thức ăn, ngừa sâu răng'},{e:'🌬️',t:'Cho miệng thơm mát'},{e:'👨‍👩‍👧',t:'Vì bố mẹ bắt'},{e:'😴',t:'Để ngủ ngon hơn'}] },
+    { type:'mc', q:'Bé cần chải răng mỗi ngày mấy lần?', c:1,
+      opts:[{e:'1️⃣',t:'1 lần buổi sáng thôi'},{e:'2️⃣',t:'2 lần: sáng và tối'},{e:'7️⃣',t:'1 tuần 1 lần'}] },
+    { type:'mc', q:'Chải răng cần mất bao nhiêu thời gian?', c:1,
+      opts:[{e:'⚡',t:'10 giây là đủ rồi'},{e:'⏱️',t:'Ít nhất 2 phút'},{e:'⏰',t:'5 phút'}] },
+    { type:'mc', q:'Lấy kem đánh răng bao nhiêu là vừa đủ?', c:1,
+      opts:[{e:'🧴',t:'Đầy cả bàn chải'},{e:'🫘',t:'Bằng hạt đậu nhỏ'},{e:'💊',t:'Nửa tuýp kem'}] },
+    { type:'tf', q:'Chải răng giúp ngăn ngừa sâu răng.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
+    { type:'tf', q:'Có thể chải răng một cách qua loa cho nhanh.', c:1,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:9, cat:'t11', month:'Tháng 11', title:'Quà Tặng Thầy Cô 20/11', icon:'🎁', qimg:'👩‍🏫',
   questions:[
-    { q:'Cô giáo làm những việc gì mỗi ngày?', c:0,
-      opts:[{e:'📚',t:'Dạy học và chăm sóc bé'},{e:'😴',t:'Chỉ ngủ và ăn'},{e:'📺',t:'Xem tivi cả ngày'},{e:'🏖️',t:'Đi chơi mỗi ngày'}] },
-    { q:'Khi tặng quà, con sẽ nói gì với cô?', c:0,
-      opts:[{e:'💖',t:'Cảm ơn cô đã dạy con!'},{e:'😶',t:'Không nói gì cả'},{e:'🎯',t:'Ném quà và chạy đi'},{e:'🚪',t:'Để quà rồi bỏ đi'}] },
-    { q:'Con cảm thấy thế nào sau khi tặng quà cho cô?', c:0,
-      opts:[{e:'😄',t:'Rất vui và tự hào'},{e:'😢',t:'Buồn và tiếc nuối'},{e:'😨',t:'Sợ hãi'},{e:'😠',t:'Tức giận'}] },
+    { type:'mc', q:'Cô giáo làm những việc gì mỗi ngày?', c:0,
+      opts:[{e:'📚',t:'Dạy học và chăm sóc bé'},{e:'😴',t:'Chỉ ngủ và ăn thôi'},{e:'📺',t:'Xem tivi cả ngày'}] },
+    { type:'mc', q:'Khi tặng quà, bé sẽ nói gì với cô?', c:0,
+      opts:[{e:'💖',t:'Cảm ơn cô đã dạy bé!'},{e:'😶',t:'Không nói gì cả'},{e:'🚪',t:'Để quà rồi bỏ đi'}] },
+    { type:'tf', q:'Ngày 20/11 là ngày Nhà giáo Việt Nam.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
+    { type:'tf', q:'Bé không cần bày tỏ sự biết ơn với thầy cô.', c:1,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 // ── THÁNG 12 ──
 { id:10, cat:'t12', month:'Tháng 12', title:'Trang Phục Theo Thời Tiết', icon:'👗', qimg:'🌦️',
   questions:[
-    { q:'Trời lạnh, con mặc áo nào?', c:0,
-      opts:[{e:'🧥',t:'Áo ấm, áo len dày'},{e:'👙',t:'Áo hai dây mỏng'},{e:'🩱',t:'Áo tắm'},{e:'🫡',t:'Áo không tay'}] },
-    { q:'Đi học, con mặc gì?', c:0,
-      opts:[{e:'👕',t:'Đồng phục trường'},{e:'😴',t:'Áo ngủ'},{e:'🏊',t:'Đồ đi tắm biển'},{e:'🌧️',t:'Áo mưa'}] },
-    { q:'Hôm nay trời mưa – con cần thêm gì khi ra ngoài?', c:0,
-      opts:[{e:'☂️',t:'Áo mưa hoặc ô dù'},{e:'🩴',t:'Dép tông bình thường'},{e:'😎',t:'Không cần gì thêm'},{e:'🧣',t:'Áo len dày'}] },
-    { q:'Mùa hè mặc áo màu nào mát hơn?', c:0,
-      opts:[{e:'🤍',t:'Màu trắng hoặc sáng'},{e:'🖤',t:'Màu đen'},{e:'🔴',t:'Màu đỏ đậm'},{e:'🤔',t:'Màu nào cũng như nhau'}] },
-    { q:'Áo bị ướt mưa, con làm gì?', c:0,
-      opts:[{e:'👕',t:'Thay áo khô và phơi áo ướt'},{e:'😓',t:'Mặc nguyên đến khi khô'},{e:'💦',t:'Vắt áo rồi mặc lại'},{e:'🗑️',t:'Bỏ áo đi luôn'}] },
+    { type:'mc', q:'Trời lạnh, bé mặc áo nào?', c:0,
+      opts:[{e:'🧥',t:'Áo ấm, áo len dày'},{e:'👙',t:'Áo hai dây mỏng'},{e:'🏊',t:'Áo đi tắm biển'}] },
+    { type:'mc', q:'Hôm nay trời mưa, bé cần thêm gì khi ra ngoài?', c:0,
+      opts:[{e:'☂️',t:'Áo mưa hoặc ô dù'},{e:'🩴',t:'Dép tông bình thường'},{e:'😎',t:'Không cần gì thêm'}] },
+    { type:'mc', q:'Áo bị ướt mưa, bé làm gì?', c:0,
+      opts:[{e:'👕',t:'Thay áo khô và phơi áo ướt'},{e:'😓',t:'Mặc nguyên đến khi tự khô'},{e:'🗑️',t:'Bỏ áo đi luôn'}] },
+    { type:'tf', q:'Mùa hè nên mặc áo màu sáng để mát hơn.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:11, cat:'t12', month:'Tháng 12', title:'Kéo Khóa & Cài Cúc', icon:'🔗', qimg:'👚',
   questions:[
-    { q:'Để kéo khóa áo đúng cách, đầu tiên bé làm gì?', c:0,
-      opts:[{e:'🔗',t:'Cài đầu khóa vào chốt cho khớp'},{e:'💪',t:'Kéo mạnh một phát'},{e:'✂️',t:'Dùng kéo cắt khóa'},{e:'🆘',t:'Nhờ người khác làm hộ'}] },
-    { q:'Cúc bấm được cài đúng cách như thế nào?', c:1,
-      opts:[{e:'🔨',t:'Đập mạnh cho vào'},{e:'👆',t:'Ấn đều hai nửa cúc vào nhau'},{e:'🪡',t:'Dùng kim may lại'},{e:'🤷',t:'Không cần cài'}] },
+    { type:'mc', q:'Để kéo khóa áo đúng cách, đầu tiên bé làm gì?', c:0,
+      opts:[{e:'🔗',t:'Cài đầu khóa vào chốt cho khớp'},{e:'💪',t:'Kéo mạnh một cái là xong'},{e:'🆘',t:'Nhờ người khác làm hộ'}] },
+    { type:'mc', q:'Cúc bấm được cài đúng cách như thế nào?', c:1,
+      opts:[{e:'🔨',t:'Đập mạnh cho vào'},{e:'👆',t:'Ấn đều hai nửa cúc vào nhau'},{e:'✂️',t:'Dùng kéo may lại'}] },
+    { type:'tf', q:'Bé có thể tự kéo khóa áo và cài cúc mà không cần nhờ người lớn.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:12, cat:'t12', month:'Tháng 12', title:'Gấp Quần Áo', icon:'👔', qimg:'🧺',
   questions:[
-    { q:'Trước khi gấp, cần làm gì để quần áo phẳng phiu?', c:0,
-      opts:[{e:'🔥',t:'Phơi khô và kéo thẳng trước'},{e:'💦',t:'Làm ướt lại'},{e:'✂️',t:'Cắt bớt'},{e:'🤷',t:'Không cần làm gì'}] },
-    { q:'Để gấp áo có khuy, bước đầu tiên là gì?', c:0,
-      opts:[{e:'🔗',t:'Cài hết các khuy trước'},{e:'✂️',t:'Cắt bỏ khuy'},{e:'🙈',t:'Bỏ qua khuy'},{e:'🏃',t:'Gấp thật nhanh không cần cài'}] },
-    { q:'Quần áo đã gấp xong, bé nên để ở đâu?', c:0,
-      opts:[{e:'🗄️',t:'Tủ quần áo đúng chỗ'},{e:'🛏️',t:'Trên giường'},{e:'🪑',t:'Trên sàn nhà'},{e:'🚪',t:'Sau cánh cửa'}] },
+    { type:'mc', q:'Trước khi gấp, làm gì để quần áo phẳng phiu?', c:0,
+      opts:[{e:'🔥',t:'Phơi khô và kéo thẳng trước'},{e:'💦',t:'Làm ướt lại rồi gấp'},{e:'🤷',t:'Không cần làm gì cả'}] },
+    { type:'mc', q:'Quần áo đã gấp xong, bé nên để ở đâu?', c:0,
+      opts:[{e:'🗄️',t:'Tủ quần áo đúng chỗ'},{e:'🛏️',t:'Bừa bãi trên giường'},{e:'🪑',t:'Để dưới sàn nhà'}] },
+    { type:'tf', q:'Tự gấp quần áo giúp bé biết tự chăm sóc bản thân.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:13, cat:'t12', month:'Tháng 12', title:'Chú Bộ Đội Tí Hon 22/12', icon:'⭐', qimg:'🪖',
   questions:[
-    { q:'Ngày 22/12 là ngày gì?', c:0,
-      opts:[{e:'🇻🇳',t:'Ngày thành lập Quân đội nhân dân VN'},{e:'🎉',t:'Ngày Quốc Khánh 2/9'},{e:'👩‍🏫',t:'Ngày Nhà giáo 20/11'},{e:'🧒',t:'Ngày Quốc tế Thiếu nhi'}] },
-    { q:'Chú bộ đội làm công việc gì?', c:0,
-      opts:[{e:'🛡️',t:'Bảo vệ Tổ quốc và giúp dân'},{e:'🪖',t:'Chỉ đứng gác thôi'},{e:'🌾',t:'Làm ruộng mỗi ngày'},{e:'🛒',t:'Đi chợ mua đồ'}] },
-    { q:'Chú bộ đội cần phẩm chất gì?', c:0,
-      opts:[{e:'💪',t:'Dũng cảm và kỷ luật'},{e:'😴',t:'Lười biếng'},{e:'😨',t:'Hay sợ hãi'},{e:'🤪',t:'Không kỷ luật'}] },
-    { q:'Ngoài bộ đội, còn nghề nào bảo vệ bình yên cho chúng ta?', c:0,
-      opts:[{e:'👮',t:'Cảnh sát và cứu hỏa'},{e:'👨‍🍳',t:'Đầu bếp'},{e:'🎨',t:'Họa sĩ'},{e:'🎤',t:'Ca sĩ'}] },
+    { type:'mc', q:'Ngày 22/12 là ngày gì?', c:0,
+      opts:[{e:'🇻🇳',t:'Ngày thành lập Quân đội nhân dân VN'},{e:'🎉',t:'Ngày Quốc Khánh 2/9'},{e:'👩‍🏫',t:'Ngày Nhà giáo 20/11'}] },
+    { type:'mc', q:'Chú bộ đội làm công việc gì?', c:0,
+      opts:[{e:'🛡️',t:'Bảo vệ Tổ quốc và giúp dân'},{e:'🌾',t:'Làm ruộng mỗi ngày thôi'},{e:'🛒',t:'Đi chợ mua đồ'}] },
+    { type:'mc', q:'Ngoài bộ đội, còn nghề nào bảo vệ bình yên cho chúng ta?', c:0,
+      opts:[{e:'👮',t:'Cảnh sát và cứu hỏa'},{e:'👨‍🍳',t:'Đầu bếp nấu ăn'},{e:'🎨',t:'Họa sĩ vẽ tranh'}] },
+    { type:'tf', q:'Chú bộ đội cần dũng cảm và có kỷ luật.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 // ── THÁNG 1 ──
 { id:14, cat:'t1', month:'Tháng 1', title:'Kỹ Năng Đan Tết', icon:'🧶', qimg:'🪡',
   questions:[
-    { q:'Đan nong mốt khác đan nong đôi như thế nào?', c:0,
-      opts:[{e:'🧺',t:'Khác nhau ở cách đan 1 hoặc 2 ô'},{e:'🎨',t:'Chỉ khác màu sắc'},{e:'📏',t:'Chỉ khác kích thước'},{e:'🤷',t:'Giống hệt nhau'}] },
-    { q:'Nguyên liệu nào KHÔNG thể đan được?', c:0,
-      opts:[{e:'🪨',t:'Đá cứng'},{e:'🌾',t:'Sợi rơm'},{e:'🎋',t:'Tre mỏng'},{e:'📄',t:'Giấy cứng'}] },
-    { q:'Sản phẩm thủ công dùng để làm gì?', c:0,
-      opts:[{e:'🎀',t:'Trang trí và sử dụng hàng ngày'},{e:'👀',t:'Chỉ để ngắm'},{e:'🗑️',t:'Vứt đi sau khi làm'},{e:'💰',t:'Bán đắt tiền'}] },
+    { type:'mc', q:'Nguyên liệu nào KHÔNG thể dùng để đan?', c:0,
+      opts:[{e:'🪨',t:'Đá cứng'},{e:'🌾',t:'Sợi rơm mỏng'},{e:'🎋',t:'Nan tre mỏng'}] },
+    { type:'mc', q:'Sản phẩm thủ công đan được dùng để làm gì?', c:0,
+      opts:[{e:'🎀',t:'Trang trí và dùng hàng ngày'},{e:'🗑️',t:'Vứt đi sau khi làm'},{e:'👀',t:'Chỉ để ngắm thôi'}] },
+    { type:'tf', q:'Nghề đan lát là một nét văn hóa truyền thống của người Việt.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:15, cat:'t1', month:'Tháng 1', title:'Vắt Nước Cam', icon:'🍊', qimg:'🥤',
   questions:[
-    { q:'Quả cam có vị gì?', c:0,
-      opts:[{e:'😋',t:'Ngọt chua mát'},{e:'🌶️',t:'Cay sè'},{e:'😖',t:'Đắng ngắt'},{e:'🧂',t:'Mặn chát'}] },
-    { q:'Dùng gì để vắt cam?', c:1,
-      opts:[{e:'🥄',t:'Thìa kim loại'},{e:'🍊',t:'Máy vắt cam'},{e:'🔨',t:'Búa gõ'},{e:'✂️',t:'Kéo cắt'}] },
-    { q:'Trước khi vắt cam, cần làm gì?', c:0,
-      opts:[{e:'🧼',t:'Rửa sạch cam và tay'},{e:'🔪',t:'Cắt cam ngay'},{e:'🎉',t:'Lắc cam thật mạnh'},{e:'❄️',t:'Để vào tủ lạnh'}] },
+    { type:'mc', q:'Quả cam có vị gì?', c:0,
+      opts:[{e:'😋',t:'Ngọt chua mát mẻ'},{e:'🌶️',t:'Cay sè'},{e:'🧂',t:'Mặn chát'}] },
+    { type:'mc', q:'Dùng gì để vắt cam?', c:1,
+      opts:[{e:'🥄',t:'Thìa kim loại'},{e:'🍊',t:'Máy vắt cam hoặc tay'},{e:'🔨',t:'Búa gõ'}] },
+    { type:'mc', q:'Trước khi vắt cam, cần làm gì?', c:0,
+      opts:[{e:'🧼',t:'Rửa sạch cam và rửa tay'},{e:'🔪',t:'Cắt cam ngay thôi'},{e:'❄️',t:'Để vào tủ lạnh'}] },
+    { type:'tf', q:'Nước cam tươi vắt ra chứa nhiều vitamin C tốt cho sức khỏe.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:16, cat:'t1', month:'Tháng 1', title:'Chăm Sóc Con Vật Nuôi', icon:'🐾', qimg:'🐰',
   questions:[
-    { q:'Con vật nuôi cần được chăm sóc những gì mỗi ngày?', c:0,
-      opts:[{e:'🥕',t:'Cho ăn, uống nước và vệ sinh'},{e:'🍬',t:'Chỉ cho kẹo'},{e:'🙈',t:'Không cần chăm sóc'},{e:'🛁',t:'Chỉ tắm rửa'}] },
-    { q:'Dấu hiệu nào cho thấy con vật đang khỏe mạnh?', c:0,
-      opts:[{e:'🐇',t:'Hoạt bát, ăn uống bình thường'},{e:'😴',t:'Nằm im không nhúc nhích'},{e:'🚫',t:'Bỏ ăn nhiều ngày'},{e:'💔',t:'Lông xơ xác rụng nhiều'}] },
-    { q:'Sau khi chạm vào con vật, con cần làm gì?', c:0,
-      opts:[{e:'🧼',t:'Rửa tay bằng xà phòng ngay'},{e:'🤷',t:'Không cần làm gì'},{e:'👖',t:'Lau tay vào quần'},{e:'🍕',t:'Tiếp tục ăn uống ngay'}] },
+    { type:'mc', q:'Con vật nuôi cần được chăm sóc gì mỗi ngày?', c:0,
+      opts:[{e:'🥕',t:'Cho ăn, uống nước và vệ sinh'},{e:'🍬',t:'Chỉ cho kẹo là đủ'},{e:'🙈',t:'Không cần chăm sóc'}] },
+    { type:'mc', q:'Sau khi chạm vào con vật, bé cần làm gì?', c:0,
+      opts:[{e:'🧼',t:'Rửa tay bằng xà phòng ngay'},{e:'🤷',t:'Không cần làm gì'},{e:'🍕',t:'Tiếp tục ăn uống ngay'}] },
+    { type:'tf', q:'Con vật nuôi khỏe mạnh thường hoạt bát và ăn uống bình thường.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:17, cat:'t1', month:'Tháng 1', title:'Đánh Chiêng Mường', icon:'🥁', qimg:'🎶',
   questions:[
-    { q:'Chiêng của người Mường thường làm bằng chất liệu gì?', c:0,
-      opts:[{e:'🥉',t:'Đồng hoặc hợp kim'},{e:'🌲',t:'Gỗ cứng'},{e:'🪨',t:'Đá'},{e:'🎋',t:'Tre'}] },
-    { q:'Chiếc chiêng có hình dáng giống vật dụng nào?', c:0,
-      opts:[{e:'🍳',t:'Mặt tròn như cái chảo'},{e:'📦',t:'Hình hộp vuông'},{e:'🏺',t:'Cái bình cao'},{e:'🎀',t:'Hình nơ'}] },
-    { q:'Dùng gì để đánh chiêng?', c:0,
-      opts:[{e:'🪵',t:'Dùi gỗ bọc vải mềm'},{e:'🔨',t:'Búa sắt nặng'},{e:'✋',t:'Tay không'},{e:'✏️',t:'Bút chì'}] },
-    { q:'Tiếng chiêng thường vang lên vào những dịp nào?', c:0,
-      opts:[{e:'🎊',t:'Lễ hội, Tết và ngày vui'},{e:'😴',t:'Khi mọi người ngủ'},{e:'😢',t:'Khi bé khóc'},{e:'🌧️',t:'Khi trời mưa'}] },
+    { type:'mc', q:'Chiêng của người Mường thường làm bằng chất liệu gì?', c:0,
+      opts:[{e:'🥉',t:'Đồng hoặc hợp kim'},{e:'🌲',t:'Gỗ cứng'},{e:'🎋',t:'Tre'}] },
+    { type:'mc', q:'Dùng gì để đánh chiêng?', c:0,
+      opts:[{e:'🪵',t:'Dùi gỗ bọc vải mềm'},{e:'🔨',t:'Búa sắt nặng'},{e:'✋',t:'Tay không'}] },
+    { type:'mc', q:'Tiếng chiêng thường vang lên vào những dịp nào?', c:0,
+      opts:[{e:'🎊',t:'Lễ hội, Tết và ngày vui'},{e:'😴',t:'Khi mọi người đang ngủ'},{e:'🌧️',t:'Khi trời mưa to'}] },
+    { type:'tf', q:'Đánh chiêng là nét văn hóa đặc sắc của người Mường Hòa Bình.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 // ── THÁNG 2 ──
 { id:18, cat:'t2', month:'Tháng 2', title:'Trồng Cây & Chăm Cây', icon:'🌱', qimg:'☀️',
   questions:[
-    { q:'Cây cần gì để lớn?', c:0,
-      opts:[{e:'🌿',t:'Nước, ánh sáng, đất và không khí'},{e:'💧',t:'Chỉ cần nước'},{e:'🍬',t:'Kẹo và bánh'},{e:'🎵',t:'Nhạc và phim'}] },
-    { q:'Lá cây màu xanh vì sao?', c:0,
-      opts:[{e:'🍃',t:'Vì có chất diệp lục chlorophyll'},{e:'🖌️',t:'Vì được sơn màu xanh'},{e:'🌤️',t:'Vì trời xanh chiếu vào'},{e:'🤷',t:'Không ai biết'}] },
-    { q:'Rễ cây có nhiệm vụ gì?', c:0,
-      opts:[{e:'🌍',t:'Hút nước và chất dinh dưỡng từ đất'},{e:'💄',t:'Làm đẹp cho cây'},{e:'🌬️',t:'Tạo ra oxy'},{e:'🌪️',t:'Chống gió bão'}] },
-    { q:'Tại sao phải tưới nước cây mỗi ngày?', c:0,
-      opts:[{e:'💧',t:'Để cây không bị héo và khỏe mạnh'},{e:'🎭',t:'Vì thích tưới'},{e:'🌊',t:'Để đất bị ướt sũng'},{e:'🤷',t:'Không cần tưới mỗi ngày'}] },
+    { type:'mc', q:'Cây cần gì để lớn lên?', c:0,
+      opts:[{e:'🌿',t:'Nước, ánh sáng, đất và không khí'},{e:'💧',t:'Chỉ cần nước là đủ'},{e:'🍬',t:'Kẹo và bánh'}] },
+    { type:'mc', q:'Rễ cây có nhiệm vụ gì?', c:0,
+      opts:[{e:'🌍',t:'Hút nước và chất dinh dưỡng từ đất'},{e:'💄',t:'Làm đẹp cho cây'},{e:'🌬️',t:'Tạo ra oxy'}] },
+    { type:'mc', q:'Tại sao cần tưới nước cho cây mỗi ngày?', c:0,
+      opts:[{e:'💧',t:'Để cây không bị héo và khỏe mạnh'},{e:'🌊',t:'Để đất bị ướt sũng'},{e:'🤷',t:'Không cần tưới mỗi ngày'}] },
+    { type:'tf', q:'Lá cây màu xanh vì có chất diệp lục.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
-{ id:19, cat:'t2', month:'Tháng 2', title:'Gói Bánh Chưng, Cơm Lam', icon:'🟩', qimg:'🎋',
+{ id:19, cat:'t2', month:'Tháng 2', title:'Gói Bánh Chưng', icon:'🟩', qimg:'🎋',
   questions:[
-    { q:'Để gói bánh chưng xanh mướt, cần dùng loại lá gì?', c:0,
-      opts:[{e:'🍃',t:'Lá dong hoặc lá chuối'},{e:'🍀',t:'Lá cỏ'},{e:'🌹',t:'Lá hoa hồng'},{e:'🎋',t:'Lá tre'}] },
-    { q:'Bên trong bánh chưng có những nguyên liệu nào?', c:0,
-      opts:[{e:'🌾',t:'Gạo nếp, đậu xanh và thịt heo'},{e:'🍬',t:'Đường và sữa'},{e:'🥕',t:'Cà rốt và khoai'},{e:'🍅',t:'Cà chua và hành'}] },
-    { q:'Chiếc bánh chưng có hình dạng giống hình gì?', c:0,
-      opts:[{e:'🟩',t:'Hình vuông'},{e:'⭕',t:'Hình tròn'},{e:'🔺',t:'Hình tam giác'},{e:'🟦',t:'Hình chữ nhật dài'}] },
+    { type:'mc', q:'Để gói bánh chưng xanh, cần dùng loại lá gì?', c:0,
+      opts:[{e:'🍃',t:'Lá dong hoặc lá chuối'},{e:'🍀',t:'Lá cỏ'},{e:'🌹',t:'Lá hoa hồng'}] },
+    { type:'mc', q:'Bên trong bánh chưng có những nguyên liệu nào?', c:0,
+      opts:[{e:'🌾',t:'Gạo nếp, đậu xanh và thịt heo'},{e:'🍬',t:'Đường và sữa'},{e:'🍅',t:'Cà chua và hành'}] },
+    { type:'mc', q:'Bánh chưng có hình dạng gì?', c:0,
+      opts:[{e:'🟩',t:'Hình vuông'},{e:'⭕',t:'Hình tròn'},{e:'🔺',t:'Hình tam giác'}] },
+    { type:'tf', q:'Bánh chưng là món ăn truyền thống ngày Tết của người Việt.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:20, cat:'t2', month:'Tháng 2', title:'Vui Đón Tết Nguyên Đán', icon:'🧧', qimg:'🎊',
   questions:[
-    { q:'Tết Nguyên Đán thường diễn ra vào tháng mấy?', c:0,
-      opts:[{e:'🌙',t:'Tháng 1 hoặc 2 âm lịch'},{e:'☀️',t:'Tháng 6'},{e:'🍂',t:'Tháng 9'},{e:'❄️',t:'Tháng 12'}] },
-    { q:'Cây gì là biểu tượng ngày Tết?', c:0,
-      opts:[{e:'🌸',t:'Cây đào và cây mai'},{e:'🌵',t:'Cây xương rồng'},{e:'🌲',t:'Cây thông'},{e:'🥥',t:'Cây dừa'}] },
-    { q:'Mọi người mặc áo mới ngày Tết để làm gì?', c:0,
-      opts:[{e:'🎋',t:'Đón năm mới may mắn, tươi vui'},{e:'😔',t:'Vì áo cũ bị rách'},{e:'👗',t:'Vì thích mặc đẹp thôi'},{e:'🤷',t:'Không có lý do'}] },
-    { q:'Bánh chưng được làm từ nguyên liệu gì?', c:0,
-      opts:[{e:'🌾',t:'Gạo nếp, đậu xanh, thịt và lá dong'},{e:'🍞',t:'Bột mì và trứng'},{e:'🍚',t:'Gạo tẻ và muối'},{e:'🥔',t:'Khoai và sắn'}] },
+    { type:'mc', q:'Cây gì là biểu tượng ngày Tết?', c:0,
+      opts:[{e:'🌸',t:'Cây đào và cây mai vàng'},{e:'🌵',t:'Cây xương rồng'},{e:'🌲',t:'Cây thông'}] },
+    { type:'mc', q:'Mọi người mặc áo mới ngày Tết để làm gì?', c:0,
+      opts:[{e:'🎋',t:'Đón năm mới may mắn, tươi vui'},{e:'😔',t:'Vì áo cũ bị rách hết'},{e:'🤷',t:'Không có lý do gì'}] },
+    { type:'tf', q:'Tết Nguyên Đán diễn ra vào tháng 1 hoặc tháng 2 âm lịch.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
+    { type:'tf', q:'Ngày Tết, các bé không được nhận tiền lì xì từ người lớn.', c:1,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 // ── THÁNG 3 ──
 { id:21, cat:'t3', month:'Tháng 3', title:'Sữa Chua Dầm Hoa Quả', icon:'🍓', qimg:'🥣',
   questions:[
-    { q:'Sữa chua được làm từ gì?', c:0,
-      opts:[{e:'🐄',t:'Sữa tươi lên men'},{e:'💧',t:'Nước lọc và đường'},{e:'🌾',t:'Bột mì'},{e:'🍊',t:'Nước ép hoa quả'}] },
-    { q:'Ăn sữa chua có lợi gì cho sức khỏe?', c:0,
-      opts:[{e:'💪',t:'Tốt cho tiêu hóa và xương chắc khỏe'},{e:'🤷',t:'Không có lợi ích gì'},{e:'🍩',t:'Chỉ làm béo'},{e:'😣',t:'Gây đau bụng'}] },
-    { q:'Vì sao cần rửa tay sạch trước khi làm thức ăn?', c:0,
-      opts:[{e:'🧼',t:'Để không có vi khuẩn lây vào thức ăn'},{e:'💅',t:'Vì tay bẩn nhìn xấu'},{e:'📖',t:'Vì được dạy như vậy'},{e:'🤷',t:'Không cần rửa'}] },
-    { q:'Sữa chua cần để ở đâu để bảo quản?', c:0,
-      opts:[{e:'❄️',t:'Trong tủ lạnh'},{e:'🌡️',t:'Trên bàn phòng ấm'},{e:'☀️',t:'Dưới nắng mặt trời'},{e:'🎒',t:'Trong túi kín'}] },
+    { type:'mc', q:'Sữa chua được làm từ gì?', c:0,
+      opts:[{e:'🐄',t:'Sữa tươi lên men'},{e:'💧',t:'Nước lọc và đường'},{e:'🍊',t:'Nước ép hoa quả'}] },
+    { type:'mc', q:'Ăn sữa chua có lợi gì cho sức khỏe?', c:0,
+      opts:[{e:'💪',t:'Tốt cho tiêu hóa và xương'},{e:'🤷',t:'Không có lợi ích gì'},{e:'😣',t:'Gây đau bụng'}] },
+    { type:'mc', q:'Sữa chua cần để ở đâu để bảo quản tốt?', c:0,
+      opts:[{e:'❄️',t:'Trong tủ lạnh'},{e:'☀️',t:'Dưới nắng mặt trời'},{e:'🌡️',t:'Trên bàn phòng nóng'}] },
+    { type:'tf', q:'Cần rửa tay sạch trước khi chế biến thức ăn.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:22, cat:'t3', month:'Tháng 3', title:'Ngày 8/3 Yêu Thương', icon:'🌹', qimg:'💐',
   questions:[
-    { q:'Ngày 8/3 là ngày hội của ai?', c:0,
-      opts:[{e:'👩',t:'Phụ nữ và các bé gái'},{e:'👦',t:'Các bé trai'},{e:'👴',t:'Người cao tuổi'},{e:'👨‍🏫',t:'Thầy giáo'}] },
-    { q:'Trong ngày 8/3, bé thường làm gì để tặng mẹ?', c:0,
-      opts:[{e:'🌸',t:'Làm thiệp hoặc tặng hoa'},{e:'🏃',t:'Đi chơi một mình'},{e:'📺',t:'Xem tivi cả ngày'},{e:'😴',t:'Ngủ cả ngày'}] },
-    { q:'Con muốn nói gì với mẹ trong ngày 8/3?', c:0,
-      opts:[{e:'❤️',t:'Con yêu mẹ rất nhiều!'},{e:'😐',t:'Bình thường thôi'},{e:'🎯',t:'Không nói gì'},{e:'😢',t:'Con buồn lắm'}] },
+    { type:'mc', q:'Ngày 8/3 là ngày hội của ai?', c:0,
+      opts:[{e:'👩',t:'Phụ nữ và các bé gái'},{e:'👦',t:'Các bé trai'},{e:'👴',t:'Người cao tuổi'}] },
+    { type:'mc', q:'Trong ngày 8/3, bé thường làm gì để tặng mẹ?', c:0,
+      opts:[{e:'🌸',t:'Làm thiệp hoặc tặng hoa'},{e:'🏃',t:'Đi chơi một mình'},{e:'😴',t:'Ngủ cả ngày'}] },
+    { type:'tf', q:'Ngày 8/3 nhắc nhở chúng ta yêu thương và trân trọng phụ nữ.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:23, cat:'t3', month:'Tháng 3', title:'Đội Mũ Bảo Hiểm Đúng Cách', icon:'⛑️', qimg:'🏍️',
   questions:[
-    { q:'Mũ bảo hiểm dùng để làm gì?', c:0,
-      opts:[{e:'🛡️',t:'Bảo vệ đầu khi có tai nạn'},{e:'💄',t:'Để trông đẹp hơn'},{e:'☂️',t:'Che nắng che mưa'},{e:'🎭',t:'Để đội cho vui'}] },
-    { q:'Ai cần đội mũ bảo hiểm khi đi xe?', c:2,
-      opts:[{e:'👨',t:'Chỉ người lớn'},{e:'🧒',t:'Chỉ trẻ em'},{e:'👨‍👩‍👧',t:'Tất cả mọi người'},{e:'🤷',t:'Không ai cần'}] },
-    { q:'Quai mũ cài đúng cách là thế nào?', c:0,
-      opts:[{e:'😊',t:'Cài dưới cằm, vừa khít'},{e:'😅',t:'Để lỏng lẻo'},{e:'🙈',t:'Không cần cài quai'},{e:'😬',t:'Cài sang bên má'}] },
-    { q:'Mũ bảo hiểm quá to hoặc quá nhỏ có an toàn không?', c:1,
-      opts:[{e:'✅',t:'Vẫn an toàn bình thường'},{e:'❌',t:'Không an toàn, cần chọn mũ vừa đầu'},{e:'🤷',t:'Không quan trọng'},{e:'😴',t:'Chỉ cần đội là được'}] },
+    { type:'mc', q:'Mũ bảo hiểm dùng để làm gì?', c:0,
+      opts:[{e:'🛡️',t:'Bảo vệ đầu khi có tai nạn'},{e:'☂️',t:'Che nắng che mưa'},{e:'🎭',t:'Để đội cho vui thôi'}] },
+    { type:'mc', q:'Ai cần đội mũ bảo hiểm khi đi xe máy?', c:2,
+      opts:[{e:'👨',t:'Chỉ người lớn thôi'},{e:'🧒',t:'Chỉ trẻ em thôi'},{e:'👨‍👩‍👧',t:'Tất cả mọi người'}] },
+    { type:'mc', q:'Quai mũ cài đúng cách là thế nào?', c:0,
+      opts:[{e:'😊',t:'Cài dưới cằm, vừa khít'},{e:'😅',t:'Để quai lỏng lẻo'},{e:'🙈',t:'Không cần cài quai'}] },
+    { type:'tf', q:'Mũ bảo hiểm quá to hoặc quá nhỏ đều không an toàn.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 // ── THÁNG 4 ──
 { id:24, cat:'t4', month:'Tháng 4', title:'Bánh Trôi Tết Hàn Thực', icon:'🍡', qimg:'🥣',
   questions:[
-    { q:'Tết Hàn Thực diễn ra vào ngày mấy tháng mấy âm lịch?', c:0,
-      opts:[{e:'🌸',t:'Ngày 3 tháng 3'},{e:'🎊',t:'Ngày 1 tháng 1'},{e:'🏮',t:'Ngày 15 tháng 8'},{e:'🎋',t:'Ngày 5 tháng 5'}] },
-    { q:'Bánh trôi được làm từ nguyên liệu chính gì?', c:0,
-      opts:[{e:'🤍',t:'Bột nếp và đường'},{e:'🌾',t:'Bột mì và trứng'},{e:'🍚',t:'Gạo tẻ và muối'},{e:'🥔',t:'Khoai và sắn'}] },
-    { q:'Nhân bánh trôi thường làm từ gì?', c:0,
-      opts:[{e:'🍬',t:'Đường phên đường đen'},{e:'🥩',t:'Thịt heo'},{e:'🫛',t:'Đậu xanh'},{e:'🍓',t:'Mứt hoa quả'}] },
-    { q:'Bánh trôi nổi lên khi chín vì sao?', c:0,
-      opts:[{e:'🫧',t:'Bên trong có khí, nhẹ hơn nước'},{e:'🧲',t:'Vì bánh rất nhỏ'},{e:'🌊',t:'Vì nước sôi đẩy lên'},{e:'🛢️',t:'Vì thêm dầu ăn'}] },
-    { q:'Bánh trôi ăn cùng với gì?', c:0,
-      opts:[{e:'♨️',t:'Nước gừng ấm hoặc mè đen'},{e:'🍊',t:'Nước cam'},{e:'🧊',t:'Nước đá lạnh'},{e:'🥛',t:'Sữa tươi'}] },
+    { type:'mc', q:'Bánh trôi được làm từ nguyên liệu chính gì?', c:0,
+      opts:[{e:'🤍',t:'Bột nếp và đường'},{e:'🌾',t:'Bột mì và trứng'},{e:'🥔',t:'Khoai và sắn'}] },
+    { type:'mc', q:'Nhân bánh trôi thường làm từ gì?', c:0,
+      opts:[{e:'🍬',t:'Đường phên màu đen'},{e:'🥩',t:'Thịt heo'},{e:'🍅',t:'Mứt hoa quả'}] },
+    { type:'mc', q:'Bánh trôi ăn cùng với gì ngon nhất?', c:0,
+      opts:[{e:'♨️',t:'Nước gừng ấm hoặc mè đen'},{e:'🧊',t:'Nước đá lạnh'},{e:'🥛',t:'Sữa tươi'}] },
+    { type:'tf', q:'Tết Hàn Thực diễn ra vào ngày 3 tháng 3 âm lịch.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:25, cat:'t4', month:'Tháng 4', title:'Thí Nghiệm Tan – Không Tan', icon:'🧪', qimg:'🌊',
   questions:[
-    { q:'Chất nào tan được trong nước?', c:0,
-      opts:[{e:'🍬',t:'Đường và muối'},{e:'🫙',t:'Dầu ăn'},{e:'🏖️',t:'Cát và sỏi'},{e:'🪨',t:'Đá cuội'}] },
-    { q:'Vì sao đường tan trong nước nóng nhanh hơn?', c:0,
-      opts:[{e:'🔥',t:'Nhiệt độ cao làm phân tử chuyển động nhanh hơn'},{e:'😋',t:'Vì đường thích nước nóng'},{e:'🍭',t:'Vì nước nóng ngọt hơn'},{e:'🤷',t:'Không có lý do'}] },
-    { q:'Dầu ăn bỏ vào nước sẽ thế nào?', c:0,
-      opts:[{e:'⬆️',t:'Nổi lên trên, không tan'},{e:'💧',t:'Tan hoàn toàn'},{e:'⬇️',t:'Chìm xuống đáy'},{e:'✨',t:'Biến mất'}] },
-    { q:'Khi pha nước chanh đường, con làm gì để đường tan?', c:0,
-      opts:[{e:'🥄',t:'Khuấy đều'},{e:'🪴',t:'Đậy nắp lại'},{e:'🧂',t:'Thêm muối vào'},{e:'❄️',t:'Bỏ vào tủ lạnh'}] },
+    { type:'mc', q:'Chất nào tan được trong nước?', c:0,
+      opts:[{e:'🍬',t:'Đường và muối'},{e:'🫙',t:'Dầu ăn'},{e:'🪨',t:'Đá cuội'}] },
+    { type:'mc', q:'Dầu ăn bỏ vào nước sẽ như thế nào?', c:0,
+      opts:[{e:'⬆️',t:'Nổi lên trên, không tan'},{e:'💧',t:'Tan hoàn toàn vào nước'},{e:'⬇️',t:'Chìm xuống đáy'}] },
+    { type:'mc', q:'Làm thế nào để đường tan nhanh trong nước?', c:0,
+      opts:[{e:'🥄',t:'Khuấy đều'},{e:'🧊',t:'Bỏ vào tủ lạnh'},{e:'🧂',t:'Thêm muối vào'}] },
+    { type:'tf', q:'Đường tan trong nước nóng nhanh hơn trong nước lạnh.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:26, cat:'t4', month:'Tháng 4', title:'Thí Nghiệm Chìm – Nổi', icon:'🚢', qimg:'💧',
   questions:[
-    { q:'Vật nào sẽ CHÌM trong nước?', c:0,
-      opts:[{e:'🪨',t:'Đinh sắt và đá cuội'},{e:'🧴',t:'Chai nhựa rỗng'},{e:'🌲',t:'Gỗ nhẹ'},{e:'🍃',t:'Lá cây'}] },
-    { q:'Tàu to nặng sao vẫn nổi trên mặt nước?', c:0,
-      opts:[{e:'🚢',t:'Vì có khoang rỗng bên trong, nhẹ hơn nước'},{e:'⚙️',t:'Vì làm bằng kim loại đặc biệt'},{e:'🚣',t:'Vì có mái chèo'},{e:'🌊',t:'Vì nước biển mặn'}] },
-    { q:'Quả cam để vào nước sẽ thế nào?', c:0,
-      opts:[{e:'🍊',t:'Nổi vì vỏ dày chứa khí'},{e:'⬇️',t:'Chìm ngay'},{e:'🔄',t:'Nổi một nửa'},{e:'🌊',t:'Tan ra'}] },
-    { q:'Ứng dụng của vật nổi trong cuộc sống là gì?', c:0,
-      opts:[{e:'🛟',t:'Áo phao cứu sinh và tàu thuyền'},{e:'❌',t:'Không có ứng dụng nào'},{e:'🧪',t:'Chỉ để thí nghiệm'},{e:'🍳',t:'Chỉ dùng trong bếp'}] },
+    { type:'mc', q:'Vật nào sẽ CHÌM trong nước?', c:0,
+      opts:[{e:'🪨',t:'Đinh sắt và đá cuội'},{e:'🧴',t:'Chai nhựa rỗng'},{e:'🍃',t:'Lá cây'}] },
+    { type:'mc', q:'Tàu to nặng sao vẫn nổi trên mặt nước?', c:0,
+      opts:[{e:'🚢',t:'Vì có khoang rỗng bên trong'},{e:'⚙️',t:'Vì làm bằng kim loại đặc biệt'},{e:'🌊',t:'Vì nước biển mặn'}] },
+    { type:'mc', q:'Ứng dụng của vật nổi trong cuộc sống là gì?', c:0,
+      opts:[{e:'🛟',t:'Áo phao cứu sinh và tàu thuyền'},{e:'❌',t:'Không có ứng dụng nào'},{e:'🍳',t:'Chỉ dùng trong bếp'}] },
+    { type:'tf', q:'Áo phao giúp người không biết bơi nổi trên mặt nước.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
-{ id:27, cat:'t4', month:'Tháng 4', title:'Ngắt Rau & Chuẩn Bị Rau Ăn', icon:'🥬', qimg:'🫱',
+{ id:27, cat:'t4', month:'Tháng 4', title:'Ngắt Rau & Chuẩn Bị Rau', icon:'🥬', qimg:'🫱',
   questions:[
-    { q:'Vì sao cần rửa rau trước khi ăn?', c:0,
-      opts:[{e:'🌿',t:'Loại bỏ bụi bẩn và thuốc trừ sâu'},{e:'💧',t:'Vì thích nước'},{e:'🍽️',t:'Để rau mềm hơn'},{e:'🤷',t:'Không cần lý do'}] },
-    { q:'Ăn rau có lợi gì cho sức khỏe?', c:0,
-      opts:[{e:'💚',t:'Cung cấp vitamin và chất xơ'},{e:'❌',t:'Không có lợi ích gì'},{e:'😋',t:'Chỉ làm ngon miệng'},{e:'😣',t:'Gây béo phì'}] },
-    { q:'Loại rau nào KHÔNG cần ngắt?', c:0,
-      opts:[{e:'🥗',t:'Rau nguyên lá như xà lách'},{e:'🌿',t:'Rau muống'},{e:'🧅',t:'Hành lá'},{e:'🤷',t:'Tất cả đều cần ngắt'}] },
+    { type:'mc', q:'Vì sao cần rửa rau trước khi ăn?', c:0,
+      opts:[{e:'🌿',t:'Loại bỏ bụi bẩn và thuốc trừ sâu'},{e:'💧',t:'Để rau mềm hơn'},{e:'🍽️',t:'Để rau trông đẹp hơn'}] },
+    { type:'mc', q:'Ăn rau có lợi gì cho sức khỏe?', c:0,
+      opts:[{e:'💚',t:'Cung cấp vitamin và chất xơ'},{e:'❌',t:'Không có lợi ích gì'},{e:'😣',t:'Gây béo phì'}] },
+    { type:'tf', q:'Ăn nhiều rau xanh tốt cho sức khỏe của bé.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 // ── THÁNG 5 ──
 { id:28, cat:'t5', month:'Tháng 5', title:'Làm Phở Cuốn Hà Nội', icon:'🍜', qimg:'🥢',
   questions:[
-    { q:'Phở cuốn là đặc sản nổi tiếng của thành phố nào?', c:0,
-      opts:[{e:'🏙️',t:'Hà Nội'},{e:'🌆',t:'TP Hồ Chí Minh'},{e:'🏖️',t:'Đà Nẵng'},{e:'🏯',t:'Huế'}] },
-    { q:'Nguyên liệu chính không thể thiếu trong phở cuốn là gì?', c:0,
-      opts:[{e:'🥩',t:'Bánh phở và thịt bò tươi'},{e:'🍜',t:'Mì tôm và trứng'},{e:'🐟',t:'Bún và cá'},{e:'🍚',t:'Cơm và rau'}] },
-    { q:'Khi làm phở cuốn, bé cần chú ý điều gì về vệ sinh?', c:0,
-      opts:[{e:'🧼',t:'Rửa tay sạch và rửa rau kỹ'},{e:'🤷',t:'Không cần chú ý gì'},{e:'🖐️',t:'Chỉ rửa tay'},{e:'🥗',t:'Chỉ rửa rau'}] },
-    { q:'Nước chấm phở cuốn thường được làm từ gì?', c:0,
-      opts:[{e:'🥜',t:'Tương hoisin và lạc rang'},{e:'🐟',t:'Nước mắm và ớt'},{e:'🍅',t:'Tương cà chua'},{e:'🫙',t:'Dầu mè và muối'}] },
+    { type:'mc', q:'Phở cuốn là đặc sản nổi tiếng của thành phố nào?', c:0,
+      opts:[{e:'🏙️',t:'Hà Nội'},{e:'🌆',t:'TP Hồ Chí Minh'},{e:'🏖️',t:'Đà Nẵng'}] },
+    { type:'mc', q:'Nguyên liệu chính của phở cuốn là gì?', c:0,
+      opts:[{e:'🥩',t:'Bánh phở và thịt bò tươi'},{e:'🍜',t:'Mì tôm và trứng'},{e:'🍚',t:'Cơm và rau'}] },
+    { type:'mc', q:'Nước chấm phở cuốn thường làm từ gì?', c:0,
+      opts:[{e:'🥜',t:'Tương hoisin và lạc rang'},{e:'🍅',t:'Tương cà chua'},{e:'🫙',t:'Dầu mè và muối'}] },
+    { type:'tf', q:'Rửa tay và rửa rau sạch là bước quan trọng khi làm phở cuốn.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:29, cat:'t5', month:'Tháng 5', title:'Kỹ Năng Tránh Hỏa Hoạn', icon:'🔥', qimg:'🧯',
   questions:[
-    { q:'Khi phát hiện có khói hoặc lửa, việc đầu tiên bé cần làm là gì?', c:0,
-      opts:[{e:'📢',t:'Hô to và gọi người lớn ngay'},{e:'💧',t:'Chạy tìm nước'},{e:'👀',t:'Đứng xem'},{e:'🎮',t:'Tiếp tục chơi'}] },
-    { q:'Khi có hỏa hoạn và phòng có nhiều khói, bé di chuyển thế nào?', c:0,
-      opts:[{e:'🦺',t:'Cúi thấp và bò dưới khói'},{e:'🏃',t:'Đứng thẳng chạy nhanh'},{e:'🔥',t:'Nhảy qua lửa'},{e:'🗄️',t:'Trốn vào tủ'}] },
-    { q:'Số điện thoại Cảnh sát Phòng cháy Chữa cháy VN là số nào?', c:1,
-      opts:[{e:'📞',t:'Số 113'},{e:'📞',t:'Số 114'},{e:'📞',t:'Số 115'},{e:'📞',t:'Số 111'}] },
-    { q:'Vật dụng nào có thể gây hỏa hoạn nếu bé dùng không cẩn thận?', c:0,
-      opts:[{e:'🔥',t:'Bật lửa và diêm'},{e:'📚',t:'Sách vở'},{e:'🧸',t:'Đồ chơi nhựa'},{e:'🥤',t:'Cốc nước'}] },
+    { type:'mc', q:'Khi phát hiện khói hoặc lửa, việc đầu tiên bé làm là gì?', c:0,
+      opts:[{e:'📢',t:'Hô to và gọi người lớn ngay'},{e:'💧',t:'Chạy tìm nước'},{e:'🎮',t:'Tiếp tục chơi đã'}] },
+    { type:'mc', q:'Khi có khói dày, bé di chuyển thế nào?', c:0,
+      opts:[{e:'🦺',t:'Cúi thấp và bò dưới đám khói'},{e:'🏃',t:'Đứng thẳng chạy nhanh'},{e:'🗄️',t:'Trốn vào trong tủ'}] },
+    { type:'mc', q:'Số điện thoại Cảnh sát Phòng cháy Chữa cháy là số nào?', c:1,
+      opts:[{e:'📞',t:'Số 113'},{e:'📞',t:'Số 114'},{e:'📞',t:'Số 115'}] },
+    { type:'tf', q:'Bật lửa và diêm là những vật dụng nguy hiểm, bé không được tự dùng.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:30, cat:'t5', month:'Tháng 5', title:'Quản Lý Cảm Xúc', icon:'😊', qimg:'💭',
   questions:[
-    { q:'Khi cảm thấy tức giận, cách nào giúp bé bình tĩnh lại tốt nhất?', c:0,
-      opts:[{e:'🌬️',t:'Hít thở sâu và đếm 1 đến 10'},{e:'😡',t:'La hét thật to'},{e:'👊',t:'Đánh bạn'},{e:'😭',t:'Khóc mãi không thôi'}] },
-    { q:'Bé đang buồn vì bị mất đồ chơi yêu thích. Bé nên làm gì?', c:0,
-      opts:[{e:'🗣️',t:'Nói với bố mẹ hoặc cô giáo'},{e:'😔',t:'Khóc một mình'},{e:'😈',t:'Lấy đồ chơi của bạn khác'},{e:'🙈',t:'Không làm gì cả'}] },
-    { q:'Nhận diện cảm xúc có nghĩa là gì?', c:0,
-      opts:[{e:'🧠',t:'Biết mình đang vui, buồn, sợ hay tức'},{e:'😐',t:'Không cảm thấy gì cả'},{e:'🎭',t:'Giả vờ vui khi buồn'},{e:'😴',t:'Không cần quan tâm'}] },
-    { q:'Khi thấy bạn cùng lớp đang buồn, bé nên làm gì?', c:0,
-      opts:[{e:'🤗',t:'Hỏi thăm và an ủi bạn'},{e:'🙈',t:'Giả vờ không thấy'},{e:'😂',t:'Cười nhạo bạn'},{e:'🏃',t:'Chạy đi chỗ khác'}] },
+    { type:'mc', q:'Khi cảm thấy tức giận, cách nào giúp bé bình tĩnh lại?', c:0,
+      opts:[{e:'🌬️',t:'Hít thở sâu và đếm 1 đến 10'},{e:'😡',t:'La hét thật to'},{e:'👊',t:'Đánh bạn cho xả cơn'}] },
+    { type:'mc', q:'Bé đang buồn vì mất đồ chơi yêu thích. Bé nên làm gì?', c:0,
+      opts:[{e:'🗣️',t:'Nói với bố mẹ hoặc cô giáo'},{e:'😔',t:'Khóc một mình mãi'},{e:'😈',t:'Lấy đồ chơi của bạn khác'}] },
+    { type:'mc', q:'Khi thấy bạn đang buồn, bé nên làm gì?', c:0,
+      opts:[{e:'🤗',t:'Hỏi thăm và an ủi bạn'},{e:'🙈',t:'Giả vờ không thấy gì'},{e:'😂',t:'Cười nhạo bạn'}] },
+    { type:'tf', q:'Nói lên cảm xúc của bản thân giúp bé giải quyết vấn đề tốt hơn.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 
 { id:31, cat:'t5', month:'Tháng 5', title:'Tham Quan Trường Tiểu Học', icon:'🏫', qimg:'🎒',
   questions:[
-    { q:'Sau khi rời trường mầm non, bé sẽ tiếp tục học ở đâu?', c:0,
-      opts:[{e:'🏫',t:'Trường Tiểu học'},{e:'🏡',t:'Ở nhà'},{e:'🏕️',t:'Trại hè'},{e:'🛒',t:'Siêu thị'}] },
-    { q:'Ở trường tiểu học, đầu mỗi tuần thường bắt đầu bằng hoạt động gì?', c:0,
-      opts:[{e:'🇻🇳',t:'Chào cờ và sinh hoạt đầu tuần'},{e:'🎮',t:'Chơi game'},{e:'😴',t:'Ngủ thêm'},{e:'🍱',t:'Ăn sáng'}] },
-    { q:'Ở lớp 1, bé sẽ được học những môn nào?', c:0,
-      opts:[{e:'📚',t:'Tiếng Việt, Toán, Tự nhiên xã hội'},{e:'🎸',t:'Chỉ học nhạc'},{e:'🏃',t:'Chỉ học thể dục'},{e:'🎨',t:'Chỉ học vẽ'}] },
+    { type:'mc', q:'Sau khi rời trường mầm non, bé sẽ tiếp tục học ở đâu?', c:0,
+      opts:[{e:'🏫',t:'Trường Tiểu học'},{e:'🏡',t:'Học ở nhà thôi'},{e:'🏕️',t:'Trại hè'}] },
+    { type:'mc', q:'Ở lớp 1, bé sẽ được học những môn nào?', c:0,
+      opts:[{e:'📚',t:'Tiếng Việt, Toán, Tự nhiên xã hội'},{e:'🎸',t:'Chỉ học nhạc thôi'},{e:'🎨',t:'Chỉ học vẽ thôi'}] },
+    { type:'tf', q:'Ở trường tiểu học, đầu tuần thường có lễ chào cờ.', c:0,
+      opts:[{e:'✅',t:'Đúng'},{e:'❌',t:'Sai'}] },
   ]},
 ];
 
-// ════════════════════
-//  APP LOGIC
-// ════════════════════
-let prog={}, curL=null, qIdx=0, score=0, answered=false;
-try{ prog=JSON.parse(localStorage.getItem('mamnon_v4'))||{}; }catch(e){}
+// ════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════
+let studentName = '';
+let progress = {};
+let results = [];    // {name, lessonTitle, correct, total, stars, time}
+let curLesson = null;
+let qIdx = 0;
+let score = 0;
+let answered = false;
+const ADMIN_USER = 'giaovien';   // tên đăng nhập cố định
+let adminPass = '12345';         // mật khẩu mặc định (có thể đổi qua cài đặt)
 
-const CATS=[
+function loadState() {
+  try {
+    const d = JSON.parse(localStorage.getItem('beHocVui_v2') || '{}');
+    progress = d.progress || {};
+    results  = d.results  || [];
+    lessons  = d.lessons  || lessons;
+    // Chỉ dùng mật khẩu đã lưu nếu người dùng từng tự đổi
+    if (d.adminPassChanged) adminPass = d.adminPass || '12345';
+    else adminPass = '12345';
+    studentName = d.studentName || '';
+  } catch(e) {}
+}
+function saveState() {
+  try {
+    localStorage.setItem('beHocVui_v2', JSON.stringify({
+      progress, results, lessons,
+      adminPass, adminPassChanged: true,
+      studentName
+    }));
+  } catch(e) {}
+}
+
+// ════════════════════════════════════════════════════════
+//  SCREEN NAV
+// ════════════════════════════════════════════════════════
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+  const s = document.getElementById(id);
+  if(s) { s.classList.remove('hidden'); }
+  if(id === 's-home') renderHome();
+  if(id === 's-admin') renderAdmin();
+}
+
+// ════════════════════════════════════════════════════════
+//  BUBBLES
+// ════════════════════════════════════════════════════════
+function makeBubbles() {
+  const wrap = document.getElementById('bubbles');
+  const colors = ['#FF6B6B','#4ECDC4','#FFD93D','#6BCB77','#845EF7','#FF922B','#74C0FC'];
+  for(let i=0; i<18; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const sz = 30 + Math.random()*120;
+    b.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${8+Math.random()*14}s;animation-delay:${-Math.random()*15}s;`;
+    wrap.appendChild(b);
+  }
+}
+
+// ════════════════════════════════════════════════════════
+//  NAME
+// ════════════════════════════════════════════════════════
+function startWithName() {
+  const v = document.getElementById('inp-name').value.trim();
+  if(!v) { showToast('🧒 Bé ơi, hãy viết tên vào nhé!'); document.getElementById('inp-name').focus(); return; }
+  studentName = v;
+  saveState();
+  goTo('s-home');
+}
+
+// ════════════════════════════════════════════════════════
+//  HOME
+// ════════════════════════════════════════════════════════
+const CATS = [
   {id:'all',label:'🏠 Tất cả'},
-  {id:'t9', label:'📅 Tháng 9'},
-  {id:'t10',label:'📅 Tháng 10'},
-  {id:'t11',label:'📅 Tháng 11'},
-  {id:'t12',label:'📅 Tháng 12'},
-  {id:'t1', label:'📅 Tháng 1'},
-  {id:'t2', label:'📅 Tháng 2'},
-  {id:'t3', label:'📅 Tháng 3'},
-  {id:'t4', label:'📅 Tháng 4'},
+  {id:'t9', label:'📅 Tháng 9'},{id:'t10',label:'📅 Tháng 10'},
+  {id:'t11',label:'📅 Tháng 11'},{id:'t12',label:'📅 Tháng 12'},
+  {id:'t1', label:'📅 Tháng 1'},{id:'t2', label:'📅 Tháng 2'},
+  {id:'t3', label:'📅 Tháng 3'},{id:'t4', label:'📅 Tháng 4'},
   {id:'t5', label:'📅 Tháng 5'},
 ];
 
-// ── TTS ──
-let ttsQueue=[], ttsBusy=false;
-function speak(txt, cb){
-  ttsQueue.push({txt,cb});
-  if(!ttsBusy) nextSpeak();
-}
-function nextSpeak(){
-  if(!ttsQueue.length){ ttsBusy=false; return; }
-  ttsBusy=true;
-  const {txt,cb}=ttsQueue.shift();
-  try{ window.speechSynthesis.cancel(); }catch(e){}
-  const u=new SpeechSynthesisUtterance(txt);
-  u.lang='vi-VN'; u.rate=0.88;
-  u.onend=()=>{ if(cb)cb(); nextSpeak(); };
-  u.onerror=()=>{ if(cb)cb(); nextSpeak(); };
-  try{ window.speechSynthesis.speak(u); }catch(e){ if(cb)cb(); nextSpeak(); }
-}
-function speakNow(txt,cb){
-  ttsQueue=[];
-  try{ window.speechSynthesis.cancel(); }catch(e){}
-  ttsBusy=false;
-  speak(txt,cb);
-}
-
-// ── AUDIO ──
-let actx=null;
-function beep(freq,type,dur){
-  try{
-    if(!actx) actx=new(window.AudioContext||window.webkitAudioContext)();
-    const o=actx.createOscillator(),g=actx.createGain();
-    o.type=type; o.frequency.value=freq;
-    o.connect(g); g.connect(actx.destination);
-    o.start(); g.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+dur);
-    o.stop(actx.currentTime+dur);
-  }catch(e){}
-}
-
-// ── HOME ──
-function initHome(){
-  const tabs=document.getElementById('tabs');
-  tabs.innerHTML='';
-  CATS.forEach(c=>{
-    const b=document.createElement('button');
-    b.className='tab'+(c.id==='all'?' on':'');
-    b.textContent=c.label;
-    b.onclick=()=>{
-      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+function renderHome() {
+  document.getElementById('disp-name').textContent = studentName || 'Bé yêu';
+  // Tabs
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = '';
+  CATS.forEach((c,i) => {
+    const b = document.createElement('button');
+    b.className = 'tab-btn' + (i===0?' on':'');
+    b.textContent = c.label;
+    b.onclick = () => {
+      document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('on'));
       b.classList.add('on');
       renderGrid(c.id);
-      beep(440,'sine',0.08);
     };
-    tabs.appendChild(b);
+    tabsEl.appendChild(b);
   });
   renderGrid('all');
   updateStats();
 }
 
-function updateStats(){
+function updateStats() {
   let stars=0,done=0;
-  Object.values(prog).forEach(p=>{ stars+=(p.stars||0); if(p.stars>0)done++; });
-  document.getElementById('st-stars').textContent=stars;
-  document.getElementById('st-done').textContent=done;
-  document.getElementById('st-total').textContent=lessons.length;
+  Object.values(progress).forEach(p => { stars+=(p.stars||0); if(p.stars>0)done++; });
+  document.getElementById('st-stars').textContent = stars;
+  document.getElementById('st-done').textContent = done;
+  document.getElementById('st-total').textContent = lessons.length;
 }
 
-function renderGrid(cat){
-  const grid=document.getElementById('grid');
-  grid.innerHTML='';
-  const list=cat==='all'?lessons:lessons.filter(l=>l.cat===cat);
-  list.forEach(l=>{
-    const p=prog[l.id]||{stars:0};
-    const d=document.createElement('div');
-    d.className='card';
-    d.innerHTML=`
-      ${p.stars>0?'<span class="done-badge">✅</span>':''}
-      <div class="ico">${l.icon}</div>
-      <h3>${l.title}</h3>
-      <div class="mtag">${l.month}</div>
-      <div class="stars">${'⭐'.repeat(p.stars)}</div>`;
-    d.onclick=()=>startLesson(l);
+function renderGrid(cat) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const list = cat==='all' ? lessons : lessons.filter(l=>l.cat===cat);
+  list.forEach(l => {
+    const p = progress[l.id]||{stars:0};
+    const d = document.createElement('div');
+    d.className = 'lesson-card';
+    d.innerHTML = `
+      ${p.stars>0?'<div class="lc-done">✅</div>':''}
+      <span class="lc-icon">${l.icon}</span>
+      <div class="lc-title">${l.title}</div>
+      <div class="lc-month">${l.month}</div>
+      <div class="lc-stars">${'⭐'.repeat(p.stars)}</div>`;
+    d.onclick = () => startLesson(l);
     grid.appendChild(d);
   });
 }
 
-// ── QUIZ ──
-function startLesson(l){
-  curL=l; qIdx=0; score=0; answered=false;
-  document.getElementById('home').style.display='none';
-  document.getElementById('result').style.display='none';
-  document.getElementById('quiz').style.display='block';
+// ════════════════════════════════════════════════════════
+//  TTS – GIỌNG NỮ TIẾNG VIỆT
+// ════════════════════════════════════════════════════════
+let ttsActive = false;
+let femaleVoice = null;
+
+function loadFemaleVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  // Ưu tiên: giọng nữ tiếng Việt rõ ràng
+  femaleVoice =
+    voices.find(v => v.lang === 'vi-VN' && /female|woman|girl|nu|nữ|thu|huong|lan|mai|linh|thi/i.test(v.name)) ||
+    voices.find(v => v.lang === 'vi-VN' && !/male|man|boy|nam/i.test(v.name)) ||
+    voices.find(v => v.lang === 'vi-VN') ||
+    voices.find(v => v.lang.startsWith('vi') && /female|woman/i.test(v.name)) ||
+    voices.find(v => v.lang.startsWith('vi')) ||
+    null;
+}
+
+// Tải giọng khi sẵn sàng
+if (typeof speechSynthesis !== 'undefined') {
+  speechSynthesis.onvoiceschanged = loadFemaleVoice;
+  loadFemaleVoice();
+}
+
+function speak(txt, cb) {
+  try { window.speechSynthesis.cancel(); } catch(e) {}
+  if (!txt) { if (cb) cb(); return; }
+  const u = new SpeechSynthesisUtterance(txt);
+  u.lang  = 'vi-VN';
+  u.rate  = 0.80;   // chậm rãi phù hợp trẻ mầm non
+  u.pitch = 1.15;   // cao hơn chút cho giọng nữ nhẹ nhàng
+  u.volume = 1;
+  if (femaleVoice) u.voice = femaleVoice;
+  ttsActive = true;
+  u.onend   = () => { ttsActive = false; if (cb) cb(); };
+  u.onerror = () => { ttsActive = false; if (cb) cb(); };
+  try { window.speechSynthesis.speak(u); } catch(e) { ttsActive = false; if (cb) cb(); }
+}
+
+function speakOnly(txt, btnEl) {
+  // Dùng để nút loa đáp án không làm gián đoạn flow, chỉ đọc độc lập
+  try { window.speechSynthesis.cancel(); } catch(e) {}
+  if (!txt) return;
+  if (btnEl) {
+    document.querySelectorAll('.btn-speak, .btn-speak-opt').forEach(b => b.classList.remove('speaking'));
+    btnEl.classList.add('speaking');
+  }
+  const u = new SpeechSynthesisUtterance(txt);
+  u.lang  = 'vi-VN';
+  u.rate  = 0.80;
+  u.pitch = 1.15;
+  u.volume = 1;
+  if (femaleVoice) u.voice = femaleVoice;
+  u.onend   = () => { if (btnEl) btnEl.classList.remove('speaking'); };
+  u.onerror = () => { if (btnEl) btnEl.classList.remove('speaking'); };
+  try { window.speechSynthesis.speak(u); } catch(e) { if (btnEl) btnEl.classList.remove('speaking'); }
+}
+
+function speakQuestion() {
+  if (!curLesson) return;
+  const q = curLesson.questions[qIdx];
+  const btn = document.getElementById('btn-speak-q');
+  if (btn) {
+    document.querySelectorAll('.btn-speak-opt').forEach(b => b.classList.remove('speaking'));
+    btn.classList.add('speaking');
+  }
+  let txt = q.q + '. ';
+  if (q.type === 'tf') txt += 'Đúng hay sai? ';
+  q.opts.slice(0, 3).forEach((o, i) => { txt += `Đáp án ${i + 1}: ${o.t}. `; });
+  speak(txt, () => { if (btn) btn.classList.remove('speaking'); });
+}
+
+// ════════════════════════════════════════════════════════
+//  QUIZ
+// ════════════════════════════════════════════════════════
+function startLesson(l) {
+  curLesson = l; qIdx = 0; score = 0; answered = false;
+  document.getElementById('badge-name').textContent = '🧒 ' + (studentName||'Bé yêu');
+  goTo('s-quiz');
   showQ();
 }
 
-function showQ(){
-  answered=false;
-  const q=curL.questions[qIdx];
-  const tot=curL.questions.length;
-  document.getElementById('plabel').textContent=`${qIdx+1}/${tot}`;
-  document.getElementById('pbar').style.width=((qIdx/tot)*100)+'%';
-  document.getElementById('qimg').textContent=curL.qimg;
-  document.getElementById('qtxt').textContent=q.q;
-  document.getElementById('feedback').textContent='';
-  document.getElementById('feedback').style.color='';
+function showQ() {
+  answered = false;
+  const q = curLesson.questions[qIdx];
+  const tot = curLesson.questions.length;
+  document.getElementById('plabel').textContent = `${qIdx+1}/${tot}`;
+  document.getElementById('pbar').style.width = ((qIdx/tot)*100)+'%';
+  document.getElementById('qimg').textContent = curLesson.qimg;
 
-  const container=document.getElementById('opts');
-  container.innerHTML='';
-  q.opts.forEach((o,i)=>{
-    const btn=document.createElement('button');
-    btn.className='opt';
-    btn.dataset.idx=i;
-    btn.innerHTML=`<span class="opt-num">${i+1}</span><span class="opt-emoji">${o.e}</span><span class="opt-txt">${o.t}</span>`;
-    btn.onclick=()=>checkAns(i);
-    container.appendChild(btn);
-  });
+  // type badge
+  const badge = document.getElementById('q-type-badge');
+  if(q.type==='tf'){
+    badge.className='q-type-badge tf'; badge.textContent='✅❌ Đúng hay Sai?';
+  } else {
+    badge.className='q-type-badge mc'; badge.textContent='📝 Chọn đáp án đúng';
+  }
 
-  // Đọc câu hỏi rồi lần lượt đọc các đáp án
-  let readTxt = q.q + '. ';
-  q.opts.forEach((o,i)=>{ readTxt += `Đáp án ${i+1}: ${o.t}. `; });
-  speakNow(readTxt);
+  document.getElementById('qtxt').textContent = q.q;
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback-box';
+
+  // ── Hiển thị media (câu hỏi ưu tiên, fallback xuống bài học) ──
+  const mediaDisplay = document.getElementById('q-media-display');
+  const media = q.media || curLesson.media || null;
+  if(media && media.data) {
+    mediaDisplay.className = 'q-media-wrap';
+    if(media.type === 'image') {
+      mediaDisplay.innerHTML = `<img src="${media.data}" alt="hình ảnh câu hỏi">`;
+    } else if(media.type === 'audio') {
+      mediaDisplay.innerHTML = `<audio controls autoplay src="${media.data}" style="width:100%;margin:8px 0;"></audio>`;
+    }
+  } else {
+    mediaDisplay.className = 'q-media-wrap empty';
+    mediaDisplay.innerHTML = '';
+  }
+
+  const container = document.getElementById('opts-container');
+  container.innerHTML = '';
+
+  const opts = q.opts.slice(0,3); // max 3
+
+  if(q.type==='tf') {
+    const wrap = document.createElement('div');
+    wrap.className = 'tf-opts';
+    opts.forEach((o,i) => {
+      const btn = document.createElement('button');
+      btn.className = 'tf-btn ' + (i===0?'tf-true':'tf-false');
+      // Nút loa nhỏ góc trên phải
+      btn.style.position = 'relative';
+      btn.innerHTML = `
+        <span style="position:absolute;top:8px;right:10px;font-size:18px;opacity:.5;cursor:pointer;"
+          onclick="event.stopPropagation();speakOnly('${o.t.replace(/'/g,"\\'")}',this)">🔊</span>
+        ${o.e}<small>${o.t}</small>`;
+      btn.onclick = () => checkAns(i);
+      wrap.appendChild(btn);
+    });
+    container.appendChild(wrap);
+  } else {
+    const wrap = document.createElement('div');
+    wrap.className = 'opts-wrap';
+    opts.forEach((o,i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.dataset.idx = i;
+      // Nút loa từng đáp án, stopPropagation để không trigger checkAns
+      btn.innerHTML = `
+        <span class="opt-num">${i+1}</span>
+        <span class="opt-emoji">${o.e}</span>
+        <span class="opt-txt">${o.t}</span>
+        <button class="btn-speak-opt" title="Nghe lại đáp án"
+          onclick="event.stopPropagation();speakOnly('Đáp án ${i+1}: ${o.t.replace(/'/g,"\\'").replace(/"/g,'&quot;')}',this)">🔊</button>`;
+      btn.onclick = () => checkAns(i);
+      wrap.appendChild(btn);
+    });
+    container.appendChild(wrap);
+  }
+
+  // Auto-read question
+  setTimeout(speakQuestion, 300);
 }
 
-function checkAns(i){
+function checkAns(i) {
   if(answered) return;
-  answered=true;
-  const q=curL.questions[qIdx];
-  const allBtns=[...document.querySelectorAll('.opt')];
-  allBtns.forEach(b=>{ b.onclick=null; b.style.pointerEvents='none'; });
-
-  if(i===q.c){
+  answered = true;
+  const q = curLesson.questions[qIdx];
+  const allBtns = [...document.querySelectorAll('.opt-btn, .tf-btn')];
+  allBtns.forEach(b => { b.onclick=null; b.disabled=true; });
+  const feedback = document.getElementById('feedback');
+  const correct = i===q.c;
+  if(correct) {
     score++;
-    allBtns[i].classList.add('correct');
-    document.getElementById('feedback').textContent='✅ ĐÚNG RỒI! GIỎI QUÁ! ⭐';
-    document.getElementById('feedback').style.color='#00b894';
-    beep(880,'sine',0.25);
-    speakNow('Đúng rồi! Bé giỏi quá!', ()=>{
-      setTimeout(nextQ, 600);
-    });
+    allBtns[i]?.classList.add('correct');
+    feedback.className = 'feedback-box show-correct';
+    feedback.textContent = '✅ Đúng rồi! Bé giỏi lắm! ⭐';
+    speak('Đúng rồi! Bé giỏi lắm!', () => setTimeout(nextQ, 800));
   } else {
-    allBtns[i].classList.add('wrong');
-    allBtns[q.c].classList.add('correct');
-    document.getElementById('feedback').textContent='💡 Đáp án đúng đã tô xanh nhé!';
-    document.getElementById('feedback').style.color='#e17055';
-    beep(200,'sawtooth',0.3);
-    speakNow('Chưa đúng rồi! Đáp án đúng là: '+q.opts[q.c].t, ()=>{
-      setTimeout(nextQ, 600);
-    });
+    allBtns[i]?.classList.add('wrong');
+    allBtns[q.c]?.classList.add('correct');
+    feedback.className = 'feedback-box show-wrong';
+    feedback.textContent = '💡 Chưa đúng! Đáp án đúng đã tô xanh nhé!';
+    speak('Ồ chưa đúng rồi! Đáp án đúng là: ' + q.opts[q.c].t, () => setTimeout(nextQ, 800));
   }
 }
 
-function nextQ(){
+function nextQ() {
   qIdx++;
-  if(qIdx<curL.questions.length) showQ();
+  if(qIdx < curLesson.questions.length) showQ();
   else showResult();
 }
 
-// ── RESULT ──
-function showResult(){
-  document.getElementById('quiz').style.display='none';
-  document.getElementById('result').style.display='block';
-  const tot=curL.questions.length;
-  const pct=score/tot;
-  const s=pct===1?3:pct>=0.6?2:1;
-  if(!(prog[curL.id])||(prog[curL.id].stars||0)<s){
-    prog[curL.id]={stars:s};
-    try{ localStorage.setItem('mamnon_v4',JSON.stringify(prog)); }catch(e){}
+function backFromQuiz() {
+  try { window.speechSynthesis.cancel(); } catch(e) {}
+  curLesson = null;
+  goTo('s-home');
+}
+
+function replayLesson() {
+  if(curLesson) startLesson(curLesson);
+}
+
+// ════════════════════════════════════════════════════════
+//  RESULT
+// ════════════════════════════════════════════════════════
+function showResult() {
+  const tot = curLesson.questions.length;
+  const pct = score/tot;
+  const s = pct===1?3:pct>=0.6?2:1;
+
+  // Save progress
+  if(!(progress[curLesson.id]) || (progress[curLesson.id].stars||0) < s) {
+    progress[curLesson.id] = {stars:s};
   }
-  const trophies=['','🌱','🥈','🏆'];
-  const titles =['','Cố lên bé nhé! 💪','Bé giỏi lắm! 🌟','Xuất sắc! 🏆'];
-  document.getElementById('r-trophy').textContent=trophies[s];
-  document.getElementById('r-title').textContent=titles[s];
-  document.getElementById('r-stars').textContent='⭐'.repeat(s);
-  document.getElementById('r-msg').textContent=`Bé trả lời đúng ${score}/${tot} câu hỏi!`;
-  if(s===3){
-    confetti();
-    beep(523,'sine',.2);
-    setTimeout(()=>beep(659,'sine',.2),150);
-    setTimeout(()=>beep(784,'sine',.4),300);
-    speakNow('Chúc mừng bé đã hoàn thành xuất sắc!');
-  } else {
-    speakNow(titles[s]);
-  }
+
+  // Save result for admin
+  results.push({
+    name: studentName||'Bé chưa đặt tên',
+    lessonTitle: curLesson.title,
+    correct: score,
+    total: tot,
+    stars: s,
+    time: new Date().toLocaleString('vi-VN')
+  });
+
+  saveState();
+
+  const trophies = ['','🌱','🥈','🏆'];
+  const titles   = ['','Bé cố lên nhé! 💪','Bé giỏi lắm! 🌟','Xuất sắc! 🎉'];
+
+  document.getElementById('r-trophy').textContent = trophies[s];
+  document.getElementById('r-title').textContent = titles[s];
+  document.getElementById('r-stars').textContent = '⭐'.repeat(s);
+  document.getElementById('r-name').textContent = '🧒 ' + (studentName||'Bé yêu');
+  document.getElementById('r-score').textContent = `Bé trả lời đúng ${score}/${tot} câu hỏi!`;
+
+  goTo('s-result');
+  if(s===3){ confetti(); speak('Chúc mừng bé! Bé đã xuất sắc hoàn thành bài học!'); }
+  else speak(titles[s]);
   updateStats();
 }
 
-function goHome(){
-  ttsQueue=[];
-  try{ window.speechSynthesis.cancel(); }catch(e){}
-  ttsBusy=false;
-  document.getElementById('quiz').style.display='none';
-  document.getElementById('result').style.display='none';
-  document.getElementById('home').style.display='block';
-  initHome();
+// ════════════════════════════════════════════════════════
+//  ADMIN
+// ════════════════════════════════════════════════════════
+let adminLoggedIn = false;
+function doLogin() {
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value.trim();
+  if (u === ADMIN_USER && p === adminPass) {
+    adminLoggedIn = true;
+    document.getElementById('login-err').textContent = '';
+    document.getElementById('login-user').value = '';
+    document.getElementById('login-pass').value = '';
+    goTo('s-admin');
+  } else {
+    document.getElementById('login-err').textContent = '❌ Sai tên đăng nhập hoặc mật khẩu';
+  }
+}
+function adminLogout() {
+  adminLoggedIn = false;
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  goTo('s-landing');
 }
 
-// ── CONFETTI ──
-function confetti(){
-  const colors=['#ff6b6b','#4ecdc4','#feca57','#a29bfe','#55efc4'];
-  for(let i=0;i<55;i++){
+function adminTab(id, el) {
+  document.querySelectorAll('.a-tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('on'));
+  document.getElementById('tab-'+id).classList.add('on');
+  if(id==='results') renderResults();
+  if(id==='lessons') renderLessonList();
+}
+
+function renderAdmin() {
+  renderResults();
+}
+
+function renderResults() {
+  // Summary
+  const total = results.length;
+  const uniqueStudents = [...new Set(results.map(r=>r.name))].length;
+  const avgCorrect = total>0 ? (results.reduce((a,r)=>a+r.correct,0)/results.reduce((a,r)=>a+r.total,0)*100).toFixed(0) : 0;
+  const sum = document.getElementById('results-summary');
+  sum.innerHTML = `
+    <div class="sum-card"><div class="sum-val">${total}</div><div class="sum-lbl">Lượt làm bài</div></div>
+    <div class="sum-card"><div class="sum-val">${uniqueStudents}</div><div class="sum-lbl">Học sinh</div></div>
+    <div class="sum-card"><div class="sum-val">${avgCorrect}%</div><div class="sum-lbl">Trả lời đúng TB</div></div>
+    <div class="sum-card"><div class="sum-val">${results.filter(r=>r.stars===3).length}</div><div class="sum-lbl">Đạt 3 sao ⭐</div></div>
+  `;
+  // Table
+  const tbody = document.getElementById('results-tbody');
+  tbody.innerHTML = '';
+  if(results.length===0){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#bbb;padding:28px;">Chưa có dữ liệu</td></tr>';
+    return;
+  }
+  [...results].reverse().forEach((r,i) => {
+    const tagClass = r.stars===3?'g3':r.stars===2?'g2':'g1';
+    const tagTxt = r.stars===3?'Xuất sắc':r.stars===2?'Giỏi':'Cần cố gắng';
+    tbody.innerHTML += `<tr>
+      <td>${results.length-i}</td>
+      <td><strong>${r.name}</strong></td>
+      <td>${r.lessonTitle}</td>
+      <td><strong>${r.correct}</strong>/${r.total}</td>
+      <td><span class="tag-pass ${tagClass}">${tagTxt} ${'⭐'.repeat(r.stars)}</span></td>
+      <td style="color:#bbb;font-size:12px;">${r.time}</td>
+    </tr>`;
+  });
+}
+
+function clearResults() {
+  if(!confirm('Xác nhận xóa tất cả kết quả học sinh?')) return;
+  results = [];
+  saveState();
+  renderResults();
+  showToast('🗑️ Đã xóa toàn bộ kết quả');
+}
+
+function exportCSV() {
+  let csv = 'STT,Tên học sinh,Bài học,Số câu đúng,Tổng câu,Số sao,Thời gian\n';
+  results.forEach((r,i) => {
+    csv += `${i+1},"${r.name}","${r.lessonTitle}",${r.correct},${r.total},${r.stars},"${r.time}"\n`;
+  });
+  const blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ket_qua_hoc_sinh_' + new Date().toLocaleDateString('vi-VN').replace(/\//g,'-') + '.csv';
+  a.click();
+  showToast('📥 Đã xuất file CSV');
+}
+
+function changePass() {
+  const p1 = document.getElementById('new-pass').value;
+  const p2 = document.getElementById('new-pass2').value;
+  if(!p1){showToast('Nhập mật khẩu mới!');return;}
+  if(p1!==p2){showToast('❌ Mật khẩu xác nhận không khớp!');return;}
+  if(p1.length<4){showToast('❌ Mật khẩu cần ít nhất 4 ký tự!');return;}
+  adminPass = p1;
+  saveState();
+  document.getElementById('new-pass').value='';
+  document.getElementById('new-pass2').value='';
+  showToast('✅ Đã đổi mật khẩu thành công!');
+}
+
+// ════════════════════════════════════════════════════════
+//  LESSON EDITOR
+// ════════════════════════════════════════════════════════
+let editingLessonId = null;
+
+function renderLessonList() {
+  const el = document.getElementById('lesson-list');
+  el.innerHTML = '';
+  lessons.forEach(l => {
+    const row = document.createElement('div');
+    row.className = 'lesson-row';
+    row.innerHTML = `
+      <div class="lesson-row-icon">${l.icon}</div>
+      <div class="lesson-row-info">
+        <div class="lesson-row-title">${l.title}</div>
+        <div class="lesson-row-meta">${l.month} · ${l.questions.length} câu hỏi</div>
+      </div>
+      <button class="lesson-row-edit" onclick="openEdit(${l.id})">✏️ Sửa</button>
+    `;
+    el.appendChild(row);
+  });
+}
+
+function openEdit(id) {
+  const l = lessons.find(x=>x.id===id);
+  if(!l) return;
+  editingLessonId = id;
+  pendingLessonMedia = null;
+  pendingQMedia = {};
+  document.getElementById('modal-title').textContent = `✏️ Sửa bài: ${l.title}`;
+  document.getElementById('ed-title').value = l.title;
+  document.getElementById('ed-icon').value = l.icon;
+  document.getElementById('ed-qimg').value = l.qimg;
+  document.getElementById('ed-cat').value = l.cat;
+  renderQEdit(l.questions);
+
+  // Restore lesson media preview if exists
+  const prev = document.getElementById('lesson-media-preview');
+  if(prev) {
+    if(l.media) {
+      pendingLessonMedia = l.media;
+      renderMediaPreview('lesson-media-preview', l.media, () => { pendingLessonMedia = null; });
+    } else {
+      prev.innerHTML = '';
+      prev.className = 'media-preview-wrap';
+    }
+  }
+  document.getElementById('modal-edit').classList.remove('hidden');
+}
+
+function renderQEdit(qs) {
+  const wrap = document.getElementById('ed-questions');
+  wrap.innerHTML = '';
+  qs.forEach((q,qi) => {
+    const div = document.createElement('div');
+    div.className = 'q-item-edit';
+    div.dataset.qi = qi;
+    const opts3 = [...q.opts].slice(0,3);
+    while(opts3.length<3) opts3.push({e:'❓',t:''});
+    const optsHTML = opts3.map((o,oi) => `
+      <div class="opt-edit-row">
+        <input type="radio" name="c_${qi}" value="${oi}" ${q.c===oi?'checked':''}>
+        <input class="form-ctrl opt-edit-emoji" placeholder="😀" value="${o.e}" style="width:60px;">
+        <input class="form-ctrl opt-edit-txt" placeholder="Nội dung đáp án..." value="${o.t}">
+      </div>`).join('');
+
+    // Build media preview for this question
+    let mediaPrevHTML = '';
+    if(q.media) {
+      const icon = q.media.type==='image'?'🖼️':'🎵';
+      const typeLabel = q.media.type==='image'?'Ảnh':'Nhạc';
+      mediaPrevHTML = `<div class="media-preview-wrap has-media" id="qmedia-prev-${qi}">
+        <button class="btn-del-media" onclick="delQMedia(${qi})" title="Xóa media">×</button>
+        ${q.media.type==='image' ? `<img src="${q.media.data}" alt="ảnh câu hỏi">` : ''}
+        ${q.media.type==='audio' ? `<audio controls src="${q.media.data}"></audio>` : ''}
+      </div>`;
+    } else {
+      mediaPrevHTML = `<div class="media-preview-wrap" id="qmedia-prev-${qi}"></div>`;
+    }
+
+    div.innerHTML = `
+      <button class="btn-del-q" onclick="delQ(${qi})" title="Xóa câu hỏi">×</button>
+      <div class="q-item-edit-num">Câu ${qi+1}</div>
+      <div class="type-selector">
+        <div class="type-opt ${q.type==='mc'?'on':''}" onclick="setQType(${qi},'mc',this)">📝 Nhiều lựa chọn</div>
+        <div class="type-opt ${q.type==='tf'?'on':''}" onclick="setQType(${qi},'tf',this)">✅❌ Đúng / Sai</div>
+      </div>
+      <div class="form-group">
+        <label>Nội dung câu hỏi</label>
+        <input class="form-ctrl" placeholder="Nhập câu hỏi..." value="${q.q.replace(/"/g,'&quot;')}" data-field="q">
+      </div>
+      <div class="form-group">
+        <label>📎 Media cho câu hỏi này (tuỳ chọn)</label>
+        <div class="media-upload-row">
+          <label class="btn-media-upload">
+            🖼️ Ảnh
+            <input type="file" accept="image/*" onchange="handleMediaUpload(this,'image','question',${qi})">
+          </label>
+          <label class="btn-media-upload">
+            🎵 Nhạc
+            <input type="file" accept="audio/*" onchange="handleMediaUpload(this,'audio','question',${qi})">
+          </label>
+        </div>
+        ${mediaPrevHTML}
+      </div>
+      <div class="form-group">
+        <label>Đáp án (✅ Chọn đáp án đúng)</label>
+        ${optsHTML}
+      </div>
+    `;
+    wrap.appendChild(div);
+  });
+}
+
+// Tạm lưu media bài học đang edit (chưa save)
+let pendingLessonMedia = null;
+// Map tạm media từng câu hỏi đang edit: { qi: {type,data} }
+let pendingQMedia = {};
+
+function handleMediaUpload(input, mediaType, scope, qi) {
+  const file = input.files[0];
+  if(!file) return;
+
+  // Kiểm tra dung lượng: ảnh ≤ 5MB, audio ≤ 15MB
+  const maxMB = mediaType==='image'?5:15;
+  if(file.size > maxMB*1024*1024) {
+    showToast(`❌ File quá lớn! Tối đa ${maxMB}MB`);
+    input.value=''; return;
+  }
+
+  showToast('⏳ Đang tải file...');
+  const reader = new FileReader();
+  reader.onload = e => {
+    const data = e.target.result; // base64 data URL
+    if(scope === 'lesson') {
+      pendingLessonMedia = {type: mediaType, data};
+      renderMediaPreview('lesson-media-preview', pendingLessonMedia, () => { pendingLessonMedia = null; });
+    } else {
+      // per-question
+      pendingQMedia[qi] = {type: mediaType, data};
+      renderMediaPreview(`qmedia-prev-${qi}`, pendingQMedia[qi], () => { delete pendingQMedia[qi]; });
+    }
+    showToast('✅ Đã tải file thành công!');
+  };
+  reader.onerror = () => showToast('❌ Lỗi khi đọc file!');
+  reader.readAsDataURL(file);
+  input.value = ''; // reset để có thể upload lại cùng file
+}
+
+function renderMediaPreview(containerId, media, onDelete) {
+  const wrap = document.getElementById(containerId);
+  if(!wrap) return;
+  wrap.className = 'media-preview-wrap has-media';
+  let inner = '';
+  if(media.type === 'image') inner = `<img src="${media.data}" alt="xem trước">`;
+  else if(media.type === 'audio') inner = `<audio controls src="${media.data}"></audio>`;
+  wrap.innerHTML = inner;
+  const delBtn = document.createElement('button');
+  delBtn.className = 'btn-del-media';
+  delBtn.title = 'Xóa media';
+  delBtn.textContent = '×';
+  delBtn.onclick = () => {
+    wrap.innerHTML = '';
+    wrap.className = 'media-preview-wrap';
+    onDelete();
+  };
+  wrap.appendChild(delBtn);
+}
+
+function delQMedia(qi) {
+  delete pendingQMedia[qi];
+  // Also clear from question data if already saved
+  const qs = collectEditing();
+  if(qs[qi]) qs[qi].media = null;
+  const prev = document.getElementById(`qmedia-prev-${qi}`);
+  if(prev) { prev.innerHTML=''; prev.className='media-preview-wrap'; }
+}
+  el.closest('.type-selector').querySelectorAll('.type-opt').forEach(x=>x.classList.remove('on'));
+  el.classList.add('on');
+  const items = document.querySelectorAll('.q-item-edit');
+  if(type==='tf') {
+    const rows = items[qi].querySelectorAll('.opt-edit-row');
+    const emojis=['✅','❌'];
+    const txts=['Đúng','Sai'];
+    rows.forEach((r,i) => {
+      if(i<2){ r.querySelector('.opt-edit-emoji').value=emojis[i]; r.querySelector('.opt-edit-txt').value=txts[i]; }
+    });
+  }
+}
+
+function addQuestion() {
+  const l = lessons.find(x=>x.id===editingLessonId);
+  if(!l) return;
+  const qs = collectEditing();
+  qs.push({type:'mc',q:'',c:0,opts:[{e:'😊',t:''},{e:'😢',t:''},{e:'🤔',t:''}]});
+  renderQEdit(qs);
+}
+
+function delQ(qi) {
+  const qs = collectEditing();
+  if(qs.length<=1){showToast('Cần ít nhất 1 câu hỏi!');return;}
+  qs.splice(qi,1);
+  renderQEdit(qs);
+}
+
+function collectEditing() {
+  const items = document.querySelectorAll('.q-item-edit');
+  const qs = [];
+  // Get current lesson's existing question media as fallback
+  const existing = lessons.find(x=>x.id===editingLessonId);
+  items.forEach((item,qi) => {
+    const typeOn = item.querySelector('.type-opt.on');
+    const type = typeOn ? (typeOn.textContent.includes('Đúng')&&typeOn.textContent.includes('Sai')?'tf':'mc') : 'mc';
+    const qText = item.querySelector('[data-field="q"]')?.value || '';
+    const radios = item.querySelectorAll('input[type=radio]');
+    let c = 0;
+    radios.forEach((r,i)=>{ if(r.checked) c=i; });
+    const rows = item.querySelectorAll('.opt-edit-row');
+    const opts = [];
+    rows.forEach(r => {
+      const e = r.querySelector('.opt-edit-emoji')?.value||'❓';
+      const t = r.querySelector('.opt-edit-txt')?.value||'';
+      if(t) opts.push({e,t});
+    });
+    // Media: prefer freshly uploaded, else keep existing
+    let media = pendingQMedia[qi] || null;
+    if(!media && existing && existing.questions[qi] && existing.questions[qi].media) {
+      media = existing.questions[qi].media;
+    }
+    if(opts.length>0) qs.push({type,q:qText,c,opts:opts.slice(0,3),media});
+  });
+  return qs;
+}
+
+function saveLesson() {
+  const idx = lessons.findIndex(x=>x.id===editingLessonId);
+  if(idx===-1) return;
+  const title = document.getElementById('ed-title').value.trim();
+  const icon = document.getElementById('ed-icon').value.trim()||'📚';
+  const qimg = document.getElementById('ed-qimg').value.trim()||'❓';
+  const cat = document.getElementById('ed-cat').value;
+  const catMap={t9:'Tháng 9',t10:'Tháng 10',t11:'Tháng 11',t12:'Tháng 12',t1:'Tháng 1',t2:'Tháng 2',t3:'Tháng 3',t4:'Tháng 4',t5:'Tháng 5'};
+  const qs = collectEditing();
+  if(!title){showToast('Nhập tên bài học!');return;}
+  if(qs.length===0){showToast('Thêm ít nhất 1 câu hỏi!');return;}
+  // Lesson-level media: use pending if uploaded, else keep existing, or null if deleted
+  const existingMedia = lessons[idx].media || null;
+  const lessonMedia = pendingLessonMedia !== undefined ? pendingLessonMedia : existingMedia;
+  lessons[idx] = {...lessons[idx], title, icon, qimg, cat, month:catMap[cat]||cat, questions:qs, media: lessonMedia};
+  saveState();
+  closeModal();
+  renderLessonList();
+  showToast('✅ Đã lưu bài học: ' + title);
+}
+
+function closeModal() {
+  document.getElementById('modal-edit').classList.add('hidden');
+}
+
+// ════════════════════════════════════════════════════════
+//  CONFETTI
+// ════════════════════════════════════════════════════════
+function confetti() {
+  const colors=['#FF6B6B','#4ECDC4','#FFD93D','#845EF7','#6BCB77','#FF922B','#74C0FC'];
+  for(let i=0;i<70;i++){
     const c=document.createElement('div');
     c.className='cf';
-    c.style.cssText=`left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'3px'};transform:rotate(${Math.random()*360}deg);`;
+    const sz=8+Math.random()*10;
+    c.style.cssText=`left:${Math.random()*100}vw;top:-20px;width:${sz}px;height:${sz}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius:${Math.random()>.4?'50%':'3px'};
+      transform:rotate(${Math.random()*360}deg);`;
     document.body.appendChild(c);
-    const a=c.animate([{top:'-10px',opacity:1},{top:'100vh',opacity:0,transform:`rotate(${Math.random()*720}deg)`}],
-      {duration:2200+Math.random()*3000,easing:'cubic-bezier(0,1,1,1)'});
+    const a=c.animate([
+      {top:'-20px',opacity:1,transform:`rotate(${Math.random()*180}deg)`},
+      {top:'105vh',opacity:0,transform:`rotate(${Math.random()*720}deg) translateX(${(Math.random()-.5)*200}px)`}
+    ],{duration:2500+Math.random()*2500,easing:'cubic-bezier(0,.8,.6,1)'});
     a.onfinish=()=>c.remove();
   }
 }
 
-initHome();
+// ════════════════════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════════════════════
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════
+loadState();
+makeBubbles();
+// Preload voices
+if(window.speechSynthesis && window.speechSynthesis.onvoiceschanged!==undefined) {
+  window.speechSynthesis.onvoiceschanged = () => {};
+}
+// Set default screen
+if(studentName) {
+  goTo('s-home');
+} else {
+  document.getElementById('s-landing').classList.remove('hidden');
+}
 </script>
 </body>
 </html>
