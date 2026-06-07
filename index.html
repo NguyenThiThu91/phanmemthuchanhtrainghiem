@@ -1754,6 +1754,8 @@ function delQMedia(qi) {
   const prev = document.getElementById(`qmedia-prev-${qi}`);
   if(prev) { prev.innerHTML=''; prev.className='media-preview-wrap'; }
 }
+
+function setQType(qi, type, el) {
   el.closest('.type-selector').querySelectorAll('.type-opt').forEach(x=>x.classList.remove('on'));
   el.classList.add('on');
   const items = document.querySelectorAll('.q-item-edit');
