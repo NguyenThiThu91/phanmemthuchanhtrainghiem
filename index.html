@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>🌈 Bé Học Vui – Mầm Non</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════ RESET & VARS ═══════════════════ */
@@ -86,13 +88,39 @@ body{display:flex;align-items:center;justify-content:center;}
 /* ═══════════════════ NAME INPUT SCREEN ═══════════════════ */
 #s-name{background:linear-gradient(160deg,#43e97b 0%,#38f9d7 100%);}
 .name-card{
-  background:#fff;border-radius:36px;padding:clamp(28px,5vw,56px) clamp(24px,4vw,48px);
+  background:#fff;border-radius:36px;padding:clamp(24px,4vw,48px) clamp(24px,4vw,48px);
   text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.15);
   max-width:min(520px,90vw);width:100%;
 }
-.name-icon{font-size:clamp(60px,12vw,100px);margin-bottom:16px;}
-.name-card h2{font-family:'Baloo 2',sans-serif;font-size:clamp(22px,4vw,32px);color:var(--dark);font-weight:800;margin-bottom:8px;}
-.name-card p{color:var(--mid);font-size:clamp(14px,2.5vw,18px);margin-bottom:24px;}
+.name-icon{font-size:clamp(60px,12vw,100px);margin-bottom:8px;transition:.3s;display:block;}
+.name-card h2{font-family:'Baloo 2',sans-serif;font-size:clamp(22px,4vw,32px);color:var(--dark);font-weight:800;margin-bottom:6px;}
+.name-card p{color:var(--mid);font-size:clamp(14px,2.5vw,18px);margin-bottom:16px;}
+
+/* Giới tính */
+.gender-row{display:flex;gap:14px;justify-content:center;margin-bottom:20px;}
+.gender-btn{
+  flex:1;max-width:160px;
+  padding:clamp(14px,3vw,20px) 10px;
+  border:3px solid #ececec;border-radius:24px;
+  background:#fff;cursor:pointer;transition:.25s;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  font-family:'Baloo 2',sans-serif;font-weight:800;
+  font-size:clamp(14px,3vw,18px);color:var(--mid);
+}
+.gender-btn .g-icon{font-size:clamp(44px,10vw,72px);line-height:1;transition:.25s;}
+.gender-btn:hover{transform:translateY(-4px);}
+.gender-btn.boy:hover,.gender-btn.boy.on{
+  border-color:#74C0FC;background:linear-gradient(135deg,#E8F4FF,#D0EBFF);color:#1971C2;
+  box-shadow:0 8px 24px rgba(116,192,252,.35);
+}
+.gender-btn.girl:hover,.gender-btn.girl.on{
+  border-color:#F783AC;background:linear-gradient(135deg,#FFF0F6,#FFD6E7);color:#C2255C;
+  box-shadow:0 8px 24px rgba(247,131,172,.35);
+}
+.gender-btn.on{transform:translateY(-4px) scale(1.04);}
+.gender-btn.on .g-icon{animation:wiggle .4s ease;}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+
 .name-input{
   width:100%;padding:16px 24px;border:3px solid #e0e0e0;border-radius:60px;
   font-size:clamp(16px,3vw,22px);font-family:'Nunito',sans-serif;font-weight:700;
@@ -518,10 +546,21 @@ tr:hover td{background:#f9f9f9;}
 <!-- ════════ NAME INPUT ════════ -->
 <div class="screen hidden" id="s-name">
   <div class="name-card">
-    <div class="name-icon">🧒</div>
+    <span class="name-icon" id="name-avatar">🧒</span>
     <h2>Bé tên là gì?</h2>
-    <p>Hãy viết tên của bé vào đây nhé!</p>
-    <input class="name-input" id="inp-name" type="text" placeholder="Ví dụ: Bé Nam, Bé An..." maxlength="30"
+    <p>Chọn giới tính và viết tên của bé nhé!</p>
+    <!-- Chọn giới tính -->
+    <div class="gender-row">
+      <button class="gender-btn boy" id="btn-boy" onclick="selectGender('boy')">
+        <span class="g-icon">👦</span>
+        Bé trai
+      </button>
+      <button class="gender-btn girl" id="btn-girl" onclick="selectGender('girl')">
+        <span class="g-icon">👧</span>
+        Bé gái
+      </button>
+    </div>
+    <input class="name-input" id="inp-name" type="text" placeholder="Ví dụ: Nam, An, Minh..." maxlength="30"
       onkeydown="if(event.key==='Enter')startWithName()" autocomplete="off" autocorrect="off">
     <button class="btn-start-quiz" onclick="startWithName()">✨ Bắt đầu thôi nào! ✨</button>
     <button style="background:none;border:none;margin-top:14px;color:#aaa;cursor:pointer;font-size:14px;font-weight:700;font-family:'Nunito',sans-serif;" onclick="goTo('s-landing')">⬅️ Quay lại</button>
@@ -533,7 +572,7 @@ tr:hover td{background:#f9f9f9;}
   <div class="app-wrap">
     <div class="home-header">
       <div class="home-header-top">
-        <div class="home-student-name">🧒 <span id="disp-name">Bé yêu</span></div>
+        <div class="home-student-name"><span id="home-name-icon">👦</span> <span id="disp-name">Bé yêu</span></div>
         <button class="btn-admin-top" onclick="goTo('s-admin-login')">🔑 GV</button>
       </div>
       <div class="home-title">Hôm nay bé muốn học gì? 📚</div>
@@ -1103,6 +1142,7 @@ let lessons = [
 //  STATE
 // ════════════════════════════════════════════════════════
 let studentName = '';
+let studentGender = 'boy'; // 'boy' | 'girl'
 let progress = {};
 let results = [];    // {name, lessonTitle, correct, total, stars, time}
 let curLesson = null;
@@ -1121,7 +1161,8 @@ function loadState() {
     // Chỉ dùng mật khẩu đã lưu nếu người dùng từng tự đổi
     if (d.adminPassChanged) adminPass = d.adminPass || '12345';
     else adminPass = '12345';
-    studentName = d.studentName || '';
+    studentName   = d.studentName   || '';
+    studentGender = d.studentGender || 'boy';
   } catch(e) {}
 }
 function saveState() {
@@ -1129,7 +1170,7 @@ function saveState() {
     localStorage.setItem('beHocVui_v2', JSON.stringify({
       progress, results, lessons,
       adminPass, adminPassChanged: true,
-      studentName
+      studentName, studentGender
     }));
   } catch(e) {}
 }
@@ -1163,6 +1204,16 @@ function makeBubbles() {
 }
 
 // ════════════════════════════════════════════════════════
+//  GENDER SELECTION
+// ════════════════════════════════════════════════════════
+function selectGender(g) {
+  studentGender = g;
+  document.getElementById('btn-boy').classList.toggle('on',  g==='boy');
+  document.getElementById('btn-girl').classList.toggle('on', g==='girl');
+  document.getElementById('name-avatar').textContent = g==='boy' ? '👦' : '👧';
+}
+
+// ════════════════════════════════════════════════════════
 //  NAME
 // ════════════════════════════════════════════════════════
 function startWithName() {
@@ -1185,8 +1236,14 @@ const CATS = [
   {id:'t5', label:'📅 Tháng 5'},
 ];
 
+// Icon theo giới tính
+function genderIcon() { return studentGender === 'girl' ? '👧' : '👦'; }
+
 function renderHome() {
   document.getElementById('disp-name').textContent = studentName || 'Bé yêu';
+  // Cập nhật icon giới tính trong header
+  const nameWrap = document.getElementById('home-name-icon');
+  if(nameWrap) nameWrap.textContent = genderIcon();
   // Tabs
   const tabsEl = document.getElementById('tabs');
   tabsEl.innerHTML = '';
@@ -1309,7 +1366,7 @@ function speakQuestion() {
 // ════════════════════════════════════════════════════════
 function startLesson(l) {
   curLesson = l; qIdx = 0; score = 0; answered = false;
-  document.getElementById('badge-name').textContent = '🧒 ' + (studentName||'Bé yêu');
+  document.getElementById('badge-name').textContent = genderIcon() + ' ' + (studentName||'Bé yêu');
   goTo('s-quiz');
   showQ();
 }
@@ -1449,6 +1506,7 @@ function showResult() {
   // Save result for admin
   results.push({
     name: studentName||'Bé chưa đặt tên',
+    gender: studentGender,
     lessonTitle: curLesson.title,
     correct: score,
     total: tot,
@@ -1464,7 +1522,7 @@ function showResult() {
   document.getElementById('r-trophy').textContent = trophies[s];
   document.getElementById('r-title').textContent = titles[s];
   document.getElementById('r-stars').textContent = '⭐'.repeat(s);
-  document.getElementById('r-name').textContent = '🧒 ' + (studentName||'Bé yêu');
+  document.getElementById('r-name').textContent = genderIcon() + ' ' + (studentName||'Bé yêu');
   document.getElementById('r-score').textContent = `Bé trả lời đúng ${score}/${tot} câu hỏi!`;
 
   goTo('s-result');
@@ -1532,9 +1590,10 @@ function renderResults() {
   [...results].reverse().forEach((r,i) => {
     const tagClass = r.stars===3?'g3':r.stars===2?'g2':'g1';
     const tagTxt = r.stars===3?'Xuất sắc':r.stars===2?'Giỏi':'Cần cố gắng';
+    const gIcon = r.gender==='girl'?'👧':'👦';
     tbody.innerHTML += `<tr>
       <td>${results.length-i}</td>
-      <td><strong>${r.name}</strong></td>
+      <td><strong>${gIcon} ${r.name}</strong></td>
       <td>${r.lessonTitle}</td>
       <td><strong>${r.correct}</strong>/${r.total}</td>
       <td><span class="tag-pass ${tagClass}">${tagTxt} ${'⭐'.repeat(r.stars)}</span></td>
@@ -1552,9 +1611,10 @@ function clearResults() {
 }
 
 function exportCSV() {
-  let csv = 'STT,Tên học sinh,Bài học,Số câu đúng,Tổng câu,Số sao,Thời gian\n';
+  let csv = 'STT,Tên học sinh,Giới tính,Bài học,Số câu đúng,Tổng câu,Số sao,Thời gian\n';
   results.forEach((r,i) => {
-    csv += `${i+1},"${r.name}","${r.lessonTitle}",${r.correct},${r.total},${r.stars},"${r.time}"\n`;
+    const g = r.gender==='girl'?'Bé gái':'Bé trai';
+    csv += `${i+1},"${r.name}","${g}","${r.lessonTitle}",${r.correct},${r.total},${r.stars},"${r.time}"\n`;
   });
   const blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8;'});
   const a = document.createElement('a');
@@ -1877,6 +1937,8 @@ function showToast(msg) {
 // ════════════════════════════════════════════════════════
 loadState();
 makeBubbles();
+// Restore gender selection UI on name screen
+selectGender(studentGender || 'boy');
 // Preload voices
 if(window.speechSynthesis && window.speechSynthesis.onvoiceschanged!==undefined) {
   window.speechSynthesis.onvoiceschanged = () => {};
