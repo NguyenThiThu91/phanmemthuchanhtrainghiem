@@ -593,7 +593,7 @@
             transition: .25s;
             position: relative;
             overflow: hidden;
-            min-height: 130px;
+            min-height: 190px;
         }
 
             .lesson-card:active {
@@ -3646,83 +3646,228 @@
         // ═══════════════════════════════════════════════════════════════
         let femaleVoice = null;
 
+        // =========================
+        // LOAD VOICE
+        // =========================
         function loadVoice() {
-            const vv = window.speechSynthesis.getVoices();
-            femaleVoice = vv.find(v => v.lang === 'vi-VN' && !/male|man|boy|nam/i.test(v.name)) || vv.find(v => v.lang === 'vi-VN') || vv.find(v => v.lang.startsWith('vi')) || null;
-        }
-        if (typeof speechSynthesis !== 'undefined') {
-            speechSynthesis.onvoiceschanged = loadVoice;
-            loadVoice();
+
+            const voices = window.speechSynthesis.getVoices();
+
+            console.table(
+                voices.map(v => ({
+                    name: v.name,
+                    lang: v.lang
+                }))
+            );
+
+            femaleVoice =
+                // ưu tiên voice việt nữ
+                voices.find(v =>
+                    v.lang === 'vi-VN' &&
+                    /female|woman|girl|hoaimy|nu/i.test(v.name)
+                )
+
+                // fallback vi-VN
+                || voices.find(v => v.lang === 'vi-VN')
+
+                // fallback tất cả vi
+                || voices.find(v => v.lang?.startsWith('vi'))
+
+                || null;
+
+            console.log('SELECTED VOICE:', femaleVoice);
         }
 
+        // browser support
+        if ('speechSynthesis' in window) {
+
+            loadVoice();
+
+            speechSynthesis.onvoiceschanged = () => {
+                loadVoice();
+            };
+        }
+
+        // =========================
+        // GOOGLE TTS FALLBACK
+        // =========================
+        function speakGoogle(text, cb) {
+
+            try {
+
+                const url =
+                    'https://translate.google.com/translate_tts'
+                    + '?ie=UTF-8'
+                    + '&tl=vi'
+                    + '&client=tw-ob'
+                    + '&q=' + encodeURIComponent(text);
+
+                const audio = new Audio(url);
+
+                audio.onended = () => {
+                    if (cb) cb();
+                };
+
+                audio.onerror = () => {
+                    if (cb) cb();
+                };
+
+                audio.play();
+
+            } catch (e) {
+
+                console.log(e);
+
+                if (cb) cb();
+            }
+        }
+
+        // =========================
+        // SPEAK CHUNG
+        // =========================
         function speak(txt, cb) {
+
             try {
                 window.speechSynthesis.cancel();
             } catch (e) { }
+
             if (!txt) {
+
                 if (cb) cb();
+
                 return;
             }
+
+            // clean text
+            txt = String(txt || '')
+                .replace(/[:]/g, '. ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            console.log('READ TEXT:', txt);
+
+            // reload voices
+            loadVoice();
+
+            // nếu không có voice việt
+            // dùng google tts
+            if (!femaleVoice) {
+
+                console.log('USE GOOGLE TTS');
+
+                speakGoogle(txt, cb);
+
+                return;
+            }
+
             const u = new SpeechSynthesisUtterance(txt);
+
             u.lang = 'vi-VN';
-            u.rate = 0.80;
-            u.pitch = 1.15;
+            u.rate = 0.85;
+            u.pitch = 1.05;
             u.volume = 1;
-            if (femaleVoice) u.voice = femaleVoice;
+
+            u.voice = femaleVoice;
+
             u.onend = () => {
+
                 if (cb) cb();
             };
-            u.onerror = () => {
+
+            u.onerror = (e) => {
+
+                console.log('SPEAK ERROR:', e);
+
                 if (cb) cb();
             };
+
             try {
+
                 window.speechSynthesis.speak(u);
+
             } catch (e) {
+
+                console.log(e);
+
                 if (cb) cb();
             }
         }
 
+        // =========================
+        // ĐỌC 1 ĐOẠN
+        // =========================
         function speakOnly(txt, btnEl) {
+
             try {
                 window.speechSynthesis.cancel();
             } catch (e) { }
+
             if (!txt) return;
-            document.querySelectorAll('.btn-speak,.btn-speak-opt').forEach(b => b.classList.remove('speaking'));
-            if (btnEl) btnEl.classList.add('speaking');
-            const u = new SpeechSynthesisUtterance(txt);
-            u.lang = 'vi-VN';
-            u.rate = 0.80;
-            u.pitch = 1.15;
-            u.volume = 1;
-            if (femaleVoice) u.voice = femaleVoice;
-            u.onend = () => {
-                if (btnEl) btnEl.classList.remove('speaking');
-            };
-            u.onerror = () => {
-                if (btnEl) btnEl.classList.remove('speaking');
-            };
-            try {
-                window.speechSynthesis.speak(u);
-            } catch (e) {
-                if (btnEl) btnEl.classList.remove('speaking');
-            }
+
+            document
+                .querySelectorAll('.btn-speak,.btn-speak-opt')
+                .forEach(b => b.classList.remove('speaking'));
+
+            if (btnEl)
+                btnEl.classList.add('speaking');
+
+            speak(txt, () => {
+
+                if (btnEl)
+                    btnEl.classList.remove('speaking');
+            });
         }
 
+        // =========================
+        // ĐỌC CÂU HỎI
+        // =========================
         function speakQuestion() {
+
             if (!curLesson) return;
+
             const q = curLesson.questions[qIdx];
+
             const btn = document.getElementById('btn-speak-q');
-            document.querySelectorAll('.btn-speak-opt').forEach(b => b.classList.remove('speaking'));
-            if (btn) btn.classList.add('speaking');
-            let txt = q.q + '. ';
-            if (q.type === 'tf') txt += 'Đúng hay sai? ';
+
+            document
+                .querySelectorAll('.btn-speak-opt')
+                .forEach(b => b.classList.remove('speaking'));
+
+            if (btn)
+                btn.classList.add('speaking');
+
+            let txt = '';
+
+            // câu hỏi
+            txt += q.q + '. ';
+
+            // đúng sai
+            if (q.type === 'tf') {
+
+                txt += 'Đúng hay sai. ';
+            }
+
+            // đáp án
             q.opts.slice(0, 3).forEach((o, i) => {
-                txt += `Đáp án ${i + 1}: ${o.t}. `;
+
+                const stt =
+                    i === 0 ? 'một'
+                        : i === 1 ? 'hai'
+                            : i === 2 ? 'ba'
+                                : (i + 1);
+
+                txt += `Đáp án ${stt}. ${o.t}. `;
             });
+
+            console.log('FINAL QUESTION TEXT:', txt);
+
             speak(txt, () => {
-                if (btn) btn.classList.remove('speaking');
+
+                if (btn)
+                    btn.classList.remove('speaking');
             });
         }
+
         // ═══════════════════════════════════════════════════════════════
         // QUIZ
         // ═══════════════════════════════════════════════════════════════
