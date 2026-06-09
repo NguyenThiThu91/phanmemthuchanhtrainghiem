@@ -593,6 +593,7 @@
             transition: .25s;
             position: relative;
             overflow: hidden;
+            min-height: 130px;
         }
 
             .lesson-card:active {
@@ -2189,11 +2190,11 @@
             <h3 id="modal-teacher-title">➕ Thêm tài khoản giáo viên</h3>
             <div class="form-group">
                 <label>Tên hiển thị (Tên cô/thầy)</label>
-                <input class="form-ctrl" id="tc-display" type="text" placeholder="Ví dụ: Cô Nguyễn Thị Thu">
+                <input class="form-ctrl" id="tc-display" type="text" placeholder="Ví dụ: Cô Nguyễn Thị Thư">
             </div>
             <div class="form-group">
                 <label>Tên trường / Ghi chú</label>
-                <input class="form-ctrl" id="tc-school" type="text" placeholder="Ví dụ: Trường MN Hoa Mai">
+                <input class="form-ctrl" id="tc-school" type="text" placeholder="Ví dụ: Trường MN Yên Bái A">
             </div>
             <div class="form-group">
                 <label>Icon lớp (emoji)</label>
@@ -2218,7 +2219,7 @@
         // ═══════════════════════════════════════════════════════════════
         // DATA STORE
         // ═══════════════════════════════════════════════════════════════
-        const STORE_KEY = 'bhv3';
+        const STORE_KEY = 'bhv5';
 
         function loadStore() {
             try {
@@ -2247,7 +2248,7 @@
                     user: 'giaovien',
                     pass: '12345',
                     displayName: 'Cô Nguyễn Thị Thư',
-                    school: 'Trường MN Yên Bài A,
+                    school: 'Trường MN Yên Bái A',
                     avatar: '👩🏫',
                     lessons: getDefaultLessons(),
                     results: []
@@ -2308,147 +2309,108 @@
                     icon: '😊',
                     qimg: '😄',
                     media: null,
-                    questions: [{
-                        type: 'mc',
-                        q: 'Bé gặp cô giáo mỗi sáng, bé sẽ làm gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🙇',
-                            t: 'Khoanh tay lễ phép, con chào cô ạ!'
-                        }, {
-                            e: '😶',
-                            t: 'Im lặng bỏ đi '
-                        }, {
-                            e: '🏃',
-                            t: 'Chạy vào lớp ngay '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Khi có người lớn giúp bé, bé nói câu gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🙏',
-                            t: 'Con cảm ơn (cô, chú, bác) ạ!
-                        }, {
-                            e: '😶',
-                            t: 'Không nói gì cả '
-                        }, {
-                            e: '🏃',
-                            t: 'Bỏ đi ngay '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Bé vô tình làm bạn đau, bé làm gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🙏',
-                            t: 'Tớ xin lỗi bạn nhé'
-                        }, {
-                            e: '😶',
-                            t: 'Giả vờ không biết '
-                        }, {
-                            e: '🏃',
-                            t: ' Chạy đi chỗ khác '
-                        }]
-                    }, {
-                        type: 'tf',
-                        q: 'Nói "cảm ơn" khi nhận được sự giúp đỡ là điều tốt đẹp.',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng '
-                        }, {
-                            e: '❌',
-                            t: 'Sai '
-                        }]
-                    }, {
-                        type: 'tf',
-                        q: 'Bé có thể la to trong lớp học bất cứ lúc nào.',
-                        c: 1,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng'
-                        }, {
-                            e: '❌',
-                            t: 'Sai'
-                        }]
-                    },]
-                },
-                {
-                    id: 'l2',
-                    cat: 't9',
-                    month: 'Tháng 9',
-                    title: 'Đèn Lồng Trung Thu',
-                    icon: '🏮',
-                    qimg: '🌕',
-                    media: null,
-                    questions: [{
-                        type: 'mc',
-                        q: 'Ngày rằm tháng 8 âm lịch là lễ hội gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🏮',
-                            t: 'Tết Trung Thu'
-                        }, {
-                            e: '🎊',
-                            t: 'Tết Nguyên Đán '
+                    questions: [
+                        {
+                            type: 'mc',
+                            q: 'Khi được người lớn tặng quà hoặc cho bánh kẹo, bé nên nói lời nào để thể hiện sự lễ phép?',
+                            c: 0,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🙏',
+                                    t: 'Con cảm ơn ạ!'
+                                },
+                                {
+                                    e: '🍭',
+                                    t: 'Con lấy cái này cơ!'
+                                },
+                                {
+                                    e: '🤔',
+                                    t: 'Của con à?'
+                                }
+                            ]
                         },
                         {
-                            e: '🌸',
-                            t: 'Tết Hàn Thực '
-                        }
-                        ]
-                    }, {
-                        type: 'mc',
-                        q: 'Đèn lồng Trung Thu thường làm từ vật liệu gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🎋',
-                            t: 'Giấy và tre mỏng '
-                        }, {
-                            e: '⚙️',
-                            t: 'Kim loại nặng '
-                        }, {
-                            e: '🧒',
-                            t: 'Đá cứng '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Bé thường làm gì trong đêm Trung Thu?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🏮',
-                            t: 'Rước đèn và phá cỗ vui '
+                            type: 'mc',
+                            q: 'Khi vô tình va vào bạn hoặc làm rơi đồ dùng của bạn lúc đang chơi, bé nên nói gì?',
+                            c: 1,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '😠',
+                                    t: 'Tại bạn đứng đấy đấy!'
+                                },
+                                {
+                                    e: '🙏',
+                                    t: 'Tớ xin lỗi bạn, bạn có sao không?'
+                                },
+                                {
+                                    e: '🙅',
+                                    t: 'Không phải tại tớ đâu nhé!'
+                                }
+                            ]
                         },
                         {
-                            e: '😴',
-                            t: 'Ngủ sớm trong phòng '
-                        }, {
-                            e: '📺',
-                            t: 'Xem phim một mình '
+                            type: 'mc',
+                            q: 'Khi muốn xin phép cô giáo đi vệ sinh hoặc ra ngoài uống nước, bé nên thưa gửi như thế nào?',
+                            c: 2,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🚻',
+                                    t: 'Cô ơi, con đi vệ sinh!'
+                                },
+                                {
+                                    e: '🏃',
+                                    t: 'Con ra ngoài đây!'
+                                },
+                                {
+                                    e: '🙇',
+                                    t: 'Con thưa cô, cho con xin phép đi vệ sinh ạ!'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Khi đang chơi trò chơi mà bé muốn mượn đồ chơi của bạn bên cạnh, bé nên nói thế nào?',
+                            c: 0,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🧸',
+                                    t: 'Bạn cho tớ mượn đồ chơi này một lát được không?'
+                                },
+                                {
+                                    e: '😤',
+                                    t: 'Đưa cái này cho tớ mượn nhanh lên!'
+                                },
+                                {
+                                    e: '✋',
+                                    t: 'Tớ lấy cái này nhé!'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Khi đến trường gặp cô giáo và các bác bảo vệ, lao công, bé nên chào hỏi thế nào cho đúng?',
+                            c: 0,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🙋',
+                                    t: 'Cháu chào bác ạ! / Con chào cô ạ!'
+                                },
+                                {
+                                    e: '😶',
+                                    t: 'Chỉ nhìn rồi đi thẳng vào lớp.'
+                                },
+                                {
+                                    e: '🚶',
+                                    t: 'Chỉ chào cô giáo thôi, không cần chào người khác.'
+                                }
+                            ]
                         }
-                        ]
-                    }, {
-                        type: 'tf',
-                        q: 'Tết Trung Thu diễn ra vào mùa thu.',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng'
-                        }, {
-                            e: '❌',
-                            t: 'Sai'
-                        }]
-                    },]
+                    ]
                 },
                 // ── THÁNG 10 ──
                 {
@@ -2547,7 +2509,7 @@
                         media: null,
                         opts: [{
                             e: '🚶',
-                            t: 'Cầm mũi kéo xuống, đi thật chậm '
+                            t: 'Cầm mũi xuống, đi thật chậm '
                         }, {
                             e: '🏃',
                             t: 'Chạy thật nhanh '
@@ -2631,10 +2593,10 @@
                         media: null,
                         opts: [{
                             e: '🧒',
-                            t: 'Con yêu mẹ!\nCon Chúc mẹ vui vẻ ạ!'
+                            t: 'Con yêu mẹ!\nChúc mẹ vui!'
                         }, {
                             e: '😶',
-                            t: 'không nói gì cả '
+                            t: 'hông nói gì cả '
                         }, {
                             e: '🧒',
                             t: 'Chờ mẹ tự lấy đi '
@@ -2658,572 +2620,456 @@
                     id: 'l6',
                     cat: 't11',
                     month: 'Tháng 11',
-                    title: 'Kĩ năng Bê Ghế và Ăn Đúng Cách',
-                    icon: '🧒',
-                    qimg: '🍚',
+                    title: 'Ngày Nhà Giáo Việt Nam',
+                    icon: '👩‍🏫',
+                    qimg: '🌸',
                     media: null,
-                    questions: [{
-                        type: 'mc',
-                        q: 'Khi bê ghế, bé cần nhớ điều quan trọng gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '👀',
-                            t: 'Nhìn trước đường đi để an toàn '
-                        }, {
-                            e: '🏃',
-                            t: 'Chạy thật nhanh qua '
-                        }, {
-                            e: '🔊',
-                            t: 'Kéo lê dưới sàn '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Tư thế ngồi ăn đúng là thế nào?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🧒',
-                            t: 'Ngồi thẳng lưng, chân thả tự nhiên '
-                        }, {
-                            e: '🛌',
-                            t: 'Nằm xuống mà ăn '
-                        }, {
-                            e: '🏃',
-                            t: 'Vừa ăn vừa chạy '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Sau khi ăn xong bé cần làm gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🧒',
-                            t: 'Cất bát và lau miệng sạch'
-                        }, {
-                            e: '🧒',
-                            t: 'Bỏ bát tại chỗ ngồi '
-                        }, {
-                            e: '🏃',
-                            t: 'Chạy đi chơi ngay '
-                        }]
-                    }, {
-                        type: 'tf',
-                        q: 'Nói chuyện to trong bữa ăn là không lịch sự.',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng'
-                        }, {
-                            e: '❌',
-                            t: 'Sai'
-                        }]
-                    },]
-                },
-                {
-                    id: 'l7',
-                    cat: 't11',
-                    month: 'Tháng 11',
-                    title: 'Chải Răng Đúng Cách',
-                    icon: '🧒',
-                    qimg: '🧒',
-                    media: null,
-                    questions: [{
-                        type: 'mc',
-                        q: 'Bé cần chải răng mỗi ngày mấy lần?',
-                        c: 1,
-                        media: null,
-                        opts: [{
-                            e: '1⃣',
-                            t: '1 lần buổi sáng thôi'
-                        }, {
-                            e: '2⃣',
-                            t: '2 lần: sáng và tối '
-                        }, {
-                            e: '7️⃣ ',
-                            t: '1 tuần 1 lần '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Chải răng cần mất bao nhiêu thời gian?',
-                        c: 1,
-                        media: null,
-                        opts: [{
-                            e: '⚡',
-                            t: '10 giây là đủ rồi'
-                        }, {
-                            e: '🧒',
-                            t: 'Ít nhất 2 phút '
-                        }, {
-                            e: '🧒',
-                            t: '5 phút '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Lấy kem đánh răng bao nhiêu là vừa đủ?',
-                        c: 1,
-                        media: null,
-                        opts: [{
-                            e: '🧒',
-                            t: 'Đầy cả bàn chải'
-                        }, {
-                            e: '🧒',
-                            t: 'Bằng hạt đậu nhỏ '
-                        }, {
-                            e: '💊',
-                            t: 'Nửa tuýp kem '
-                        }]
-                    }, {
-                        type: 'tf',
-                        q: 'Chải răng giúp ngăn ngừa sâu răng.',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng'
-                        }, {
-                            e: '❌',
-                            t: 'Sai'
-                        }]
-                    },]
-                },
-                {
-                    id: 'l8',
-                    cat: 't11',
-                    month: 'Tháng 11',
-                    title: 'Ngày 20/11',
-                    icon: '🎁',
-                    qimg: '👩🏫',
-                    media: null,
-                    questions: [{
-                        type: 'mc',
-                        q: 'Ngày 20 tháng 11 là ngày gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '📚',
-                            t: 'Ngày Nhà giáo Việt Nam '
-                        }, {
-                            e: '😴',
-                            t: 'Ngày tết '
-                        }, {
-                            e: '📺',
-                            t: 'Ngày quốc tế Phụ nữ '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Khi trả lười cô bé trả lời như thế nào?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '💖',
-                            t: 'Con thưa cô'
-                        }, {
-                            e: '😶',
-                            t: 'Cô ơi '
-                        }, {
-                            e: '🚪',
-                            t: 'Cô giáo ơi '
-                        }]
-                    }, {
-                        type: 'tf',
-                        q: 'Ngày 20 tháng 11 là ngày Nhà giáo Việt Nam.',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng'
-                        }, {
-                            e: '❌',
-                            t: 'Sai'
-                        }]
-                    },]
+                    questions: [
+                        {
+                            type: 'mc',
+                            q: 'Ngày 20 tháng 11 là ngày hội gì của các thầy giáo, cô giáo?',
+                            c: 2,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🎈',
+                                    t: 'Ngày Quốc tế Thiếu nhi.'
+                                },
+                                {
+                                    e: '🏮',
+                                    t: 'Ngày Tết Trung thu.'
+                                },
+                                {
+                                    e: '👩‍🏫',
+                                    t: 'Ngày Nhà giáo Việt Nam.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Để chúc mừng cô giáo nhân ngày 20/11, các con nên làm gì để cô vui nhất?',
+                            c: 0,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '📚',
+                                    t: 'Chăm ngoan, học giỏi, nghe lời cô và bố mẹ.'
+                                },
+                                {
+                                    e: '🏃',
+                                    t: 'Tự ý chạy nhảy, nô đùa và làm nũng cô.'
+                                },
+                                {
+                                    e: '🧸',
+                                    t: 'Đòi bố mẹ mua thật nhiều đồ chơi mới mang đến lớp.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Khi đến lớp và tặng cô bông hoa điểm mười nhân ngày 20/11, bé nên nói lời chúc nào thật văn minh, lễ phép?',
+                            c: 1,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🌸',
+                                    t: 'Hoa của cô đây ạ!'
+                                },
+                                {
+                                    e: '💐',
+                                    t: 'Con chúc cô luôn mạnh khỏe và xinh đẹp ạ!'
+                                },
+                                {
+                                    e: '🙅',
+                                    t: 'Con tặng cô, cô cầm lấy đi.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Ngoài các cô giáo ở trên lớp, ngày 20/11 chúng mình còn nên chúc mừng những ai đã dạy dỗ và chăm sóc chúng mình ở trường?',
+                            c: 0,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🏫',
+                                    t: 'Các cô giáo cũ, cô hiệu trưởng và các cô nuôi dưỡng nấu ăn cho bé.'
+                                },
+                                {
+                                    e: '😶',
+                                    t: 'Chỉ cần chúc mừng cô giáo đang dạy lớp mình hiện tại thôi.'
+                                },
+                                {
+                                    e: '🚫',
+                                    t: 'Không cần chúc mừng ai khác ngoài các bạn trong lớp.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Khi tham gia các hoạt động văn nghệ chào mừng ngày 20/11 tại trường, bé nên có thái độ như thế nào?',
+                            c: 1,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '💬',
+                                    t: 'Ngồi nói chuyện riêng và không chú ý lên sân khấu.'
+                                },
+                                {
+                                    e: '👏',
+                                    t: 'Hào hứng tham gia biểu diễn hoặc chăm chú xem và vỗ tay cổ vũ thật lớn.'
+                                },
+                                {
+                                    e: '😒',
+                                    t: 'Chê bai các tiết mục của bạn khác khi bạn biểu diễn chưa tốt.'
+                                }
+                            ]
+                        }
+                    ]
                 },
                 // ── THÁNG 12 ──
                 {
                     id: 'l9',
                     cat: 't12',
                     month: 'Tháng 12',
-                    title: 'Trang Phục Theo Thời Tiết',
-                    icon: '👗',
-                    qimg: '🌦️',
-                    media: null,
-                    questions: [{
-                        type: 'mc',
-                        q: 'Trời lạnh, bé mặc áo nào?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🧒',
-                            t: 'Áo ấm, áo len dày'
-                        }, {
-                            e: '👙',
-                            t: 'Áo hai dây mỏng '
-                        }, {
-                            e: '🏊',
-                            t: 'Áo đi tắm biển '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Hôm nay trời mưa, bé cần thêm gì khi ra ngoài?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '☂️',
-                            t: 'Áo mưa hoặc ô dù '
-                        }, {
-                            e: '🧒',
-                            t: 'Dép tông bình thường '
-                        }, {
-                            e: '😎',
-                            t: 'Không cần gì thêm '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Áo bị ướt mưa, bé làm gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '👕',
-                            t: 'Thay áo khô và phơi áo ướt'
-                        }, {
-                            e: '😓',
-                            t: 'Mặc nguyên đến khi tự khô '
-                        }, {
-                            e: '🗑️',
-                            t: ' Bỏ áo đi luôn '
-                        }]
-                    }, {
-                        type: 'tf',
-                        q: 'Mùa hè nên mặc áo màu sáng để mát hơn.',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng'
-                        }, {
-                            e: '❌',
-                            t: 'Sai'
-                        }]
-                    },]
-                },
-                {
-                    id: 'l10',
-                    cat: 't12',
-                    month: 'Tháng 12',
                     title: 'Chú Bộ Đội',
-                    icon: '⭐',
-                    qimg: '🧒',
+                    icon: '🪖',
+                    qimg: '🇻🇳',
                     media: null,
-                    questions: [{
-                        type: 'mc',
-                        q: 'Ngày 22 tháng 12 là ngày gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🇻🇳',
-                            t: 'Ngày thành lập Quân đội nhân dân Việt Nam '
-                        }, {
-                            e: '🎉',
-                            t: ' Ngày Quốc Khánh mùng 2 tháng 9 '
-                        }, {
-                            e: '👩🏫',
-                            t: ' Ngày Nhà giáo 20 tháng 11 '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Chú bộ đội làm công việc gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🛡️',
-                            t: 'Bảo vệ Tổ quốc và giúp dân'
-                        }, {
-                            e: '🌾',
-                            t: 'Làm ruộng mỗi ngày thôi '
-                        }, {
-                            e: '🛒',
-                            t: 'Đi chợ mua đồ '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Trang phục của chú bộ đội màu gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '👮',
-                            t: 'màu xanh lá '
-                        }, {
-                            e: '👨🍳',
-                            t: 'Màu đỏ '
-                        }, {
-                            e: '🎨',
-                            t: 'Màu hồng '
-                        }]
-                    }, {
-                        type: 'tf',
-                        q: 'Chú bộ đội cần dũng cảm và có kỷ luật.',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng'
-                        }, {
-                            e: '❌',
-                            t: 'Sai'
-                        }]
-                    },]
+                    questions: [
+                        {
+                            type: 'mc',
+                            q: 'Ngày 22 tháng 12 là ngày hội của ai?',
+                            c: 1,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '👮',
+                                    t: 'Ngày hội của các chiến sĩ công an.'
+                                },
+                                {
+                                    e: '🪖',
+                                    t: 'Ngày thành lập Quân đội nhân dân Việt Nam (Ngày hội Quốc phòng toàn dân).'
+                                },
+                                {
+                                    e: '🎈',
+                                    t: 'Ngày Tết của các bạn thiếu nhi.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Các chú bộ đội thường mặc trang phục màu gì để dễ ngụy trang khi tập trận trên thao trường?',
+                            c: 0,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🟢',
+                                    t: 'Trang phục màu xanh lá cây (xanh áo lính).'
+                                },
+                                {
+                                    e: '🔴',
+                                    t: 'Trang phục màu đỏ rực rỡ.'
+                                },
+                                {
+                                    e: '🩷',
+                                    t: 'Trang phục màu hồng và đen.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Công việc hàng ngày rất quan trọng và thiêng liêng của các chú bộ đội là gì?',
+                            c: 1,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🛍️',
+                                    t: 'Đi chợ mua sắm quần áo và đồ chơi.'
+                                },
+                                {
+                                    e: '🛡️',
+                                    t: 'Tập luyện gian khổ, canh giữ biên giới và biển đảo để bảo vệ Tổ quốc.'
+                                },
+                                {
+                                    e: '📺',
+                                    t: 'Chỉ ở trong nhà và xem tivi giải trí.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Khi gặp hoặc được đến thăm các chú bộ đội, bé nên có thái độ như thế nào để thể hiện sự văn minh, lịch sự?',
+                            c: 0,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🙋',
+                                    t: 'Đứng nghiêm trang, khoanh tay chào hỏi lễ phép và nói lời cảm ơn các chú.'
+                                },
+                                {
+                                    e: '🏃',
+                                    t: 'Tự ý chạy lung tung, nghịch ngợm các đồ dùng quân trang của các chú.'
+                                },
+                                {
+                                    e: '😢',
+                                    t: 'Sợ hãi khóc lóc và không dám nhìn các chú.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Để bày tỏ lòng biết ơn đối với các chú bộ đội đã vất vả bảo vệ hòa bình, các bé mầm non nên làm gì?',
+                            c: 1,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '😴',
+                                    t: 'Lười ăn, hay đòi quà và không chịu đi học.'
+                                },
+                                {
+                                    e: '🎨',
+                                    t: 'Chăm ngoan, học giỏi, khỏe mạnh và có thể vẽ tranh, hát múa gửi tặng các chú.'
+                                },
+                                {
+                                    e: '🙅',
+                                    t: 'Không cần làm gì vì công việc của các chú không liên quan đến bé.'
+                                }
+                            ]
+                        }
+                    ]
                 },
                 // ── THÁNG 1 ──
                 {
                     id: 'l11',
                     cat: 't1',
-                    month: 'Tháng 1',
-                    title: 'Vắt Nước Cam',
-                    icon: '🍊',
-                    qimg: '🧒',
-                    media: null,
-                    questions: [{
-                        type: 'mc',
-                        q: 'Quả cam có vị gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '😋',
-                            t: 'Ngọt chua mát mẻ'
-                        }, {
-                            e: '🌶️',
-                            t: 'Cay sè'
-                        }, {
-                            e: '🧒',
-                            t: 'Mặn chát '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Dùng gì để vắt cam?',
-                        c: 1,
-                        media: null,
-                        opts: [{
-                            e: '🧒',
-                            t: 'Thìa kim loại'
-                        }, {
-                            e: '🍊',
-                            t: 'Máy vắt cam hoặc tay '
-                        }, {
-                            e: '🔨',
-                            t: 'Búa gõ '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Trước khi vắt cam, cần làm gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🧒',
-                            t: 'Rửa sạch cam và rửa tay'
-                        }, {
-                            e: '🔪',
-                            t: 'Cắt cam ngay thôi '
-                        }, {
-                            e: '❄️',
-                            t: ' Để vào tủ lạnh '
-                        }]
-                    }, {
-                        type: 'tf',
-                        q: 'Nước cam tươi vắt ra chứa nhiều vitamin C tốt cho sức khỏe.',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng '
-                        }, {
-                            e: '❌',
-                            t: 'Sai '
-                        }]
-                    },]
-                }, {
-                    id: 'l12',
                     cat: 't1',
                     month: 'Tháng 1',
-                    title: 'Chăm Sóc Con Vật Nuôi',
-                    icon: '🐾',
-                    qimg: '🐰',
+                    title: 'Chiêng Mường',
+                    icon: '🥁',
+                    qimg: '🎶',
                     media: null,
-                    questions: [{
-                        type: 'mc',
-                        q: 'Con vật nuôi cần được chăm sóc gì mỗi ngày?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🧒',
-                            t: 'Cho ăn, uống nước và vệ sinh '
-                        }, {
-                            e: '🍬',
-                            t: 'Chỉ cho kẹo là đủ '
-                        }, {
-                            e: '🙈',
-                            t: 'Không cần chăm sóc '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Sau khi chạm vào con vật, bé cần làm gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🧒',
-                            t: 'Rửa tay bằng xà phòng ngay '
-                        }, {
-                            e: '🧒',
-                            t: ' Không cần làm gì '
-                        }, {
-                            e: '🍕',
-                            t: 'Tiếp tục ăn uống ngay '
-                        }]
-                    }, {
-                        type: 'tf',
-                        q: 'Con vật nuôi khỏe mạnh thường hoạt bát và ăn uống bình thường. ',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng '
-                        }, {
-                            e: '❌',
-                            t: 'Sai '
-                        }]
-                    },]
+                    questions: [
+                        {
+                            type: 'mc',
+                            q: 'Chiêng Mường là một loại nhạc cụ được làm bằng chất liệu gì?',
+                            c: 1,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🧱',
+                                    t: 'Được làm bằng nhựa và đất sét.'
+                                },
+                                {
+                                    e: '🥉',
+                                    t: 'Được làm bằng đồng.'
+                                },
+                                {
+                                    e: '🎋',
+                                    t: 'Được làm bằng tre và lá cây.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Để Chiêng Mường phát ra âm thanh vang vọng, người ta thường dùng cái gì để gõ vào chiêng?',
+                            c: 0,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🥢',
+                                    t: 'Dùng một chiếc dùi gỗ có quấn vải mềm ở đầu.'
+                                },
+                                {
+                                    e: '🪨',
+                                    t: 'Dùng một hòn đá to hoặc thanh sắt nhọn.'
+                                },
+                                {
+                                    e: '✋',
+                                    t: 'Dùng bàn tay không để vỗ mạnh vào.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Khi các nghệ nhân cùng nhau đánh một bộ Chiêng Mường tạo nên những giai điệu vui tươi, hành động đó được gọi là gì?',
+                            c: 2,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🏎️',
+                                    t: 'Đua xe chiêng.'
+                                },
+                                {
+                                    e: '😠',
+                                    t: 'Tranh giành chiêng.'
+                                },
+                                {
+                                    e: '🎼',
+                                    t: 'Hòa tấu sắc bùa (hoặc biểu diễn cồng chiêng).'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Khi được xem các ông bà, cô chú biểu diễn Chiêng Mường trong ngày hội, bé nên ngồi xem với thái độ thế nào?',
+                            c: 0,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '👏',
+                                    t: 'Chăm chú lắng nghe, vỗ tay cổ vũ lịch sự và không chạy nhảy làm ồn.'
+                                },
+                                {
+                                    e: '😜',
+                                    t: 'Trêu chọc người biểu diễn và ném đồ chơi vào chiêng.'
+                                },
+                                {
+                                    e: '📢',
+                                    t: 'Bịt tai lại và hét thật to để át tiếng chiêng.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Khi được cô giáo cho trải nghiệm tập đánh thử Chiêng Mường ở lớp, bé nên làm gì để bảo vệ nhạc cụ truyền thống?',
+                            c: 1,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '💥',
+                                    t: 'Dùng sức đập thật mạnh hoặc ném chiêng xuống đất.'
+                                },
+                                {
+                                    e: '🙋',
+                                    t: 'Chờ đến lượt, cầm dùi gõ nhẹ nhàng theo hướng dẫn của cô và không tranh giành với bạn.'
+                                },
+                                {
+                                    e: '🏃',
+                                    t: 'Giành lấy chiếc chiêng to nhất rồi chạy trốn vào góc lớp.'
+                                }
+                            ]
+                        }
+                    ]
                 },
                 // ── THÁNG 2 ──
                 {
                     id: 'l13',
                     cat: 't2',
                     month: 'Tháng 2',
-                    title: 'Trồng Cây & Chăm Cây',
-                    icon: '🌱',
-                    qimg: '☀️',
-                    media: null,
-                    questions: [{
-                        type: 'mc',
-                        q: 'Cây cần gì để lớn lên?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🌿',
-                            t: 'Nước, ánh sáng, đất và không khí'
-                        }, {
-                            e: '💧',
-                            t: 'Chỉ cần nước là đủ '
-                        }, {
-                            e: '🍬',
-                            t: 'Kẹo và bánh '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Rễ cây có nhiệm vụ gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🌍',
-                            t: 'Hút nước và chất dinh dưỡng từ đất '
-                        },
-                        {
-                            e: '💄',
-                            t: 'Làm đẹp cho cây '
-                        }, {
-                            e: '🌬️',
-                            t: 'Tạo ra oxy '
-                        }
-                        ]
-                    }, {
-                        type: 'mc',
-                        q: 'Tại sao cần tưới nước cho cây mỗi ngày?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '💧',
-                            t: 'Để cây không bị héo và khỏe mạnh '
-                        },
-                        {
-                            e: '🌊',
-                            t: 'Để đất bị ướt sũng '
-                        }, {
-                            e: '🧒',
-                            t: 'Không cần tưới mỗi ngày '
-                        }
-                        ]
-                    }, {
-                        type: 'tf',
-                        q: 'Lá cây màu xanh vì có chất diệp lục.',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng'
-                        }, {
-                            e: '❌',
-                            t: 'Sai'
-                        }]
-                    },]
-                },
-                {
-                    id: 'l14️',
-                    cat: 't2',
-                    month: 'Tháng 2',
                     title: 'Tết Nguyên Đán',
-                    icon: '🧒',
-                    qimg: '🎊',
+                    icon: '🧧',
+                    qimg: '🌸',
                     media: null,
-                    questions: [{
-                        type: 'mc',
-                        q: 'Cây gì là biểu tượng ngày Tết?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🌸',
-                            t: 'Cây đào và cây mai vàng'
-                        }, {
-                            e: '🌵',
-                            t: 'Cây xương rồng '
-                        }, {
-                            e: '🌲',
-                            t: 'Cây thông '
-                        }]
-                    }, {
-                        type: 'mc',
-                        q: 'Mọi người mặc áo mới ngày Tết để làm gì?',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '🎋',
-                            t: 'Đón năm mới may mắn, tươi vui '
-                        }, {
-                            e: '😔',
-                            t: 'Vì áo cũ bị rách hết '
-                        }, {
-                            e: '🧒',
-                            t: ' Không có lý do gì '
-                        }]
-                    }, {
-                        type: 'tf',
-                        q: 'Tết Nguyên Đán diễn ra vào tháng 1 âm lịch. ',
-                        c: 0,
-                        media: null,
-                        opts: [{
-                            e: '✅',
-                            t: 'Đúng '
-                        }, {
-                            e: '❌',
-                            t: ' Sai '
-                        }]
-                    },]
+                    questions: [
+                        {
+                            type: 'mc',
+                            q: 'Tết Nguyên Đán là ngày tết cổ truyền của dân tộc ta, đây là dịp để mọi người làm gì?',
+                            c: 1,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🏫',
+                                    t: 'Mọi người đi làm, đi học chăm chỉ hơn ngày thường.'
+                                },
+                                {
+                                    e: '👨‍👩‍👧',
+                                    t: 'Gia đình sum họp, quây quần bên nhau và chúc nhau những điều may mắn.'
+                                },
+                                {
+                                    e: '🏃',
+                                    t: 'Các bạn nhỏ tự ý đi chơi xa một mình.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Hai loại bánh truyền thống, đặc trưng nhất thường có trong ngày Tết Nguyên Đán của người Việt Nam là bánh gì?',
+                            c: 0,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🍃',
+                                    t: 'Bánh chưng và bánh giầy (hoặc bánh tét).'
+                                },
+                                {
+                                    e: '🎂',
+                                    t: 'Bánh ga-tô sinh nhật và bánh trung thu.'
+                                },
+                                {
+                                    e: '🍕',
+                                    t: 'Bánh mì và bánh pizza.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Khi được người lớn mừng tuổi (lì xì) lấy may đầu năm mới, một em bé ngoan và thanh lịch sẽ làm gì?',
+                            c: 0,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🙏',
+                                    t: 'Đón nhận bằng hai tay, khoanh tay cúi đầu nói lời cảm ơn và chúc Tết người lớn.'
+                                },
+                                {
+                                    e: '💨',
+                                    t: 'Giật lấy bao lì xì thật nhanh rồi bóc ngay ra xem có bao nhiêu tiền.'
+                                },
+                                {
+                                    e: '😒',
+                                    t: 'Chê bao lì xì ít tiền hoặc màu sắc không đẹp rồi ném đi.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Khi đi chúc Tết cùng bố mẹ và gặp các bạn nhỏ khác hoặc người lớn tuổi, bé nên nói lời chúc như thế nào?',
+                            c: 1,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '💸',
+                                    t: 'Đòi người lớn phải cho tiền lì xì thì mới chúc.'
+                                },
+                                {
+                                    e: '🎉',
+                                    t: 'Con chúc ông bà/cô chú năm mới mạnh khỏe, vạn sự như ý ạ!'
+                                },
+                                {
+                                    e: '😶',
+                                    t: 'Không nói gì cả, chỉ đứng im và ăn bánh kẹo.'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'mc',
+                            q: 'Trong ngày Tết, khi đến nhà người khác chơi, hành vi nào của bé thể hiện sự văn minh, lịch sự?',
+                            c: 1,
+                            media: null,
+                            opts: [
+                                {
+                                    e: '🏃',
+                                    t: 'Tự ý chạy khắp các phòng, nhảy lên ghế sofa và bốc đầy túi bánh kẹo mang về.'
+                                },
+                                {
+                                    e: '🗑️',
+                                    t: 'Ngồi ngoan ngoãn, xin phép người lớn trước khi lấy bánh kẹo ăn và bỏ rác đúng nơi quy định.'
+                                },
+                                {
+                                    e: '😭',
+                                    t: 'Khóc lóc đòi bố mẹ cho mang đồ chơi ở nhà chủ về bằng được.'
+                                }
+                            ]
+                        }
+                    ]
                 },
                 // ── THÁNG 3 ──
                 {
                     id: 'l15',
                     cat: 't3',
                     month: 'Tháng 3',
-                    title: 'Sữa Chua',
+                    title: 'Sữa Chua Dầm Hoa Quả',
                     icon: '🍓',
                     qimg: '🧒',
                     media: null,
@@ -3420,11 +3266,12 @@
                             t: 'Sai '
                         }]
                     },]
-                }, {
+                },
+                {
                     id: 'l18',
                     cat: 't4',
                     month: 'Tháng 4',
-                    title: 'Rau xanh',
+                    title: 'Ngắt Rau & Chuẩn Bị Rau',
                     icon: '🧒',
                     qimg: '🧒',
                     media: null,
@@ -3547,7 +3394,8 @@
                         }
                         ]
                     },]
-                }, {
+                },
+                {
                     id: 'l20',
                     cat: 't5',
                     month: 'Tháng 5',
@@ -4106,16 +3954,16 @@
                 const card = document.createElement('div');
                 card.className = 'teacher-card';
                 card.innerHTML = `<div class="tc-avatar">${t.avatar || '👩🏫'}</div>
-                                                                                                                                                                                                                                                                            <div class="tc-info">
-                                                                                                                                                                                                                                                                                <div class="tc-name">${t.displayName || t.user}</div>
-                                                                                                                                                                                                                                                                                <div class="tc-user">@${t.user}</div>
-                                                                                                                                                                                                                                                                                <div class="tc-meta">${t.school || ''} · ${t.lessons.length} bài · ${(t.results || []).length} kết quả</div>
-                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                            <div class="tc-actions">
-                                                                                                                                                                                                                                                                                <button class="btn-tc edit" onclick="openEditTeacher('${t.id}')">✏️</button>
-                                                                                                                                                                                                                                                                                <button class="btn-tc del" onclick="deleteTeacher('${t.id}')">🗑️</button>
-                                                                                                                                                                                                                                                                            </div>`;
-                grid.appendChild(card);
+                                    <div class="tc-info">
+                                        <div class="tc-name">${t.displayName || t.user}</div>
+                                        <div class="tc-user">@${t.user}</div>
+                                        <div class="tc-meta">${t.school || ''} · ${t.lessons.length} bài · ${(t.results || []).length} kết quả</div>
+                                    </div>
+                                    <div class="tc-actions">
+                                        <button class="btn-tc edit" onclick="openEditTeacher('${t.id}')">✏️</button>
+                                        <button class="btn-tc del" onclick="deleteTeacher('${t.id}')">🗑️</button>
+                                    </div>`;
+                grid.appendChild(card);S
             });
         }
         let editingTeacherId = null;
@@ -4224,21 +4072,21 @@
             const uniq = [...new Set(allResults.map(r => r.name))].length;
             const avg = allResults.length > 0 ? (allResults.reduce((a, r) => a + r.correct, 0) / allResults.reduce((a, r) => a + r.total, 0) * 100).toFixed(0) : 0;
             sum.innerHTML = `<div class="sum-card">
-                                                                                                                                                                                                                                                                                                <div class="sum-val">${allResults.length}</div>
-                                                                                                                                                                                                                                                                                                <div class="sum-lbl">Lượt làm</div>
-                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                            <div class="sum-card">
-                                                                                                                                                                                                                                                                                                <div class="sum-val">${uniq}</div>
-                                                                                                                                                                                                                                                                                                <div class="sum-lbl">Học sinh</div>
-                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                            <div class="sum-card">
-                                                                                                                                                                                                                                                                                                <div class="sum-val">${avg}%</div>
-                                                                                                                                                                                                                                                                                                <div class="sum-lbl">Đúng TB</div>
-                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                            <div class="sum-card">
-                                                                                                                                                                                                                                                                                                <div class="sum-val">${allResults.filter(r => r.stars === 3).length}</div>
-                                                                                                                                                                                                                                                                                                <div class="sum-lbl">3 sao ⭐</div>
-                                                                                                                                                                                                                                                                                            </div>`;
+                                <div class="sum-val">${allResults.length}</div>
+                                <div class="sum-lbl">Lượt làm</div>
+                            </div>
+                            <div class="sum-card">
+                                <div class="sum-val">${uniq}</div>
+                                <div class="sum-lbl">Học sinh</div>
+                            </div>
+                            <div class="sum-card">
+                                <div class="sum-val">${avg}%</div>
+                                <div class="sum-lbl">Đúng TB</div>
+                            </div>
+                            <div class="sum-card">
+                                <div class="sum-val">${allResults.filter(r => r.stars === 3).length}</div>
+                                <div class="sum-lbl">3 sao ⭐</div>
+                            </div>`;
             const tbody = document.getElementById('sa-results-tbody');
             tbody.innerHTML = '';
             if (!allResults.length) {
@@ -4249,20 +4097,20 @@
                 const tt = r.stars === 3 ? 'Xuất sắc' : r.stars === 2 ? 'Giỏi' : 'Cố gắng';
                 const gi = r.gender === 'girl' ? '👧' : '👦';
                 tbody.innerHTML += `<tr>
-                                                                                                                                                                                                                                                                                    <td>${allResults.length - i}</td>
-                                                                                                                                                                                                                                                                                    <td>
-                                                                                                                                                                                                                                                                                        <strong>${gi}${r.name}</strong>
-                                                                                                                                                                                                                                                                                    </td>
-                                                                                                                                                                                                                                                                                    <td>${r.gender === 'girl' ? 'Bé gái' : 'Bé trai'}</td>
-                                                                                                                                                                                                                                                                                    <td> ${r.teacherName}</td >
-                                                                                                                                                                                                                                                                                    <td>${r.lessonTitle}</td>
-                                                                                                                                                                                                                                                                                    <td>
-                                                                                                                                                                                                                                                                                        <strong>${r.correct}</strong>/${r.total}
-                                                                                                                                                                                                                                                                                    </td><td>
-                                                                                                                                                                                                                                                                                    <span class="tag-pass ${tc}">${tt} ${'⭐'.repeat(r.stars)}</span>
-                                                                                                                                                                                                                                                                                </td >
-                                                                                                                                                                                                                                                                                <td style="color:#bbb;fontsize:11px;">${r.time}</td>
-                                                                                                                                                                                                                                                                            </tr > `;
+                                        <td>${allResults.length - i}</td>
+                                        <td>
+                                            <strong>${gi}${r.name}</strong>
+                                        </td>
+                                        <td>${r.gender === 'girl' ? 'Bé gái' : 'Bé trai'}</td>
+                                        <td> ${r.teacherName}</td >
+                                        <td>${r.lessonTitle}</td>
+                                        <td>
+                                            <strong>${r.correct}</strong>/${r.total}
+                                        </td><td>
+                                        <span class="tag-pass ${tc}">${tt} ${'⭐'.repeat(r.stars)}</span>
+                                    </td >
+                                    <td style="color:#bbb;fontsize:11px;">${r.time}</td>
+                                </tr > `;
             });
         }
 
@@ -4350,14 +4198,14 @@
                 const row = document.createElement('div');
                 row.className = 'lesson-row';
                 row.innerHTML = `<div class="lesson-row-icon">${l.icon}</div>
-                                                                                                                                                                                                                                                                    <div class="lesson-row-info">
-                                                                                                                                                                                                                                                                        <div class="lesson-row-title">${l.title}</div>
-                                                                                                                                                                                                                                                                        <div class="lesson-row-meta">${l.month}· ${l.questions.length} câu hỏi</div>
-                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                    <div class="lesson-row-actions">
-                                                                                                                                                                                                                                                                        <button class="btn-lesson-edit" onclick="openEditLesson('${l.id}')">✏️ Sửa</button>
-                                                                                                                                                                                                                                                                        <button class="btn-lesson-del" onclick="deleteLesson('${l.id}')">🗑️</button>
-                                                                                                                                                                                                                                                                    </div>`;
+                                    <div class="lesson-row-info">
+                                        <div class="lesson-row-title">${l.title}</div>
+                                        <div class="lesson-row-meta">${l.month}· ${l.questions.length} câu hỏi</div>
+                                    </div>
+                                    <div class="lesson-row-actions">
+                                        <button class="btn-lesson-edit" onclick="openEditLesson('${l.id}')">✏️ Sửa</button>
+                                        <button class="btn-lesson-del" onclick="deleteLesson('${l.id}')">🗑️</button>
+                                    </div>`;
                 list.appendChild(row);
             });
         }
@@ -4370,21 +4218,21 @@
             const uniq = [...new Set(results.map(r => r.name))].length;
             const avg = results.length > 0 ? (results.reduce((a, r) => a + r.correct, 0) / results.reduce((a, r) => a + r.total, 0) * 100).toFixed(0) : 0;
             document.getElementById('tp-results-summary').innerHTML = `<div class="sum-card">
-                                                                                                                                                                                                                                                                        <div class="sumval">${results.length}</div>
-                                                                                                                                                                                                                                                                        <div class="sum-lbl">Lượt làm</div>
-                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                    <div class="sum-card">
-                                                                                                                                                                                                                                                                        <div class="sumval">${uniq}</div>
-                                                                                                                                                                                                                                                                        <div class="sum-lbl">Học sinh</div>
-                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                    <div class="sum-card">
-                                                                                                                                                                                                                                                                        <div class="sumval">${avg}%</div>
-                                                                                                                                                                                                                                                                        <div class="sum-lbl">Đúng TB</div>
-                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                    <div class="sum-card">
-                                                                                                                                                                                                                                                                        <div class="sumval">${results.filter(r => r.stars === 3).length}</div>
-                                                                                                                                                                                                                                                                        <div class="sum-lbl">3 sao</div>
-                                                                                                                                                                                                                                                                    </div>`;
+                                                                            <div class="sumval">${results.length}</div>
+                                                                            <div class="sum-lbl">Lượt làm</div>
+                                                                        </div>
+                                                                        <div class="sum-card">
+                                                                            <div class="sumval">${uniq}</div>
+                                                                            <div class="sum-lbl">Học sinh</div>
+                                                                        </div>
+                                                                        <div class="sum-card">
+                                                                            <div class="sumval">${avg}%</div>
+                                                                            <div class="sum-lbl">Đúng TB</div>
+                                                                        </div>
+                                                                        <div class="sum-card">
+                                                                            <div class="sumval">${results.filter(r => r.stars === 3).length}</div>
+                                                                            <div class="sum-lbl">3 sao</div>
+                                                                        </div>`;
             const tbody = document.getElementById('tp-results-tbody');
             tbody.innerHTML = '';
             if (!results.length) {
@@ -4394,20 +4242,20 @@
                 const tc = r.stars === 3 ? 'g3' : r.stars === 2 ? 'g2' : 'g1';
                 const tt = r.stars === 3 ? 'Xuất sắc' : r.stars === 2 ? 'Giỏi' : 'Cố gắng';
                 tbody.innerHTML += `<tr>
-                                                                                                                                                                                                                                                                    <td>${results.length - i}</td>
-                                                                                                                                                                                                                                                                    <td>
-                                                                                                                                                                                                                                                                        <strong>${r.gender === 'girl' ? '👧' : '👦'} ${r.name}</strong>
-                                                                                                                                                                                                                                                                    </td>
-                                                                                                                                                                                                                                                                    <td>${r.gender === 'girl' ? 'Bé gái' : 'Bé trai'}</td>
-                                                                                                                                                                                                                                                                    <td> ${r.lessonTitle}</td >
-                                                                                                                                                                                                                                                                    <td>
-                                                                                                                                                                                                                                                                        <strong>${r.correct}</strong>/${r.total}
-                                                                                                                                                                                                                                                                    </td>
-                                                                                                                                                                                                                                                                    <td>
-                                                                                                                                                                                                                                                                        <span class="tag-pass ${tc} ">${tt} ${'⭐'.repeat(r.stars)}</span>
-                                                                                                                                                                                                                                                                    </td>
-                                                                                                                                                                                                                                                                    <td style="color:#bbb; font - size: 11px; ">${r.time}</td>
-                                                                                                                                                                                                                                                                </tr > `;
+                                        <td>${results.length - i}</td>
+                                        <td>
+                                            <strong>${r.gender === 'girl' ? '👧' : '👦'} ${r.name}</strong>
+                                        </td>
+                                        <td>${r.gender === 'girl' ? 'Bé gái' : 'Bé trai'}</td>
+                                        <td> ${r.lessonTitle}</td >
+                                        <td>
+                                            <strong>${r.correct}</strong>/${r.total}
+                                        </td>
+                                        <td>
+                                            <span class="tag-pass ${tc} ">${tt} ${'⭐'.repeat(r.stars)}</span>
+                                        </td>
+                                        <td style="color:#bbb; font - size: 11px; ">${r.time}</td>
+                                    </tr > `;
             });
         }
 
@@ -4557,40 +4405,40 @@
                     t: ''
                 });
                 const optsHTML = opts3.map((o, oi) => `<div class="opt-edit-row">
-                                                                                                                                                                                                                                                                                                <input type="radio" name="c_${qi}" value="${oi}" ${q.c === oi ? 'checked' : ''}>
-                                                                                                                                                                                                                                                                                                <input class="form-ctrl opt-edit-emoji" placeholder="😀" value="${o.e}" style="width:52px; display:none;">
-                                                                                                                                                                                                                                                                                                <input class="form-ctrl opt-edit-txt" placeholder="Nội dung đáp án..." value="${o.t.replace(/"/g, '&quot;')}">
-                                                                                                                                                                                                                                                                                             </div>`).join('');
+                                                        <input type="radio" name="c_${qi}" value="${oi}" ${q.c === oi ? 'checked' : ''}>
+                                                        <input class="form-ctrl opt-edit-emoji" placeholder="😀" value="${o.e}" style="width:52px; display:none;">
+                                                        <input class="form-ctrl opt-edit-txt" placeholder="Nội dung đáp án..." value="${o.t.replace(/"/g, '&quot;')}">
+                                                        </div>`).join('');
                 let mediaPrevHTML = q.media ? `<div class="media-preview-wrap has-media" id="qmedia-prev-${qi}">
-                                                                                                                                                                                                                                                                                                            <button class="btn-del-media" onclick="delQMedia(${qi})">×</button>${q.media.type === 'image' ? `
-                                                                                                                                                                                                                                                                                                            <img src="${q.media.data}" alt="">` : `
-                                                                                                                                                                                                                                                                                                                <audio controls src="${q.media.data}"></audio>`}
-                                                                                                                                                                                                                                                                                                            </div>` : `
-                                                                                                                                                                                                                                                                                                            <div class="mediapreview-wrap" id="qmedia-prev-${qi}"></div>`;
+                                                <button class="btn-del-media" onclick="delQMedia(${qi})">×</button>${q.media.type === 'image' ? `
+                                                <img src="${q.media.data}" alt="">` : `
+                                                    <audio controls src="${q.media.data}"></audio>`}
+                                                </div>` : `
+                                                <div class="mediapreview-wrap" id="qmedia-prev-${qi}"></div>`;
                 div.innerHTML = `<button class="btn-del-q" onclick="delQ(${qi})">×</button>
-                                                                                                                                                                                                                                                                        <div class="q-item-edit-num">Câu ${qi + 1}</div>
-                                                                                                                                                                                                                                                                        <div class="type-selector">
-                                                                                                                                                                                                                                                                            <div class="type-opt ${q.type === 'mc' ? 'on' : ''}" onclick="setQType(${qi},'mc',this)">📝 Nhiều lựa chọn</div>
-                                                                                                                                                                                                                                                                            <div class="type-opt ${q.type === 'tf' ? 'on' : ''}" onclick="setQType(${qi},'tf',this)">✅❌ Đúng / Sai</div>
-                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                        <div class="form-group">
-                                                                                                                                                                                                                                                                            <label>Nội dung câu hỏi</label>
-                                                                                                                                                                                                                                                                            <input class="form-ctrl" placeholder="Nhập câu hỏi..." value="${q.q.replace(/"/g, '&quot;')}" data-field="q">
-                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                            <div class="form-group">
-                                                                                                                                                                                                                                                                                <label>📎 Nhạc cho câu này</label>
-                                                                                                                                                                                                                                                                                <div class="media-upload-row">
-                                                                                                                                                                                                                                                                                    <label class="btn-media-upload" style="display:none;">🖼️ Ảnh
-                                                                                                                                                                                                                                                                                        <input type="file" accept="image/*" onchange="handleMedia(this,'image','question',${qi})">
-                                                                                                                                                                                                                                                                                        </label>
-                                                                                                                                                                                                                                                                                        <label class="btn-media-upload">🎵 Nhạc
-                                                                                                                                                                                                                                                                                            <input type="file" accept="audio/*" onchange="handleMedia(this,'audio','question',${qi})">
-                                                                                                                                                                                                                                                                                            </label>
-                                                                                                                                                                                                                                                                                        </div>${mediaPrevHTML}
-                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                            <div class="form-group">
-                                                                                                                                                                                                                                                                                <label>Đáp án (✅ chọn đáp án đúng)</label>${optsHTML}
-                                                                                                                                                                                                                                                                            </div>`;
+                                    <div class="q-item-edit-num">Câu ${qi + 1}</div>
+                                    <div class="type-selector">
+                                        <div class="type-opt ${q.type === 'mc' ? 'on' : ''}" onclick="setQType(${qi},'mc',this)">📝 Nhiều lựa chọn</div>
+                                        <div class="type-opt ${q.type === 'tf' ? 'on' : ''}" onclick="setQType(${qi},'tf',this)">✅❌ Đúng / Sai</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nội dung câu hỏi</label>
+                                        <input class="form-ctrl" placeholder="Nhập câu hỏi..." value="${q.q.replace(/"/g, '&quot;')}" data-field="q">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>📎 Nhạc cho câu này</label>
+                                            <div class="media-upload-row">
+                                                <label class="btn-media-upload" style="display:none;">🖼️ Ảnh
+                                                    <input type="file" accept="image/*" onchange="handleMedia(this,'image','question',${qi})">
+                                                    </label>
+                                                    <label class="btn-media-upload">🎵 Nhạc
+                                                        <input type="file" accept="audio/*" onchange="handleMedia(this,'audio','question',${qi})">
+                                                        </label>
+                                                    </div>${mediaPrevHTML}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Đáp án (✅ chọn đáp án đúng)</label>${optsHTML}
+                                        </div>`;
                 wrap.appendChild(div);
             });
         }
