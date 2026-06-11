@@ -4442,7 +4442,7 @@
 
         // ═══════════════════════════════════════════════════════════════
 
-        const STORE_KEY = 'bhv13';
+        const STORE_KEY = 'bhv14';
 
 
 
@@ -7892,10 +7892,10 @@
 
                 fb.textContent = '💡 Chưa đúng! Đáp án đúng đã tô xanh nhé!';
 
-                speak('Ồ chưa đúng! Đáp án đúng là: ' + q.opts[q.c].t, () => setTimeout(nextQ, 3000));
+                speak('Ồ chưa đúng! Đáp án đúng là: ' + q.opts[q.c].t, () => setTimeout(nextQ, 800));
 
             }
-            nextQ()
+            setTimeout(() => {nextQ();}, 3000);
 
         }
 
