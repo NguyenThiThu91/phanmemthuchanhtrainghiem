@@ -4442,7 +4442,7 @@
 
         // ═══════════════════════════════════════════════════════════════
 
-        const STORE_KEY = 'bhv11';
+        const STORE_KEY = 'bhv12';
 
 
 
@@ -7878,9 +7878,9 @@
 
                 fb.className = 'feedback-box show-correct';
 
-                fb.textContent = '✅ Đúng rồi! Bé giỏi lắm! ⭐';
+                fb.textContent = '✅ Đúng rồi! Con giỏi lắm! ⭐';
 
-                speak('Đúng rồi! Bé giỏi lắm!', () => setTimeout(nextQ, 800));
+                speak('Đúng rồi! Con giỏi lắm!', () => setTimeout(nextQ, 800));
 
             } else {
 
@@ -7895,6 +7895,7 @@
                 speak('Ồ chưa đúng! Đáp án đúng là: ' + q.opts[q.c].t, () => setTimeout(nextQ, 800));
 
             }
+            nextQ()
 
         }
 
@@ -7990,7 +7991,7 @@
 
             const trophies = ['', '🌱', '🧒', '🏆'];
 
-            const titles = ['', 'Bé cố lên nhé! 💪', 'Bé giỏi lắm! 🌟', 'Xuất sắc! 🎉'];
+            const titles = ['', 'Con cố lên nhé! 💪', 'Con giỏi lắm! 🌟', 'Xuất sắc! 🎉'];
 
             document.getElementById('r-trophy').textContent = trophies[s];
 
@@ -8000,7 +8001,7 @@
 
             document.getElementById('r-name').textContent = genderIcon() + ' ' + (studentName || 'Bé yêu');
 
-            document.getElementById('r-score').textContent = `Bé trả lời đúng ${score}/${tot} câu hỏi!`;
+            document.getElementById('r-score').textContent = `Con trả lời đúng ${score}/${tot} câu hỏi!`;
 
             goTo('s-result');
 
@@ -8008,7 +8009,7 @@
 
                 confetti();
 
-                speak('Chúc mừng bé! Xuất sắc hoàn thành bài học!');
+                speak('Chúc mừng con! Xuất sắc hoàn thành bài học!');
 
             } else speak(titles[s]);
 
